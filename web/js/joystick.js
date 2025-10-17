@@ -227,7 +227,10 @@ class VirtualJoystick {
     
     // 强制发送归零命令
     forceZeroCommand() {
-        if (!window.robotController) return;
+        if (!window.robotController) {
+            console.warn('⚠️ 机器人控制器未找到，无法发送归零命令');
+            return;
+        }
         
         console.log('🛑 摇杆释放，强制发送归零命令');
         
@@ -236,13 +239,37 @@ class VirtualJoystick {
         this.lastValues = { linear: 0, lateral: 0, angular: 0 };
         this.isInDeadzone = true;
         
-        // 直接调用机器人控制器的归零方法
-        if (typeof window.robotController.sendZeroCommand === 'function') {
+        // 确保机器人控制器停止所有运动
+        window.robotController.linearSpeed = 0.0;
+        window.robotController.lateralSpeed = 0.0;
+        window.robotController.angularSpeed = 0.0;
+        window.robotController.isMoving = false;
+        
+        // 发送归零命令 - 使用更可靠的单次归零命令
+        if (typeof window.robotController.sendSingleZeroCommand === 'function') {
+            window.robotController.sendSingleZeroCommand();
+        } else if (typeof window.robotController.sendZeroCommand === 'function') {
             window.robotController.sendZeroCommand();
         } else {
             // 备用方案：直接发送零值
             window.robotController.updateJoystickControl(0.0, 0.0, 0.0);
         }
+        
+        // 更新速度显示
+        if (typeof window.robotController.updateSpeedDisplay === 'function') {
+            window.robotController.updateSpeedDisplay();
+        }
+        
+        // 延迟再次发送归零命令，确保停止
+        setTimeout(() => {
+            if (typeof window.robotController.sendSingleZeroCommand === 'function') {
+                window.robotController.sendSingleZeroCommand();
+                console.log('🛑 延迟发送归零命令，确保停止');
+            } else if (typeof window.robotController.sendZeroCommand === 'function') {
+                window.robotController.sendZeroCommand();
+                console.log('🛑 延迟发送归零命令，确保停止');
+            }
+        }, 100);
     }
     
     

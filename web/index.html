@@ -45,29 +45,82 @@
                             <div class="control-panel">
                                 <div class="panel-section">
                                     <h3><i class="fas fa-gamepad"></i> 遥控控制</h3>
-                                    <div class="joystick-container">
-                                        <div class="joystick-wrapper">
-                                            <button class="rotation-btn left" data-action="rotate_left">
-                                                <i class="fas fa-chevron-left"></i>
+                                    
+                                    <!-- 控制模式选择 -->
+                                    <div class="control-mode-selector">
+                                        <label class="mode-label">控制模式:</label>
+                                        <div class="mode-buttons">
+                                            <button class="mode-btn active" data-mode="joystick">
+                                                <i class="fas fa-gamepad"></i> 摇杆控制
                                             </button>
-                                            <div id="joystick" class="joystick">
-                                                <div class="joystick-knob"></div>
-                                            </div>
-                                            <button class="rotation-btn right" data-action="rotate_right">
-                                                <i class="fas fa-chevron-right"></i>
+                                            <button class="mode-btn" data-mode="keyboard">
+                                                <i class="fas fa-keyboard"></i> 键盘控制
                                             </button>
                                         </div>
-                                        <div class="joystick-info">
-                                            <div class="speed-display">
-                                                <label>前进/后退: <span id="linearSpeed">0.0</span> m/s</label>
-                                            </div>
-                                            <div class="speed-display">
-                                                <label>左移/右移: <span id="lateralSpeed">0.0</span> m/s</label>
-                                            </div>
-                                            <div class="angular-display">
-                                                <label>旋转: <span id="angularSpeed">0.0</span> rad/s</label>
+                                    </div>
+
+                                    <!-- 摇杆控制区域 -->
+                                    <div id="joystick-control" class="control-area active">
+                                        <div class="joystick-container">
+                                            <div class="joystick-wrapper">
+                                                <button class="rotation-btn left" data-action="rotate_left" title="左转">
+                                                    <i class="fas fa-chevron-left"></i>
+                                                </button>
+                                                <div id="joystick" class="joystick" title="拖拽摇杆控制移动">
+                                                    <div class="joystick-knob"></div>
+                                                </div>
+                                                <button class="rotation-btn right" data-action="rotate_right" title="右转">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </button>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <!-- 键盘控制区域 -->
+                                    <div id="keyboard-control" class="control-area">
+                                        <div class="keyboard-controls">
+                                            <div class="keyboard-layout">
+                                                <div class="key-row">
+                                                    <div class="key-spacer"></div>
+                                                    <button class="key-btn" data-key="w" title="前进">W</button>
+                                                    <div class="key-spacer"></div>
+                                                </div>
+                                                <div class="key-row">
+                                                    <button class="key-btn" data-key="a" title="左移">A</button>
+                                                    <button class="key-btn" data-key="s" title="后退">S</button>
+                                                    <button class="key-btn" data-key="d" title="右移">D</button>
+                                                </div>
+                                                <div class="key-row">
+                                                    <div class="key-spacer"></div>
+                                                    <button class="key-btn" data-key="q" title="左转">Q</button>
+                                                    <button class="key-btn" data-key="e" title="右转">E</button>
+                                                    <div class="key-spacer"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 速度显示 -->
+                                    <div class="speed-display-panel">
+                                        <div class="speed-item">
+                                            <label>前进/后退:</label>
+                                            <span id="linearSpeed" class="speed-value">0.0 m/s</span>
+                                        </div>
+                                        <div class="speed-item">
+                                            <label>左移/右移:</label>
+                                            <span id="lateralSpeed" class="speed-value">0.0 m/s</span>
+                                        </div>
+                                        <div class="speed-item">
+                                            <label>旋转:</label>
+                                            <span id="angularSpeed" class="speed-value">0.0 rad/s</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- 紧急停止 -->
+                                    <div class="emergency-controls">
+                                        <button id="emergencyStopBtn" class="emergency-btn" title="紧急停止">
+                                            <i class="fas fa-stop"></i> 紧急停止
+                                        </button>
                                     </div>
                                 </div>
                             </div>

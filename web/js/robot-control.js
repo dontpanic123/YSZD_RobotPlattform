@@ -27,6 +27,9 @@ class RobotController {
     }
     
     setupEventListeners() {
+        // 控制模式切换
+        this.setupControlModeSwitching();
+        
         // 键盘事件
         document.addEventListener('keydown', (e) => {
             try {
@@ -42,6 +45,9 @@ class RobotController {
                 console.error('🚨 键盘释放事件处理错误:', error, e);
             }
         });
+        
+        // 紧急停止按钮
+        this.setupEmergencyStop();
         
         // 按钮事件
         document.querySelectorAll('.control-btn').forEach(btn => {
@@ -72,6 +78,89 @@ class RobotController {
                 this.updateSpeedDisplay();
                 this.sendControlCommand();
             });
+        }
+    }
+    
+    setupControlModeSwitching() {
+        // 控制模式切换按钮
+        const modeButtons = document.querySelectorAll('.mode-btn');
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const mode = e.target.dataset.mode;
+                this.switchControlMode(mode);
+            });
+        });
+    }
+    
+    switchControlMode(mode) {
+        // 更新按钮状态
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+        
+        // 切换控制区域显示
+        document.querySelectorAll('.control-area').forEach(area => {
+            area.classList.remove('active');
+        });
+        document.getElementById(`${mode}-control`).classList.add('active');
+        
+        // 停止当前运动
+        this.stop();
+        
+        console.log(`🎮 切换到${mode === 'joystick' ? '摇杆' : '键盘'}控制模式`);
+    }
+    
+    setupEmergencyStop() {
+        const emergencyBtn = document.getElementById('emergencyStopBtn');
+        if (emergencyBtn) {
+            emergencyBtn.addEventListener('click', () => {
+                this.emergencyStop();
+            });
+        }
+    }
+    
+    emergencyStop() {
+        console.log('🚨 紧急停止！');
+        this.forceStop();
+        this.showEmergencyStopNotification();
+    }
+    
+    showEmergencyStopNotification() {
+        // 创建紧急停止通知
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        `;
+        notification.innerHTML = '🚨 紧急停止已激活';
+        document.body.appendChild(notification);
+        
+        // 3秒后移除通知
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+    
+    highlightKeyboardButton(key) {
+        const keyBtn = document.querySelector(`[data-key="${key}"]`);
+        if (keyBtn) {
+            keyBtn.classList.add('active');
+        }
+    }
+    
+    unhighlightKeyboardButton(key) {
+        const keyBtn = document.querySelector(`[data-key="${key}"]`);
+        if (keyBtn) {
+            keyBtn.classList.remove('active');
         }
     }
     
@@ -131,6 +220,9 @@ class RobotController {
         this.currentKeys.add(key);
         this.updateMovement();
         this.updateButtonStates();
+        
+        // 高亮键盘按钮
+        this.highlightKeyboardButton(key);
     }
     
     handleKeyUp(event) {
@@ -157,6 +249,9 @@ class RobotController {
         this.currentKeys.delete(key);
         this.updateMovement();
         this.updateButtonStates();
+        
+        // 取消高亮键盘按钮
+        this.unhighlightKeyboardButton(key);
     }
     
     handleButtonDown(event) {
@@ -379,16 +474,19 @@ class RobotController {
     // 发送归零命令 - 防止小车漂移
     sendZeroCommand() {
         if (!window.ros2Bridge || !window.ros2Bridge.isConnected()) {
+            console.warn('⚠️ ROS2桥接未连接，无法发送归零命令');
             return;
         }
         
         // 检查控制锁定状态
         if (this.controlLocked) {
+            console.log('🚫 控制被锁定，跳过归零命令');
             return;
         }
         
         // 如果正在执行waypoint跟踪，不发送归零命令
         if (this.waypointFollowing) {
+            console.log('🚫 正在执行waypoint跟踪，跳过归零命令');
             return;
         }
         
@@ -405,8 +503,15 @@ class RobotController {
             }
         };
         
-        window.ros2Bridge.publish('/cmd_vel', zeroMessage);
-        console.log('🛑 发送归零命令，防止小车漂移');
+        try {
+            window.ros2Bridge.publish('/cmd_vel', zeroMessage);
+            console.log('🛑 发送归零命令，防止小车漂移');
+            
+            // 更新速度显示为0
+            this.updateSpeedDisplay();
+        } catch (error) {
+            console.error('❌ 发送归零命令失败:', error);
+        }
     }
     
     // 强制停止 - 用于紧急停止或明确停止指令
@@ -420,6 +525,37 @@ class RobotController {
         this.updateSpeedDisplay();
         this.sendStopCommand(); // 明确发送停止命令
         this.updateButtonStates();
+    }
+    
+    // 发送单次归零命令 - 用于摇杆释放时的可靠停止
+    sendSingleZeroCommand() {
+        if (!window.ros2Bridge || !window.ros2Bridge.isConnected()) {
+            console.warn('⚠️ ROS2桥接未连接，无法发送归零命令');
+            return;
+        }
+        
+        const zeroMessage = {
+            linear: {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0
+            },
+            angular: {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0
+            }
+        };
+        
+        try {
+            window.ros2Bridge.publish('/cmd_vel', zeroMessage);
+            console.log('🛑 发送单次归零命令');
+            
+            // 更新速度显示为0
+            this.updateSpeedDisplay();
+        } catch (error) {
+            console.error('❌ 发送单次归零命令失败:', error);
+        }
     }
     
     // 摇杆控制 - 支持麦克纳姆轮全向移动
