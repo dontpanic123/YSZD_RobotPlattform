@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器人系统诊断</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
+        .status.unknown { background: #fff3cd; color: #856404; }
+        .data-display {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .refresh-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .refresh-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 机器人系统诊断页面</h1>
+        
+        <div class="card">
+            <h2>📡 连接状态</h2>
+            <p>WebSocket连接: <span id="wsStatus" class="status unknown">检查中...</span></p>
+            <p>ROS2桥接: <span id="ros2Status" class="status unknown">检查中...</span></p>
+            <p>里程计数据: <span id="odomStatus" class="status unknown">检查中...</span></p>
+            <button class="refresh-btn" onclick="refreshStatus()">🔄 刷新状态</button>
+        </div>
+
+        <div class="card">
+            <h2>📍 机器人状态</h2>
+            <div class="data-display" id="robotData">
+                等待数据...
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📊 系统信息</h2>
+            <div class="data-display" id="systemInfo">
+                加载中...
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔍 调试信息</h2>
+            <div class="data-display" id="debugInfo">
+                等待连接...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let lastOdomData = null;
+        let debugMessages = [];
+
+        function updateStatus() {
+            // 检查WebSocket连接
+            const wsStatus = document.getElementById('wsStatus');
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                wsStatus.textContent = '已连接';
+                wsStatus.className = 'status connected';
+            } else {
+                wsStatus.textContent = '未连接';
+                wsStatus.className = 'status disconnected';
+            }
+
+            // 更新机器人数据
+            const robotData = document.getElementById('robotData');
+            if (lastOdomData) {
+                const pos = lastOdomData.pose?.pose?.position || {};
+                const vel = lastOdomData.twist?.twist || {};
+                
+                // 只显示X,Y线速度和Z角速度
+                const angularZ = vel.angular?.z || 0;
+                const angularZDeg = (angularZ * 180 / Math.PI).toFixed(1);
+                
+                robotData.textContent = `位置: (${pos.x?.toFixed(2) || '--'}, ${pos.y?.toFixed(2) || '--'}, ${pos.z?.toFixed(2) || '--'})
+线速度: X=${vel.linear?.x?.toFixed(2) || '--'}, Y=${vel.linear?.y?.toFixed(2) || '--'}
+角速度: Z=${angularZ.toFixed(2)}rad/${angularZDeg}°
+时间: ${new Date().toLocaleTimeString()}`;
+            } else {
+                robotData.textContent = '未收到里程计数据';
+            }
+
+            // 更新系统信息
+            const systemInfo = document.getElementById('systemInfo');
+            systemInfo.textContent = `用户代理: ${navigator.userAgent}
+当前时间: ${new Date().toLocaleString()}
+页面URL: ${window.location.href}
+WebSocket状态: ${ws ? ws.readyState : 'null'}`;
+
+            // 更新调试信息
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.textContent = debugMessages.slice(-10).join('\n');
+        }
+
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket('ws://localhost:9090');
+                
+                ws.onopen = function() {
+                    debugMessages.push(`[${new Date().toLocaleTimeString()}] WebSocket连接已建立`);
+                    updateStatus();
+                };
+
+                ws.onmessage = function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        if (data.type === 'odom') {
+                            lastOdomData = data;
+                            const pos = data.pose?.pose?.position || {};
+                            const vel = data.twist?.twist || {};
+                            
+                            // 只显示X,Y线速度和Z角速度
+                            const angularZ = vel.angular?.z || 0;
+                            const angularZDeg = (angularZ * 180 / Math.PI).toFixed(1);
+                            
+                            debugMessages.push(`[${new Date().toLocaleTimeString()}] 收到里程计数据: 位置=(${pos.x?.toFixed(2)}, ${pos.y?.toFixed(2)}, ${pos.z?.toFixed(2)}) 线速度=(${vel.linear?.x?.toFixed(2)}, ${vel.linear?.y?.toFixed(2)}) 角速度Z=${angularZ.toFixed(2)}rad/${angularZDeg}°`);
+                        }
+                        updateStatus();
+                    } catch (e) {
+                        debugMessages.push(`[${new Date().toLocaleTimeString()}] 解析消息失败: ${e.message}`);
+                    }
+                };
+
+                ws.onclose = function() {
+                    debugMessages.push(`[${new Date().toLocaleTimeString()}] WebSocket连接已关闭`);
+                    updateStatus();
+                };
+
+                ws.onerror = function(error) {
+                    debugMessages.push(`[${new Date().toLocaleTimeString()}] WebSocket错误: ${error}`);
+                    updateStatus();
+                };
+
+            } catch (e) {
+                debugMessages.push(`[${new Date().toLocaleTimeString()}] 连接WebSocket失败: ${e.message}`);
+            }
+        }
+
+        function refreshStatus() {
+            debugMessages.push(`[${new Date().toLocaleTimeString()}] 手动刷新状态`);
+            if (ws) {
+                ws.close();
+            }
+            connectWebSocket();
+        }
+
+        // 页面加载时连接
+        window.onload = function() {
+            connectWebSocket();
+            setInterval(updateStatus, 1000);
+        };
+    </script>
+</body>
+</html>

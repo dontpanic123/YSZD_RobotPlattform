@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器人Web控制台 - 功能演示</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .demo-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .demo-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .demo-card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .demo-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        .demo-button:hover {
+            background: #2980b9;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .icon {
+            color: #3498db;
+            font-size: 18px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-online {
+            background: #27ae60;
+        }
+        .status-offline {
+            background: #e74c3c;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        .highlight {
+            background: #f39c12;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 机器人Web控制台功能演示</h1>
+        
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3><span class="icon">🎮</span> 遥控控制</h3>
+                <p>支持多种控制方式，包括键盘、摇杆和按钮控制。</p>
+                <ul class="feature-list">
+                    <li><span class="status-indicator status-online"></span>WASD键盘控制</li>
+                    <li><span class="status-indicator status-online"></span>虚拟摇杆控制</li>
+                    <li><span class="status-indicator status-online"></span>触摸屏支持</li>
+                    <li><span class="status-indicator status-online"></span>速度调节</li>
+                </ul>
+                <button class="demo-button" onclick="demoControl()">演示控制功能</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3><span class="icon">📹</span> 视频监控</h3>
+                <p>实时显示机器人摄像头画面和AprilTag检测结果。</p>
+                <ul class="feature-list">
+                    <li><span class="status-indicator status-online"></span>实时摄像头画面</li>
+                    <li><span class="status-indicator status-online"></span>AprilTag检测显示</li>
+                    <li><span class="status-indicator status-online"></span>图像质量监控</li>
+                    <li><span class="status-indicator status-online"></span>检测结果可视化</li>
+                </ul>
+                <button class="demo-button" onclick="demoVideo()">演示视频功能</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3><span class="icon">📊</span> 状态监控</h3>
+                <p>实时显示机器人位置、速度和系统状态信息。</p>
+                <ul class="feature-list">
+                    <li><span class="status-indicator status-online"></span>位置信息显示</li>
+                    <li><span class="status-indicator status-online"></span>速度监控</li>
+                    <li><span class="status-indicator status-online"></span>连接状态</li>
+                    <li><span class="status-indicator status-online"></span>系统信息</li>
+                </ul>
+                <button class="demo-button" onclick="demoStatus()">演示状态监控</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3><span class="icon">🧭</span> 导航控制</h3>
+                <p>支持目标点设置和自动导航功能。</p>
+                <ul class="feature-list">
+                    <li><span class="status-indicator status-online"></span>目标点设置</li>
+                    <li><span class="status-indicator status-online"></span>自动导航</li>
+                    <li><span class="status-indicator status-online"></span>路径规划</li>
+                    <li><span class="status-indicator status-online"></span>导航取消</li>
+                </ul>
+                <button class="demo-button" onclick="demoNavigation()">演示导航功能</button>
+            </div>
+        </div>
+        
+        <div class="demo-card">
+            <h3><span class="icon">🚀</span> 快速启动</h3>
+            <p>一键启动完整的机器人控制系统。</p>
+            <div class="code-block">
+# 启动完整系统
+cd /home/bd/Documents/Robot/agv_sim/web
+./start_complete_system.sh
+
+# 访问控制台
+<span class="highlight">http://localhost:8080</span>
+            </div>
+            <button class="demo-button" onclick="openMainConsole()">打开主控制台</button>
+        </div>
+        
+        <div class="demo-card">
+            <h3><span class="icon">🔧</span> 技术特性</h3>
+            <p>基于现代Web技术构建的机器人控制界面。</p>
+            <ul class="feature-list">
+                <li><span class="status-indicator status-online"></span>ROS2 Web Bridge集成</li>
+                <li><span class="status-indicator status-online"></span>响应式设计</li>
+                <li><span class="status-indicator status-online"></span>实时数据更新</li>
+                <li><span class="status-indicator status-online"></span>移动设备支持</li>
+                <li><span class="status-indicator status-online"></span>模块化架构</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function demoControl() {
+            alert('🎮 控制演示\n\n' +
+                  '• 使用WASD键控制机器人移动\n' +
+                  '• 拖拽摇杆进行精确控制\n' +
+                  '• 调节速度滑块改变最大速度\n' +
+                  '• 支持触摸屏操作');
+        }
+        
+        function demoVideo() {
+            alert('📹 视频演示\n\n' +
+                  '• 实时显示摄像头画面\n' +
+                  '• AprilTag检测结果可视化\n' +
+                  '• 图像质量自动调整\n' +
+                  '• 支持多种图像格式');
+        }
+        
+        function demoStatus() {
+            alert('📊 状态演示\n\n' +
+                  '• 实时位置和方向显示\n' +
+                  '• 速度信息监控\n' +
+                  '• 连接状态指示\n' +
+                  '• 系统性能指标');
+        }
+        
+        function demoNavigation() {
+            alert('🧭 导航演示\n\n' +
+                  '• 设置目标点坐标\n' +
+                  '• 自动路径规划\n' +
+                  '• 实时导航状态\n' +
+                  '• 一键取消导航');
+        }
+        
+        function openMainConsole() {
+            window.open('index.html', '_blank');
+        }
+        
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.demo-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

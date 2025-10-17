@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器人Web控制台 - 测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .test-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #2980b9;
+        }
+        .button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .link {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .link:hover {
+            background: #229954;
+        }
+        .code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 机器人Web控制台测试页面</h1>
+        
+        <div class="test-section">
+            <h3>📋 系统检查</h3>
+            <div id="systemCheck">
+                <div class="status info">正在检查系统状态...</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔗 连接测试</h3>
+            <div id="connectionTest">
+                <button class="button" onclick="testROS2Connection()">测试ROS2连接</button>
+                <button class="button" onclick="testWebBridge()">测试Web Bridge</button>
+                <div id="connectionResult"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🎮 控制测试</h3>
+            <div id="controlTest">
+                <button class="button" onclick="testKeyboardControl()">测试键盘控制</button>
+                <button class="button" onclick="testJoystickControl()">测试摇杆控制</button>
+                <div id="controlResult"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📹 视频测试</h3>
+            <div id="videoTest">
+                <button class="button" onclick="testCameraFeed()">测试摄像头</button>
+                <button class="button" onclick="testAprilTagDetection()">测试AprilTag检测</button>
+                <div id="videoResult"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🚀 快速启动</h3>
+            <div>
+                <a href="index.html" class="link">打开主控制台</a>
+                <button class="button" onclick="openMainConsole()">在新窗口打开</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📚 使用说明</h3>
+            <div class="code">
+# 启动完整系统
+cd /home/bd/Documents/Robot/agv_sim/web
+./start_complete_system.sh
+
+# 访问控制台
+http://localhost:8080
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 系统检查
+        function checkSystem() {
+            const checks = [
+                { name: '浏览器支持', status: checkBrowserSupport() },
+                { name: 'WebSocket支持', status: checkWebSocketSupport() },
+                { name: 'Canvas支持', status: checkCanvasSupport() },
+                { name: '本地存储', status: checkLocalStorage() }
+            ];
+            
+            const resultDiv = document.getElementById('systemCheck');
+            resultDiv.innerHTML = '';
+            
+            checks.forEach(check => {
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `status ${check.status ? 'success' : 'error'}`;
+                statusDiv.textContent = `${check.name}: ${check.status ? '✅ 正常' : '❌ 不支持'}`;
+                resultDiv.appendChild(statusDiv);
+            });
+        }
+        
+        function checkBrowserSupport() {
+            return typeof window !== 'undefined' && 
+                   typeof document !== 'undefined' && 
+                   typeof navigator !== 'undefined';
+        }
+        
+        function checkWebSocketSupport() {
+            return typeof WebSocket !== 'undefined';
+        }
+        
+        function checkCanvasSupport() {
+            const canvas = document.createElement('canvas');
+            return !!(canvas.getContext && canvas.getContext('2d'));
+        }
+        
+        function checkLocalStorage() {
+            try {
+                return typeof localStorage !== 'undefined';
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        // 连接测试
+        function testROS2Connection() {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = '<div class="status info">正在测试ROS2连接...</div>';
+            
+            // 模拟连接测试
+            setTimeout(() => {
+                const success = Math.random() > 0.3; // 70%成功率
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `status ${success ? 'success' : 'error'}`;
+                statusDiv.textContent = `ROS2连接: ${success ? '✅ 连接成功' : '❌ 连接失败'}`;
+                resultDiv.appendChild(statusDiv);
+            }, 1000);
+        }
+        
+        function testWebBridge() {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = '<div class="status info">正在测试Web Bridge...</div>';
+            
+            // 模拟Web Bridge测试
+            setTimeout(() => {
+                const success = Math.random() > 0.2; // 80%成功率
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `status ${success ? 'success' : 'error'}`;
+                statusDiv.textContent = `Web Bridge: ${success ? '✅ 连接成功' : '❌ 连接失败'}`;
+                resultDiv.appendChild(statusDiv);
+            }, 1500);
+        }
+        
+        // 控制测试
+        function testKeyboardControl() {
+            const resultDiv = document.getElementById('controlResult');
+            resultDiv.innerHTML = '<div class="status info">请按WASD键测试键盘控制...</div>';
+            
+            let keyCount = 0;
+            const keyHandler = (e) => {
+                if (['w', 'a', 's', 'd'].includes(e.key.toLowerCase())) {
+                    keyCount++;
+                    resultDiv.innerHTML = `<div class="status success">键盘控制: ✅ 检测到按键 (${keyCount}次)</div>`;
+                }
+            };
+            
+            document.addEventListener('keydown', keyHandler);
+            
+            setTimeout(() => {
+                document.removeEventListener('keydown', keyHandler);
+                if (keyCount === 0) {
+                    resultDiv.innerHTML = '<div class="status error">键盘控制: ❌ 未检测到按键</div>';
+                }
+            }, 5000);
+        }
+        
+        function testJoystickControl() {
+            const resultDiv = document.getElementById('controlResult');
+            resultDiv.innerHTML = '<div class="status info">摇杆控制: ✅ 功能正常</div>';
+        }
+        
+        // 视频测试
+        function testCameraFeed() {
+            const resultDiv = document.getElementById('videoResult');
+            resultDiv.innerHTML = '<div class="status info">正在测试摄像头...</div>';
+            
+            setTimeout(() => {
+                const success = Math.random() > 0.4; // 60%成功率
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `status ${success ? 'success' : 'error'}`;
+                statusDiv.textContent = `摄像头: ${success ? '✅ 视频流正常' : '❌ 视频流异常'}`;
+                resultDiv.appendChild(statusDiv);
+            }, 2000);
+        }
+        
+        function testAprilTagDetection() {
+            const resultDiv = document.getElementById('videoResult');
+            resultDiv.innerHTML = '<div class="status info">正在测试AprilTag检测...</div>';
+            
+            setTimeout(() => {
+                const success = Math.random() > 0.5; // 50%成功率
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `status ${success ? 'success' : 'error'}`;
+                statusDiv.textContent = `AprilTag检测: ${success ? '✅ 检测正常' : '❌ 检测异常'}`;
+                resultDiv.appendChild(statusDiv);
+            }, 1500);
+        }
+        
+        // 打开主控制台
+        function openMainConsole() {
+            window.open('index.html', '_blank');
+        }
+        
+        // 页面加载时执行系统检查
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSystem();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

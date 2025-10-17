@@ -1,0 +1,51 @@
+{
+  "name": "robot-web-console",
+  "version": "1.0.0",
+  "description": "机器小车Web控制台 - 基于ros2-web-bridge的前端可视化界面",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "start-ros2-bridge": "ros2-web-bridge",
+    "start-complete": "./start_complete_system.sh",
+    "test": "python3 -m http.server 8080"
+  },
+  "keywords": [
+    "ros2",
+    "robot",
+    "web",
+    "control",
+    "apriltag",
+    "camera",
+    "navigation"
+  ],
+  "author": "Robot Development Team",
+  "license": "MIT",
+  "dependencies": {
+    "ros2-web-bridge": "^0.3.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/robot-web-console"
+  },
+  "bugs": {
+    "url": "https://github.com/your-repo/robot-web-console/issues"
+  },
+  "homepage": "https://github.com/your-repo/robot-web-console#readme"
+}
+
+
+
+
+
+
+
+
+
+
+
+

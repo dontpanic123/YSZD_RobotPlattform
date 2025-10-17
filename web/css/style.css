@@ -1,0 +1,1660 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 头部样式 */
+.header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.header h1 i {
+    color: #3498db;
+    margin-right: 0.5rem;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.status-indicator.connected {
+    background: rgba(46, 204, 113, 0.2);
+    color: #27ae60;
+}
+
+.status-indicator.disconnected {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+.status-indicator i {
+    font-size: 0.8rem;
+}
+
+/* 主要内容区域 */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 2rem;
+}
+
+/* 两列布局 */
+.two-column-layout {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+}
+
+.left-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.right-column {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Tab导航 */
+.tab-navigation {
+    display: flex;
+    background: white;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    background: transparent;
+    color: #666;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+    background: #f8f9fa;
+    color: #2c3e50;
+}
+
+.tab-btn.active {
+    background: #3498db;
+    color: white;
+    border-bottom-color: #2980b9;
+}
+
+.tab-btn i {
+    font-size: 1.1rem;
+}
+
+/* Tab内容 */
+.tab-content {
+    flex: 1;
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    border-top: none;
+}
+
+.tab-panel {
+    display: none;
+    padding: 2rem;
+    min-height: 600px;
+}
+
+.tab-panel.active {
+    display: flex;
+    gap: 2rem;
+}
+
+
+/* Waypoint Tab特殊样式 */
+#waypoint-tab.active {
+    display: block;
+}
+
+
+
+
+
+
+.path-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    min-width: 80px;
+}
+
+.action-btn.save {
+    background: linear-gradient(145deg, #27ae60, #229954);
+    color: white;
+}
+
+.action-btn.load {
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: white;
+}
+
+.action-btn.delete {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 重播控制 */
+.playback-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.playback-btn {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.playback-btn.start {
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: white;
+}
+
+.playback-btn.stop {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.playback-btn.pause {
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.playback-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.playback-btn:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 重播状态 */
+.playback-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.playback-status span:first-child {
+    color: #2c3e50;
+}
+
+.playback-status span:last-child {
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* 录制机器人控制 */
+.recording-robot-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* 录制信息显示 */
+.recording-info-section, .path-list-section, .recording-log-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.recording-info-section h3, .path-list-section h3, .recording-log-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.recording-info-section h3 i, .path-list-section h3 i, .recording-log-section h3 i {
+    color: #3498db;
+}
+
+.recording-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid #3498db;
+}
+
+.info-item label {
+    font-weight: 500;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.info-item span {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+/* 路径列表 */
+.path-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.path-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.path-item:hover {
+    background: #f8f9fa;
+}
+
+.path-item:last-child {
+    border-bottom: none;
+}
+
+.path-item-info {
+    flex: 1;
+}
+
+.path-item-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.2rem;
+}
+
+.path-item-details {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    gap: 1rem;
+}
+
+.path-item-actions {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.path-item-btn {
+    padding: 0.3rem 0.6rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.path-item-btn.play {
+    background: #3498db;
+    color: white;
+}
+
+.path-item-btn.delete {
+    background: #e74c3c;
+    color: white;
+}
+
+.path-item-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 录制日志 */
+.recording-log {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.log-entry {
+    margin-bottom: 0.3rem;
+    padding: 0.2rem 0;
+}
+
+.log-entry.info {
+    color: #3498db;
+}
+
+.log-entry.success {
+    color: #27ae60;
+}
+
+.log-entry.warning {
+    color: #f39c12;
+}
+
+.log-entry.error {
+    color: #e74c3c;
+}
+
+.log-timestamp {
+    color: #666;
+    margin-right: 0.5rem;
+}
+
+/* 响应式设计更新 */
+@media (max-width: 1200px) {
+    .tab-panel.active {
+        flex-direction: column;
+    }
+    
+    .recording-panel {
+        flex: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .tab-navigation {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        border-radius: 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .tab-btn:last-child {
+        border-bottom: none;
+    }
+    
+    .tab-panel {
+        padding: 1rem;
+    }
+    
+    .recording-controls, .playback-controls {
+        flex-direction: column;
+    }
+    
+    .path-actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        min-width: auto;
+    }
+    
+    /* 摇杆和旋转按钮响应式 */
+    .joystick-wrapper {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .rotation-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .joystick {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .joystick-wrapper {
+        flex-direction: row;
+        gap: 0.3rem;
+    }
+    
+    .rotation-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+    
+    .joystick {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* 左侧控制面板 */
+.control-panel {
+    flex: 0 0 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.panel-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.panel-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.panel-section h3 i {
+    color: #3498db;
+}
+
+/* 摇杆控制 */
+.joystick-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.joystick-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.joystick {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #f0f0f0, #d0d0d0);
+    border: 3px solid #bdc3c7;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.joystick-knob {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+}
+
+.joystick-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.speed-display, .angular-display {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+/* 键盘控制 */
+.keyboard-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.control-btn {
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 80px;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(52, 152, 219, 0.3);
+}
+
+.control-btn.active {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+}
+
+/* 速度控制 */
+.speed-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.speed-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.speed-slider label {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.speed-slider input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.speed-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #3498db;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.speed-slider span {
+    font-weight: 600;
+    color: #3498db;
+    text-align: center;
+}
+
+/* 导航控制 */
+.navigation-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nav-btn {
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #27ae60, #229954);
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.nav-btn:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.goal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.goal-coords {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.goal-coords input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+/* 右侧显示区域 */
+.display-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.video-section, .apriltag-section, .robot-status {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.video-section h3, .apriltag-section h3, .robot-status h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.video-section h3 i, .apriltag-section h3 i, .robot-status h3 i {
+    color: #3498db;
+}
+
+/* 视频显示 */
+.video-container {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+}
+
+.video-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+.video-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+/* AprilTag检测显示 */
+.detection-status {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.detection-status.detected {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.detection-status.not-detected {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.detected-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tag-item {
+    padding: 0.8rem;
+    background: #e8f4fd;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.tag-id {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.3rem;
+}
+
+.tag-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* 机器人状态 */
+.status-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.status-item label {
+    font-weight: 500;
+    color: #555;
+}
+
+.status-item span {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* 底部状态栏 */
+.footer {
+    background: #2c3e50;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.system-info {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.9rem;
+}
+
+.system-info span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.control-hints {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .control-panel {
+        flex: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .control-row {
+        flex-wrap: wrap;
+    }
+    
+    .control-btn {
+        min-width: 60px;
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* 动画效果 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 工具提示 */
+.tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+/* 旋转控制样式 */
+.rotation-control {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #e74c3c;
+}
+
+.rotation-control label {
+    font-weight: 600;
+    color: #2c3e50;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.rotation-control input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+    margin-bottom: 0.5rem;
+}
+
+.rotation-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e74c3c;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rotation-control input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e74c3c;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rotation-control span {
+    font-weight: 600;
+    color: #e74c3c;
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* 旋转箭头按钮 */
+.rotation-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(52, 152, 219, 0.3);
+    border: 3px solid #bdc3c7;
+}
+
+.rotation-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(52, 152, 219, 0.4);
+}
+
+.rotation-btn:active {
+    transform: translateY(0);
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
+.rotation-btn.active {
+    background: linear-gradient(145deg, #27ae60, #229954);
+    transform: scale(1.05);
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(39, 174, 96, 0.4);
+}
+
+/* Waypoint系统样式 */
+.waypoint-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.waypoint-recording-controls,
+.waypoint-following-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.recording-controls,
+.following-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.waypoint-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.waypoint-btn.start {
+    background: linear-gradient(145deg, #27ae60, #229954);
+    color: white;
+}
+
+.waypoint-btn.stop {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.waypoint-btn.save {
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: white;
+}
+
+.waypoint-btn.test {
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.waypoint-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.waypoint-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.simple-test-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.test-result {
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    min-height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.recording-status,
+.following-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 500;
+}
+
+.waypoint-parameters {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.parameter-slider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.parameter-slider label {
+    min-width: 150px;
+    font-weight: 500;
+}
+
+.parameter-slider input[type="range"] {
+    flex: 1;
+    height: 6px;
+    background: #ddd;
+    border-radius: 3px;
+    outline: none;
+}
+
+.parameter-slider input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #3498db;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.parameter-slider span {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.waypoint-robot-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.waypoint-display {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.waypoint-info-section,
+.waypoint-list-section,
+.waypoint-log-section {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.waypoint-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.waypoint-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.waypoint-path-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.waypoint-path-list .path-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e9ecef;
+}
+
+.waypoint-path-list .path-item:hover {
+    background: #e9ecef;
+}
+
+.path-item-info {
+    flex: 1;
+}
+
+.path-item-name {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.path-item-details {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.path-item-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.path-item-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.path-item-btn.follow {
+    background: #27ae60;
+    color: white;
+}
+
+.path-item-btn.delete {
+    background: #e74c3c;
+    color: white;
+}
+
+.path-item-btn:hover {
+    transform: scale(1.1);
+}
+
+.waypoint-log {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+
+.waypoint-log .log-entry {
+    padding: 0.25rem 0;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.waypoint-log .log-entry:last-child {
+    border-bottom: none;
+}
+
+.waypoint-log .log-timestamp {
+    color: #6c757d;
+    margin-right: 0.5rem;
+}
+
+.waypoint-log .log-entry.info {
+    color: #2c3e50;
+}
+
+.waypoint-log .log-entry.success {
+    color: #27ae60;
+}
+
+.waypoint-log .log-entry.warning {
+    color: #f39c12;
+}
+
+.waypoint-log .log-entry.error {
+    color: #e74c3c;
+}
+
+/* Waypoint选择对话框 */
+.waypoint-selection-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.waypoint-selection-dialog .dialog-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.waypoint-selection-dialog .path-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 1rem 0;
+}
+
+.waypoint-selection-dialog .path-item {
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.waypoint-selection-dialog .path-item:hover {
+    background: #f8f9fa;
+    border-color: #3498db;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .control-panel {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .display-area {
+        width: 100%;
+    }
+    
+    .joystick-wrapper {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .rotation-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .waypoint-panel {
+        padding: 0.5rem;
+    }
+    
+    .recording-controls,
+    .following-controls {
+        flex-direction: column;
+    }
+    
+    .waypoint-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .parameter-slider {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .parameter-slider label {
+        min-width: auto;
+    }
+}
+
+/* 统一输入框和选择器样式 */
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background-color: #ffffff;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, 
+input[type="email"]:focus, 
+input[type="password"]:focus, 
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    background-color: #f8f9fa;
+}
+
+input[type="text"]:hover, 
+input[type="email"]:hover, 
+input[type="password"]:hover, 
+input[type="number"]:hover,
+select:hover,
+textarea:hover {
+    border-color: #bdc3c7;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="number"]::placeholder {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* 选择器特殊样式 */
+select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 3rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* 文件选择器容器样式 */
+.file-selector-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.file-selector-container select {
+    flex: 1;
+}
+
+.file-selector-container .refresh-btn {
+    flex-shrink: 0;
+    padding: 0.75rem;
+    min-width: auto;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 路径输入容器样式 */
+.path-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.path-input label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+/* Waypoint文件选择样式 */
+.waypoint-file-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.waypoint-file-selection label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+/* 禁用状态样式 */
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+input:disabled:focus,
+select:disabled:focus,
+textarea:disabled:focus {
+    border-color: #e1e5e9;
+    box-shadow: none;
+}
+
+/* 错误状态样式 */
+input.error,
+select.error,
+textarea.error {
+    border-color: #e74c3c;
+    background-color: #fdf2f2;
+}
+
+input.error:focus,
+select.error:focus,
+textarea.error:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+/* 成功状态样式 */
+input.success,
+select.success,
+textarea.success {
+    border-color: #27ae60;
+    background-color: #f0f9f4;
+}
+
+input.success:focus,
+select.success:focus,
+textarea.success:focus {
+    border-color: #27ae60;
+    box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+}
+

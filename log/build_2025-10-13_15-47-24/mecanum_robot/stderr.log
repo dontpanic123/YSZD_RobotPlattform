@@ -1,0 +1,7 @@
+[2;36m[10/13/25 15:47:24][0m[2;36m [0m[1;31mERROR   [0m listing git files failed - pretending there aren't any                                   ]8;id=226646;file:///home/bd/Documents/airflow/airflow_env/lib/python3.10/site-packages/setuptools_scm/_file_finders/git.py\[2mgit.py[0m]8;;\[2m:[0m]8;id=605159;file:///home/bd/Documents/airflow/airflow_env/lib/python3.10/site-packages/setuptools_scm/_file_finders/git.py#26\[2m26[0m]8;;\
+[31mCMake Error at cmake_install.cmake:70 (file):
+  file INSTALL cannot find
+  "/home/bd/Documents/Robot/agv_sim/scripts/camera_node.py": No such file or
+  directory.
+
+[0m

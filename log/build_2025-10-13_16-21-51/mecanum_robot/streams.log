@@ -1,0 +1,67 @@
+[0.016s] Invoking command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/bd/Documents/Robot/agv_sim/build/mecanum_robot -- -j16 -l16
+[0.066s] Built target ament_cmake_python_copy_mecanum_robot
+[0.264s] running egg_info
+[0.277s] writing mecanum_robot.egg-info/PKG-INFO
+[0.278s] writing dependency_links to mecanum_robot.egg-info/dependency_links.txt
+[0.278s] writing top-level names to mecanum_robot.egg-info/top_level.txt
+[0.350s] [10/13/25 16:21:52] ERROR    listing git files failed - pretending     git.py:26
+[0.350s]                              there aren't any                                   
+[0.430s] reading manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[0.431s] writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[0.463s] Built target ament_cmake_python_build_mecanum_robot_egg
+[0.472s] Invoked command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/bd/Documents/Robot/agv_sim/build/mecanum_robot -- -j16 -l16
+[0.481s] Invoking command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/bd/Documents/Robot/agv_sim/build/mecanum_robot
+[0.489s] -- Install configuration: ""
+[0.489s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.sh
+[0.489s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.dsv
+[0.489s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info
+[0.489s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/top_level.txt
+[0.489s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/dependency_links.txt
+[0.489s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/PKG-INFO
+[0.489s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/SOURCES.txt
+[0.490s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot
+[0.490s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot/__init__.py
+[0.513s] Listing '/home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot'...
+[0.517s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/robot_node.py
+[0.517s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/remote_control.py
+[0.517s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/path_publisher.py
+[0.517s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/camera_node_fixed.py
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_enhanced.py
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/position_calculator.py
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/image_viewer.py
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/waypoint_follower.py
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/waypoint_recorder.py
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/ros2_websocket_bridge.py
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch
+[0.518s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot_clean.launch.py
+[0.519s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot.launch.py
+[0.519s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot_fixed.launch.py
+[0.519s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/nav2_with_obstacles.launch.py
+[0.519s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/simple_nav2.launch.py
+[0.520s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot.launch.py
+[0.520s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//urdf
+[0.520s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//urdf/mecanum_robot.urdf
+[0.520s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz
+[0.521s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot.rviz
+[0.521s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/nav2_with_obstacles.rviz
+[0.521s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot_path.rviz
+[0.521s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/map_display.rviz
+[0.521s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/simple_path.rviz
+[0.522s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//config
+[0.522s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//config/nav2_params.yaml
+[0.522s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/ament_index/resource_index/package_run_dependencies/mecanum_robot
+[0.523s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/ament_index/resource_index/parent_prefix_path/mecanum_robot
+[0.523s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.sh
+[0.523s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.dsv
+[0.523s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/path.sh
+[0.523s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/path.dsv
+[0.524s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.bash
+[0.524s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.sh
+[0.524s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.zsh
+[0.524s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.dsv
+[0.524s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/package.dsv
+[0.524s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/ament_index/resource_index/packages/mecanum_robot
+[0.524s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig.cmake
+[0.525s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig-version.cmake
+[0.525s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/package.xml
+[0.525s] Invoked command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/bd/Documents/Robot/agv_sim/build/mecanum_robot

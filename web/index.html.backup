@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器小车控制台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-robot"></i> 机器小车控制台</h1>
+                <div class="connection-status">
+                    <span id="connectionStatus" class="status-indicator">
+                        <i class="fas fa-circle"></i> 未连接
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- Tab导航 -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="control">
+                    <i class="fas fa-gamepad"></i> 机器人控制
+                </button>
+                <button class="tab-btn" data-tab="diagnostic" onclick="openDiagnosticTab()">
+                    <i class="fas fa-stethoscope"></i> 系统诊断
+                </button>
+            </div>
+
+            <!-- Tab内容区域 -->
+            <div class="tab-content">
+                <!-- 机器人控制Tab -->
+                <div id="control-tab" class="tab-panel active">
+                    <!-- 两列布局 -->
+                    <div class="two-column-layout">
+                        <!-- 左列：遥控控制和Waypoint导航 -->
+                        <div class="left-column">
+                            <!-- 遥控控制 -->
+                            <div class="control-panel">
+                                <div class="panel-section">
+                                    <h3><i class="fas fa-gamepad"></i> 遥控控制</h3>
+                                    <div class="joystick-container">
+                                        <div class="joystick-wrapper">
+                                            <button class="rotation-btn left" data-action="rotate_left">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <div id="joystick" class="joystick">
+                                                <div class="joystick-knob"></div>
+                                            </div>
+                                            <button class="rotation-btn right" data-action="rotate_right">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                        <div class="joystick-info">
+                                            <div class="speed-display">
+                                                <label>前进/后退: <span id="linearSpeed">0.0</span> m/s</label>
+                                            </div>
+                                            <div class="speed-display">
+                                                <label>左移/右移: <span id="lateralSpeed">0.0</span> m/s</label>
+                                            </div>
+                                            <div class="angular-display">
+                                                <label>旋转: <span id="angularSpeed">0.0</span> rad/s</label>
+                                            </div>
+                                            <div class="rotation-control">
+                                                <label for="rotationSlider">旋转控制:</label>
+                                                <input type="range" id="rotationSlider" min="-1" max="1" step="0.1" value="0">
+                                                <span id="rotationValue">0.0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-keyboard"></i> 麦克纳姆轮控制</h3>
+                    <div class="keyboard-controls">
+                        <!-- 前进/后退控制 -->
+                        <div class="control-row">
+                            <button class="control-btn" data-key="w" data-action="forward">
+                                <i class="fas fa-arrow-up"></i> 前进 (W)
+                            </button>
+                            <button class="control-btn" data-key="s" data-action="backward">
+                                <i class="fas fa-arrow-down"></i> 后退 (S)
+                            </button>
+                        </div>
+                        <!-- 侧向移动控制 -->
+                        <div class="control-row">
+                            <button class="control-btn" data-key="a" data-action="left_shift">
+                                <i class="fas fa-arrow-left"></i> 左移 (A)
+                            </button>
+                            <button class="control-btn" data-key="d" data-action="right_shift">
+                                <i class="fas fa-arrow-right"></i> 右移 (D)
+                            </button>
+                        </div>
+                        <!-- 旋转控制 -->
+                        <div class="control-row">
+                            <button class="control-btn" data-key="q" data-action="rotate_left">
+                                <i class="fas fa-undo"></i> 左转 (Q)
+                            </button>
+                            <button class="control-btn" data-key="e" data-action="rotate_right">
+                                <i class="fas fa-redo"></i> 右转 (E)
+                            </button>
+                        </div>
+                        <!-- 停止控制 -->
+                        <div class="control-row">
+                            <button class="control-btn" data-key="x" data-action="stop">
+                                <i class="fas fa-stop"></i> 停止 (X)
+                            </button>
+                        </div>
+                    </div>
+                    <div class="control-hints">
+                        <p><strong>控制说明：</strong></p>
+                        <p>W: 前进 | S: 后退</p>
+                        <p>A: 左移 | D: 右移</p>
+                        <p>Q: 左转 | E: 右转</p>
+                        <p>X: 停止</p>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-cog"></i> 速度设置</h3>
+                    <div class="speed-controls">
+                        <div class="speed-slider">
+                            <label for="maxLinearSpeed">最大前进/后退速度 (m/s)</label>
+                            <input type="range" id="maxLinearSpeed" min="0.1" max="2.0" step="0.1" value="1.0">
+                            <span id="maxLinearSpeedValue">1.0</span>
+                        </div>
+                        <div class="speed-slider">
+                            <label for="maxLateralSpeed">最大侧向移动速度 (m/s)</label>
+                            <input type="range" id="maxLateralSpeed" min="0.1" max="2.0" step="0.1" value="1.0">
+                            <span id="maxLateralSpeedValue">1.0</span>
+                        </div>
+                        <div class="speed-slider">
+                            <label for="maxAngularSpeed">最大旋转速度 (rad/s)</label>
+                            <input type="range" id="maxAngularSpeed" min="0.1" max="3.0" step="0.1" value="1.5">
+                            <span id="maxAngularSpeedValue">1.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> 导航控制</h3>
+                    <div class="navigation-controls">
+                        <button id="setGoalBtn" class="nav-btn">
+                            <i class="fas fa-flag"></i> 设置目标点
+                        </button>
+                        <button id="cancelGoalBtn" class="nav-btn">
+                            <i class="fas fa-times"></i> 取消导航
+                        </button>
+                        <div class="goal-info">
+                            <label>目标位置:</label>
+                            <div class="goal-coords">
+                                <input type="number" id="goalX" placeholder="X" step="0.1">
+                                <input type="number" id="goalY" placeholder="Y" step="0.1">
+                                <input type="number" id="goalZ" placeholder="Z" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- 右侧显示区域 -->
+                    <div class="display-area">
+                <!-- 摄像头视频 -->
+                <div class="video-section">
+                    <h3><i class="fas fa-video"></i> 摄像头画面</h3>
+                    <div class="video-container">
+                        <img id="cameraImage" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjQ4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuaXoOazleiDveWKoOi9vTwvdGV4dD48L3N2Zz4=" alt="摄像头画面">
+                        <div class="video-overlay">
+                            <div class="video-info">
+                                <span id="videoFPS">FPS: --</span>
+                                <span id="videoSize">640x480</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AprilTag检测显示 -->
+                <div class="apriltag-section">
+                    <h3><i class="fas fa-qrcode"></i> AprilTag检测</h3>
+                    <div class="apriltag-info">
+                        <div class="detection-status">
+                            <span id="apriltagStatus">未检测到AprilTag</span>
+                        </div>
+                        <div class="detected-tags" id="detectedTags">
+                            <!-- 检测到的标签信息将在这里显示 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 机器人状态 -->
+                <div class="robot-status">
+                    <h3><i class="fas fa-info-circle"></i> 机器人状态</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <label>位置 (X, Y, Z):</label>
+                            <span id="robotPosition">--, --, --</span>
+                        </div>
+                        <div class="status-item">
+                            <label>方向 (Roll, Pitch, Yaw):</label>
+                            <span id="robotOrientation">--, --, --</span>
+                        </div>
+                        <div class="status-item">
+                            <label>速度 (线性, 角速度):</label>
+                            <span id="robotVelocity">--, --</span>
+                        </div>
+                        <div class="status-item">
+                            <label>电池电量:</label>
+                            <span id="batteryLevel">--%</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+                <!-- Waypoint导航Tab -->
+                <div id="waypoint-tab" class="tab-panel">
+                    <!-- 左侧控制面板 -->
+                    <div class="control-panel">
+                        <!-- 录制控制区域 -->
+                        <div class="panel-section">
+                            <h3><i class="fas fa-record-vinyl"></i> Waypoint录制</h3>
+                            <div class="waypoint-recording-controls">
+                                <div class="path-input">
+                                    <label for="waypointPathName">路径名称:</label>
+                                    <input type="text" id="waypointPathName" placeholder="输入路径名称" maxlength="50">
+                                </div>
+                                <div class="recording-controls">
+                                    <button id="startWaypointRecordingBtn" class="waypoint-btn start">
+                                        <i class="fas fa-play"></i> 开始录制
+                                    </button>
+                                    <button id="stopWaypointRecordingBtn" class="waypoint-btn stop" disabled>
+                                        <i class="fas fa-stop"></i> 停止录制
+                                    </button>
+                                    <button id="saveWaypointsBtn" class="waypoint-btn save">
+                                        <i class="fas fa-save"></i> 保存Waypoints
+                                    </button>
+                                </div>
+                                <div class="recording-status">
+                                    <span id="waypointRecordingStatus">未录制</span>
+                                    <span id="waypointRecordingTime">00:00:00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 跟踪控制区域 -->
+                        <div class="panel-section">
+                            <h3><i class="fas fa-route"></i> Waypoint跟踪</h3>
+                            <div class="waypoint-following-controls">
+                                <div class="following-controls">
+                                    <button id="startWaypointFollowingBtn" class="waypoint-btn start">
+                                        <i class="fas fa-play"></i> 开始跟踪
+                                    </button>
+                                    <button id="stopWaypointFollowingBtn" class="waypoint-btn stop" disabled>
+                                        <i class="fas fa-stop"></i> 停止跟踪
+                                    </button>
+                                </div>
+                                <div class="following-status">
+                                    <span id="waypointFollowingStatus">未跟踪</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 简单测试按钮区域 -->
+                        <div class="panel-section">
+                            <h3><i class="fas fa-test-tube"></i> 简单测试</h3>
+                            <div class="simple-test-controls">
+                                <button id="simpleTestBtn" class="waypoint-btn test">
+                                    <i class="fas fa-check"></i> 测试按钮
+                                </button>
+                                <div class="test-result">
+                                    <span id="testResult">点击测试按钮</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 参数设置区域 -->
+                        <div class="panel-section">
+                            <h3><i class="fas fa-cog"></i> 录制参数</h3>
+                            <div class="waypoint-parameters">
+                                <div class="parameter-slider">
+                                    <label for="waypointDistanceThreshold">距离阈值 (m):</label>
+                                    <input type="range" id="waypointDistanceThreshold" min="0.1" max="2.0" step="0.1" value="0.5">
+                                    <span id="waypointDistanceValue">0.5</span>
+                                </div>
+                                <div class="parameter-slider">
+                                    <label for="waypointAngleThreshold">角度阈值 (rad):</label>
+                                    <input type="range" id="waypointAngleThreshold" min="0.1" max="1.0" step="0.1" value="0.2">
+                                    <span id="waypointAngleValue">0.2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 机器人控制区域 -->
+                        <div class="panel-section">
+                            <h3><i class="fas fa-robot"></i> 机器人控制</h3>
+                            <div class="waypoint-robot-controls">
+                                <!-- 前进/后退控制 -->
+                                <div class="control-row">
+                                    <button class="control-btn" data-key="w" data-action="forward">
+                                        <i class="fas fa-arrow-up"></i> 前进 (W)
+                                    </button>
+                                    <button class="control-btn" data-key="s" data-action="backward">
+                                        <i class="fas fa-arrow-down"></i> 后退 (S)
+                                    </button>
+                                </div>
+                                <!-- 侧向移动控制 -->
+                                <div class="control-row">
+                                    <button class="control-btn" data-key="a" data-action="left_shift">
+                                        <i class="fas fa-arrow-left"></i> 左移 (A)
+                                    </button>
+                                    <button class="control-btn" data-key="d" data-action="right_shift">
+                                        <i class="fas fa-arrow-right"></i> 右移 (D)
+                                    </button>
+                                </div>
+                                <!-- 旋转控制 -->
+                                <div class="control-row">
+                                    <button class="control-btn" data-key="q" data-action="rotate_left">
+                                        <i class="fas fa-undo"></i> 左转 (Q)
+                                    </button>
+                                    <button class="control-btn" data-key="e" data-action="rotate_right">
+                                        <i class="fas fa-redo"></i> 右转 (E)
+                                    </button>
+                                </div>
+                                <!-- 停止控制 -->
+                                <div class="control-row">
+                                    <button class="control-btn" data-key="x" data-action="stop">
+                                        <i class="fas fa-stop"></i> 停止 (X)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧显示区域 -->
+                    <div class="display-area">
+                        <!-- 录制信息显示 -->
+                        <div class="waypoint-info-section">
+                            <h3><i class="fas fa-info-circle"></i> 录制信息</h3>
+                            <div class="waypoint-info">
+                                <div class="info-item">
+                                    <label>当前路径:</label>
+                                    <span id="currentWaypointPathName">未设置</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>录制时长:</label>
+                                    <span id="waypointRecordingDuration">00:00:00</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Waypoint数量:</label>
+                                    <span id="waypointCount">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 路径列表 -->
+                        <div class="waypoint-list-section">
+                            <h3><i class="fas fa-list"></i> 已保存路径</h3>
+                            <div class="waypoint-actions">
+                                <button id="loadWaypointsBtn" class="action-btn load">
+                                    <i class="fas fa-folder-open"></i> 加载路径
+                                </button>
+                                <button id="deleteWaypointsBtn" class="action-btn delete">
+                                    <i class="fas fa-trash"></i> 删除路径
+                                </button>
+                            </div>
+                            <div class="waypoint-path-list" id="waypointPathList">
+                                <!-- 路径列表将在这里动态生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 系统日志 -->
+                        <div class="waypoint-log-section">
+                            <h3><i class="fas fa-file-alt"></i> 系统日志</h3>
+                            <div class="waypoint-log" id="waypointLog">
+                                <!-- 系统日志将在这里显示 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部状态栏 -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="system-info">
+                    <span><i class="fas fa-clock"></i> <span id="currentTime">--:--:--</span></span>
+                    <span><i class="fas fa-signal"></i> <span id="connectionQuality">--</span></span>
+                </div>
+                <div class="control-hints">
+                    <span>麦克纳姆轮全向移动：WASD+QE键或摇杆控制</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/roslib@1.3.0/build/roslib.min.js"></script>
+    <script src="js/joystick.js"></script>
+    <script src="js/ros2-bridge.js"></script>
+    <script src="js/robot-control.js"></script>
+    <script src="js/waypoint-system.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
