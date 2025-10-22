@@ -162,8 +162,8 @@ class EnhancedAprilTagDetectorNode(Node):
                     detection_success = True
         
         if detection_success:
-            # 计算标签的位姿
-            rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(
+            # 计算标签的位姿 - 使用新的OpenCV API
+            rvecs, tvecs = cv2.aruco.estimatePoseSingleMarkers(
                 corners, self.tag_size, self.camera_matrix, self.dist_coeffs
             )
             

@@ -163,6 +163,178 @@ body {
     gap: 2rem;
 }
 
+/* 诊断面板特殊布局 */
+#diagnostic-tab {
+    display: none !important;
+    padding: 2rem !important;
+    min-height: 600px !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+#diagnostic-tab.active {
+    display: block !important;
+}
+
+.diagnostic-content {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+.diagnostic-content h3 {
+    font-size: 1.8rem !important;
+    color: #2c3e50 !important;
+    margin-bottom: 2rem !important;
+    text-align: center !important;
+    border-bottom: 3px solid #3498db !important;
+    padding-bottom: 1rem !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.diagnostic-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 2rem !important;
+    margin-top: 2rem !important;
+    width: 100% !important;
+}
+
+.diagnostic-item {
+    background: #ffffff !important;
+    border: 2px solid #e9ecef !important;
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+.diagnostic-item:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.diagnostic-item h4 {
+    color: #2c3e50 !important;
+    margin-bottom: 1.5rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    border-bottom: 3px solid #3498db !important;
+    padding-bottom: 0.8rem !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.diagnostic-item div {
+    margin-bottom: 0.8rem !important;
+    font-size: 1rem !important;
+    color: #555 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.diagnostic-item span {
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+}
+
+.log-container {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    border: 1px solid #34495e;
+}
+
+.log-entry {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #34495e;
+    line-height: 1.4;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+/* 机器人状态样式 */
+.state-indicator {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.state-indicator.idle {
+    background: #e8f4fd;
+    color: #2980b9;
+    border: 2px solid #3498db;
+}
+
+.state-indicator.manual_control {
+    background: #fff3cd;
+    color: #856404;
+    border: 2px solid #ffc107;
+}
+
+.state-indicator.auto_navigation {
+    background: #d4edda;
+    color: #155724;
+    border: 2px solid #28a745;
+}
+
+.state-indicator.apriltag_tracking {
+    background: #f8d7da;
+    color: #721c24;
+    border: 2px solid #dc3545;
+}
+
+.state-indicator.emergency_stop {
+    background: #f8d7da;
+    color: #721c24;
+    border: 2px solid #dc3545;
+    animation: blink 1s infinite;
+}
+
+.state-indicator.charging {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 2px solid #17a2b8;
+}
+
+.state-indicator.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 2px solid #dc3545;
+    animation: pulse 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
 
 /* Waypoint Tab特殊样式 */
 #waypoint-tab.active {

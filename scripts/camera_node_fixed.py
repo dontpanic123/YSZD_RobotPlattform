@@ -182,8 +182,8 @@ class FixedCameraNode(Node):
                 0.0, 0.0, 1.0, 0.0
             ]
             
-            # 设置旋转矩阵（单位矩阵）
-            camera_info.r = [1, 0, 0, 0, 1, 0, 0, 0, 1]
+            # 设置旋转矩阵（单位矩阵）- 使用float类型
+            camera_info.r = [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
             
             self.camera_info_pub.publish(camera_info)
             self.get_logger().info('摄像头信息已发布')

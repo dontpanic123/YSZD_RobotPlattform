@@ -10,6 +10,13 @@
 
 ## 🚀 快速开始
 
+### 0. 设置ROS2域ID (重要!)
+```bash
+# 确保使用默认域ID (0)
+cd /home/bd/Documents/Robot/agv_sim
+./set_ros_domain_default.sh
+```
+
 ### 1. 安装依赖
 ```bash
 cd /home/bd/Documents/Robot/agv_sim
@@ -220,6 +227,8 @@ self.max_angular_speed = 1.0  # 最大角速度
 - 教学演示和培训
 
 现在你可以使用这个完整的AprilTag检测系统了！
+
+
 
 
 

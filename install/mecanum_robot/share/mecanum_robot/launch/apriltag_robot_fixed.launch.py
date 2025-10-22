@@ -51,6 +51,11 @@ def generate_launch_description():
             default_value='true',
             description='是否启动导航控制'
         ),
+        DeclareLaunchArgument(
+            'use_remote_control',
+            default_value='false',
+            description='是否启动遥控节点'
+        ),
         
         # Robot State Publisher
         Node(
@@ -86,7 +91,7 @@ def generate_launch_description():
             }]
         ),
         
-        # 遥控节点
+        # 遥控节点 (可选)
         Node(
             package='mecanum_robot',
             executable='remote_control.py',
@@ -94,7 +99,8 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'use_sim_time': LaunchConfiguration('use_sim_time')
-            }]
+            }],
+            condition=IfCondition(LaunchConfiguration('use_remote_control'))
         ),
         
         # 路径发布节点
@@ -120,10 +126,10 @@ def generate_launch_description():
             condition=IfCondition(LaunchConfiguration('use_camera'))
         ),
         
-        # AprilTag检测节点
+        # AprilTag检测节点 (OpenCV 4.10兼容版)
         Node(
             package='mecanum_robot',
-            executable='apriltag_detector.py',
+            executable='apriltag_detector_opencv4.py',
             name='apriltag_detector_node',
             output='screen',
             parameters=[{

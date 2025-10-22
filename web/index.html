@@ -28,7 +28,7 @@
                 <button class="tab-btn active" data-tab="control">
                     <i class="fas fa-gamepad"></i> 机器人控制
                 </button>
-                <button class="tab-btn" data-tab="diagnostic" onclick="openDiagnosticTab()">
+                <button class="tab-btn" onclick="window.open('http://localhost:8080/diagnostic.html', '_blank')">
                     <i class="fas fa-stethoscope"></i> 系统诊断
                 </button>
             </div>
@@ -196,6 +196,33 @@
 
                         <!-- 右列：显示区域 -->
                         <div class="right-column">
+                <!-- 机器人状态 -->
+                <div class="robot-status">
+                    <h3><i class="fas fa-info-circle"></i> 机器人状态</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <label>当前状态:</label>
+                            <span id="robotCurrentState" class="state-indicator">--</span>
+                        </div>
+                        <div class="status-item">
+                            <label>位置 (X, Y, Z):</label>
+                            <span id="robotPosition">--, --, --</span>
+                        </div>
+                        <div class="status-item">
+                            <label>方向 (Roll, Pitch, Yaw):</label>
+                            <span id="robotOrientation">--, --, --</span>
+                        </div>
+                        <div class="status-item">
+                            <label>速度 (线性, 角速度):</label>
+                            <span id="robotVelocity">--, --</span>
+                        </div>
+                        <div class="status-item">
+                            <label>电池电量:</label>
+                            <span id="batteryLevel">--%</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 摄像头视频 -->
                 <div class="video-section">
                     <h3><i class="fas fa-video"></i> 摄像头画面</h3>
@@ -222,34 +249,11 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- 机器人状态 -->
-                <div class="robot-status">
-                    <h3><i class="fas fa-info-circle"></i> 机器人状态</h3>
-                    <div class="status-grid">
-                        <div class="status-item">
-                            <label>位置 (X, Y, Z):</label>
-                            <span id="robotPosition">--, --, --</span>
-                        </div>
-                        <div class="status-item">
-                            <label>方向 (Roll, Pitch, Yaw):</label>
-                            <span id="robotOrientation">--, --, --</span>
-                        </div>
-                        <div class="status-item">
-                            <label>速度 (线性, 角速度):</label>
-                            <span id="robotVelocity">--, --</span>
-                        </div>
-                        <div class="status-item">
-                            <label>电池电量:</label>
-                            <span id="batteryLevel">--%</span>
-                        </div>
-                    </div>
-                    </div>
-                </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </main>
 
         <!-- 底部状态栏 -->
@@ -269,9 +273,9 @@
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/roslib@1.3.0/build/roslib.min.js"></script>
     <script src="js/joystick.js?v=2"></script>
-    <script src="js/ros2-bridge.js?v=2"></script>
+    <script src="js/ros2-bridge.js?v=4"></script>
     <script src="js/robot-control.js?v=2"></script>
     <script src="js/waypoint-system.js?v=2"></script>
-    <script src="js/main.js?v=2"></script>
+    <script src="js/main.js?v=3"></script>
 </body>
 </html>

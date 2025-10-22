@@ -34,8 +34,8 @@ gnome-terminal --title="ROS2机器人系统" -- bash -c "
     # 启动地图服务器
     ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=/home/bd/Documents/Robot/agv_sim/maps/map/test_map.yaml &
     sleep 2
-    # 启动机器人系统
-    ros2 launch mecanum_robot apriltag_robot.launch.py
+    # 启动机器人系统（包含修复版AprilTag检测）
+    ros2 launch mecanum_robot apriltag_robot_fixed.launch.py
     bash
 " &
 
@@ -88,7 +88,18 @@ gnome-terminal --title="Waypoint跟踪器" -- bash -c "
 
 sleep 1
 
-echo "📱 启动Tab 6: Web控制台"
+echo "📱 启动Tab 6: 机器人状态机"
+gnome-terminal --title="机器人状态机" -- bash -c "
+    source /opt/ros/humble/setup.bash
+    source install/setup.bash
+    echo '🤖 启动机器人状态机...'
+    python3 scripts/robot_state_machine.py
+    bash
+" &
+
+sleep 1
+
+echo "📱 启动Tab 7: Web控制台"
 gnome-terminal --title="Web控制台" -- bash -c "
     cd web
     echo '🌐 启动Web控制台...'
@@ -113,6 +124,7 @@ echo "   - ROS2 WebSocket Bridge: 运行中 (独立窗口)"
 echo "   - Waypoint录制器: 运行中 (独立窗口)"
 echo "   - ROS2服务代理: 运行中 (独立窗口)"
 echo "   - Waypoint跟踪器: 运行中 (独立窗口)"
+echo "   - 机器人状态机: 运行中 (独立窗口)"
 echo "   - Web控制台: 运行中 (独立窗口)"
 echo ""
 echo "💡 使用说明:"
@@ -120,7 +132,8 @@ echo "   1. 打开浏览器访问 http://localhost:8080"
 echo "   2. 使用WASD键或摇杆控制机器人"
 echo "   3. 切换到'Waypoint导航'Tab进行路径录制和跟踪"
 echo "   4. 观察摄像头画面和AprilTag检测"
-echo "   5. 所有服务都在独立的terminal窗口中运行"
+echo "   5. 查看机器人状态机显示当前运行状态"
+echo "   6. 所有服务都在独立的terminal窗口中运行"
 echo ""
 echo "🎯 Waypoint功能:"
 echo "   - 录制: 手动控制机器人录制路径点"

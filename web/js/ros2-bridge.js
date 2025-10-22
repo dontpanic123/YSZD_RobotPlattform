@@ -12,7 +12,7 @@ class ROS2Bridge {
         
         // 连接配置
         this.config = {
-            url: 'ws://localhost:9090',
+            url: 'ws://127.0.0.1:9090',
             reconnectInterval: 5000,
             maxReconnectAttempts: 10,
             reconnectAttempts: 0
@@ -115,6 +115,23 @@ class ROS2Bridge {
                 return;
             }
             
+            // 若不是JSON（首字符不是{或[），尝试作为base64图像处理
+            const firstChar = data.trim().charAt(0);
+            if (firstChar !== '{' && firstChar !== '[') {
+                // 简单判断是否可能是base64（只包含base64字符）
+                const maybeBase64 = /^[A-Za-z0-9+/=\r\n]+$/.test(data);
+                if (maybeBase64) {
+                    // 作为AprilTag检测图像处理（前端已支持base64 jpeg显示）
+                    this.handleAprilTagDetection({
+                        height: 0,
+                        width: 0,
+                        encoding: 'jpeg',
+                        data: data.replace(/\r?\n/g, '')
+                    });
+                    return;
+                }
+            }
+
             // 检查数据长度，如果太长可能是二进制数据
             if (data.length > 1000000) { // 1MB
                 console.warn('⚠️ 收到过大的WebSocket数据，可能是二进制数据，跳过JSON解析');
@@ -126,27 +143,32 @@ class ROS2Bridge {
             const messageType = message.type;
             
             // 处理不同类型的消息
-            switch (messageType) {
-                case 'camera_image':
-                    this.handleCameraImage(message);
-                    break;
-                case 'apriltag_detection':
-                    this.handleAprilTagDetection(message);
-                    break;
-                case 'apriltag_pose':
-                    this.handleAprilTagPose(message);
-                    break;
-                case 'apriltag_status':
-                    this.handleAprilTagStatus(message);
-                    break;
-                case 'odom':
-                    this.handleOdometry(message);
-                    break;
-                case 'pong':
-                    console.log('🏓 收到pong响应');
-                    break;
-                default:
-                    console.log('📨 收到未知消息类型:', messageType);
+            if (messageType === 'robot_state') {
+                console.log('🤖 收到机器人状态消息:', message);
+                this.handleRobotState(message);
+            } else {
+                switch (messageType) {
+                    case 'camera_image':
+                        this.handleCameraImage(message);
+                        break;
+                    case 'apriltag_detection':
+                        this.handleAprilTagDetection(message);
+                        break;
+                    case 'apriltag_pose':
+                        this.handleAprilTagPose(message);
+                        break;
+                    case 'apriltag_status':
+                        this.handleAprilTagStatus(message);
+                        break;
+                    case 'odom':
+                        this.handleOdometry(message);
+                        break;
+                    case 'pong':
+                        console.log('🏓 收到pong响应');
+                        break;
+                    default:
+                        console.log('📨 收到未知消息类型:', messageType);
+                }
             }
         } catch (error) {
             console.error('🚨 处理WebSocket消息时出错:', error);
@@ -200,7 +222,7 @@ class ROS2Bridge {
             const rosMessage = {
                 header: {
                     stamp: { sec: 0, nanosec: 0 },
-                    frame_id: 'camera_link'
+                    frame_id: typeof message.tag_id === 'number' ? `apriltag_${message.tag_id}` : (message.tag_id || 'camera_link')
                 },
                 pose: {
                     position: message.position,
@@ -251,6 +273,16 @@ class ROS2Bridge {
         }
     }
     
+    handleRobotState(message) {
+        // 处理机器人状态消息
+        if (this.callbacks['/robot_state']) {
+            const rosMessage = {
+                data: message.state || message.data || 'unknown'
+            };
+            this.callbacks['/robot_state'](rosMessage);
+        }
+    }
+    
     updateConnectionStatus(connected, message = '') {
         const statusElement = document.getElementById('connectionStatus');
         if (statusElement) {
@@ -283,6 +315,7 @@ class ROS2Bridge {
         // 机器人状态话题
         this.setupTopic('/odom', 'nav_msgs/msg/Odometry');
         this.setupTopic('/robot_description', 'std_msgs/msg/String');
+        this.setupTopic('/robot_state', 'std_msgs/msg/String');
         
         // 导航话题
         this.setupTopic('/goal_pose', 'geometry_msgs/msg/PoseStamped');
@@ -349,14 +382,14 @@ class ROS2Bridge {
     }
     
     subscribe(topicName, callback) {
-        if (!this.connected) {
-            console.warn(`⚠️ WebSocket未连接`);
-            return false;
-        }
-        
+        // 允许在未连接时也登记回调，连接建立后消息到达仍可回调
         try {
             this.callbacks[topicName] = callback;
-            console.log(`👂 已订阅话题 ${topicName}`);
+            if (!this.connected) {
+                console.warn(`⚠️ WebSocket未连接，已预登记订阅: ${topicName}`);
+            } else {
+                console.log(`👂 已订阅话题 ${topicName}`);
+            }
             return true;
         } catch (error) {
             console.error(`🚨 订阅话题 ${topicName} 时出错:`, error);

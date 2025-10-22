@@ -50,12 +50,11 @@ class RobotWebApp {
         // 设置摄像头显示
         this.setupCameraDisplay();
         
-        // 设置AprilTag显示
-        this.setupAprilTagDisplay();
-        
-        // 设置机器人状态显示
-        this.setupRobotStatus();
-        
+        // 延迟设置订阅，确保连接建立
+        setTimeout(() => {
+            this.setupAprilTagDisplay();
+            this.setupRobotStatus();
+        }, 2000);
         
         // 设置Waypoint系统模块
         this.setupWaypointSystem();
@@ -103,7 +102,16 @@ class RobotWebApp {
     }
     
     setupAprilTagDisplay() {
-        if (!this.ros2Bridge) return;
+        if (!this.ros2Bridge) {
+            console.warn('⚠️ ROS2桥接未初始化');
+            return;
+        }
+        
+        // 等待连接建立后再订阅
+        if (!this.ros2Bridge.connected) {
+            setTimeout(() => this.setupAprilTagDisplay(), 1000);
+            return;
+        }
         
         // 订阅AprilTag状态
         this.ros2Bridge.subscribe('/apriltag_status', (message) => {
@@ -113,6 +121,11 @@ class RobotWebApp {
         // 订阅AprilTag位姿
         this.ros2Bridge.subscribe('/apriltag_pose', (message) => {
             this.updateAprilTagPose(message);
+        });
+        
+        // 订阅机器人状态
+        this.ros2Bridge.subscribe('/robot_state', (message) => {
+            this.updateRobotState(message);
         });
     }
     
@@ -175,6 +188,11 @@ class RobotWebApp {
     
     convertImageMessage(message) {
         try {
+            // 如果是后端通过WebSocket发送的JPEG Base64数据，直接生成Data URL
+            if (message && message.encoding === 'jpeg' && typeof message.data === 'string') {
+                return `data:image/jpeg;base64,${message.data}`;
+            }
+            
             // 创建ImageData对象
             const width = message.width;
             const height = message.height;
@@ -235,6 +253,15 @@ class RobotWebApp {
         
         const position = message.pose.position;
         const orientation = message.pose.orientation;
+        let tagId = '未知';
+        if (message.header && message.header.frame_id) {
+            const fid = String(message.header.frame_id);
+            if (fid.startsWith('apriltag_')) {
+                tagId = fid.substring('apriltag_'.length);
+            } else {
+                tagId = fid;
+            }
+        }
         
         // 计算距离
         const distance = Math.sqrt(
@@ -247,7 +274,7 @@ class RobotWebApp {
         const tagElement = document.createElement('div');
         tagElement.className = 'tag-item';
         tagElement.innerHTML = `
-            <div class="tag-id">AprilTag 检测到</div>
+            <div class="tag-id">AprilTag 检测到 (ID: ${tagId})</div>
             <div class="tag-info">
                 <div>距离: ${distance.toFixed(2)}m</div>
                 <div>位置: (${position.x.toFixed(2)}, ${position.y.toFixed(2)}, ${position.z.toFixed(2)})</div>
@@ -257,6 +284,34 @@ class RobotWebApp {
         // 更新显示
         detectedTagsElement.innerHTML = '';
         detectedTagsElement.appendChild(tagElement);
+    }
+    
+    updateRobotState(message) {
+        // 更新机器人当前状态
+        console.log('🤖 更新机器人状态:', message);
+        const stateElement = document.getElementById('robotCurrentState');
+        if (stateElement) {
+            // 从消息中获取状态，支持不同的消息格式
+            const state = message.data || message.state || 'unknown';
+            console.log('🤖 设置状态为:', state);
+            stateElement.textContent = this.getStateDisplayName(state);
+            stateElement.className = `state-indicator ${state}`;
+        } else {
+            console.warn('⚠️ 找不到robotCurrentState元素');
+        }
+    }
+    
+    getStateDisplayName(state) {
+        const stateNames = {
+            'idle': '空闲',
+            'manual_control': '手动控制',
+            'auto_navigation': '自动导航',
+            'apriltag_tracking': 'AprilTag跟踪',
+            'emergency_stop': '紧急停止',
+            'charging': '充电中',
+            'error': '错误'
+        };
+        return stateNames[state] || state;
     }
     
     updateRobotOdometry(message) {
@@ -408,6 +463,12 @@ class RobotWebApp {
         console.log('📊 系统信息:', info);
         return info;
     }
+}
+
+// 全局诊断函数
+function openDiagnosticTab() {
+    console.log('🔍 打开诊断Tab');
+    // 这个函数现在由Tab切换系统自动处理
 }
 
 // 启动应用程序

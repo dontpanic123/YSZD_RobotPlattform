@@ -10,6 +10,7 @@ import threading
 import time
 from sensor_msgs.msg import Image, CameraInfo
 from geometry_msgs.msg import Twist, PoseStamped
+from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from cv_bridge import CvBridge
 import cv2
@@ -24,6 +25,11 @@ class ROS2WebSocketBridge(Node):
         self.websocket_server = None
         self.connected_clients = set()
         self.server_thread = None
+        
+        # 控制状态管理
+        self.manual_control_active = False  # 手动控制是否激活
+        self.last_manual_control_time = 0   # 最后手动控制时间
+        self.manual_control_timeout = 0.5  # 手动控制超时时间（秒）
         
         # ROS2发布者和订阅者
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
@@ -42,12 +48,18 @@ class ROS2WebSocketBridge(Node):
         self.apriltag_status_sub = self.create_subscription(
             String, '/apriltag_status', self.apriltag_status_callback, 10
         )
+        self.odom_sub = self.create_subscription(
+            Odometry, '/odom', self.odom_callback, 10
+        )
         
         # OpenCV桥接
         self.bridge = CvBridge()
         
         # 启动WebSocket服务器
         self.start_websocket_server()
+        
+        # 启动手动控制状态检查定时器
+        self.control_timer = self.create_timer(0.1, self.check_manual_control_status)
         
         self.get_logger().info('ROS2 WebSocket Bridge 已启动')
         self.get_logger().info('WebSocket服务器: ws://localhost:9090')
@@ -79,7 +91,8 @@ class ROS2WebSocketBridge(Node):
         except websockets.exceptions.ConnectionClosed:
             pass
         finally:
-            self.connected_clients.remove(websocket)
+            if websocket in self.connected_clients:
+                self.connected_clients.remove(websocket)
             self.get_logger().info(f'客户端已断开: {websocket.remote_address}')
     
     async def handle_message(self, websocket, message):
@@ -98,8 +111,32 @@ class ROS2WebSocketBridge(Node):
                 twist.angular.y = float(data.get('angular_y', 0.0))
                 twist.angular.z = float(data.get('angular_z', 0.0))
                 
-                self.cmd_vel_pub.publish(twist)
-                self.get_logger().debug(f'发布速度命令: {twist}')
+                # 检查是否有非零速度命令
+                has_velocity = (abs(twist.linear.x) > 0.001 or 
+                              abs(twist.linear.y) > 0.001 or 
+                              abs(twist.linear.z) > 0.001 or
+                              abs(twist.angular.x) > 0.001 or 
+                              abs(twist.angular.y) > 0.001 or 
+                              abs(twist.angular.z) > 0.001)
+                
+                if has_velocity:
+                    # 有速度命令，激活手动控制
+                    self.manual_control_active = True
+                    self.last_manual_control_time = time.time()
+                    self.cmd_vel_pub.publish(twist)
+                    self.get_logger().debug(f'发布速度命令: {twist}')
+                else:
+                    # 零速度命令，检查是否应该发送归零命令
+                    current_time = time.time()
+                    if (self.manual_control_active and 
+                        current_time - self.last_manual_control_time < self.manual_control_timeout):
+                        # 在超时时间内，发送归零命令防止漂移
+                        self.cmd_vel_pub.publish(twist)
+                        self.get_logger().debug(f'发送归零命令防止漂移: {twist}')
+                    else:
+                        # 超时或未激活手动控制，不发送任何命令
+                        self.manual_control_active = False
+                        self.get_logger().debug('跳过零速度命令，避免与follower冲突')
                 
             elif msg_type == 'goal_pose':
                 # 处理目标点设置
@@ -207,6 +244,57 @@ class ROS2WebSocketBridge(Node):
         except Exception as e:
             self.get_logger().error(f'处理AprilTag状态时出错: {e}')
     
+    def odom_callback(self, msg):
+        """处理里程计数据"""
+        try:
+            data = {
+                'type': 'odom',
+                'header': {
+                    'stamp': {
+                        'sec': msg.header.stamp.sec,
+                        'nanosec': msg.header.stamp.nanosec
+                    },
+                    'frame_id': msg.header.frame_id
+                },
+                'child_frame_id': msg.child_frame_id,
+                'pose': {
+                    'pose': {
+                        'position': {
+                            'x': msg.pose.pose.position.x,
+                            'y': msg.pose.pose.position.y,
+                            'z': msg.pose.pose.position.z
+                        },
+                        'orientation': {
+                            'x': msg.pose.pose.orientation.x,
+                            'y': msg.pose.pose.orientation.y,
+                            'z': msg.pose.pose.orientation.z,
+                            'w': msg.pose.pose.orientation.w
+                        }
+                    },
+                    'covariance': list(msg.pose.covariance)
+                },
+                'twist': {
+                    'twist': {
+                        'linear': {
+                            'x': msg.twist.twist.linear.x,
+                            'y': msg.twist.twist.linear.y,
+                            'z': msg.twist.twist.linear.z
+                        },
+                        'angular': {
+                            'x': msg.twist.twist.angular.x,
+                            'y': msg.twist.twist.angular.y,
+                            'z': msg.twist.twist.angular.z
+                        }
+                    },
+                    'covariance': list(msg.twist.covariance)
+                }
+            }
+            
+            self.broadcast_to_clients(data)
+            
+        except Exception as e:
+            self.get_logger().error(f'处理里程计数据时出错: {e}')
+    
     def broadcast_to_clients(self, data):
         """向所有客户端广播数据"""
         if not self.connected_clients:
@@ -216,17 +304,27 @@ class ROS2WebSocketBridge(Node):
         
         # 在单独的线程中发送消息
         def send_message():
-            for client in self.connected_clients.copy():
-                try:
-                    asyncio.run_coroutine_threadsafe(
-                        client.send(message), 
-                        asyncio.get_event_loop()
-                    )
-                except Exception as e:
-                    self.get_logger().debug(f'发送消息到客户端时出错: {e}')
-                    self.connected_clients.discard(client)
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                for client in self.connected_clients.copy():
+                    try:
+                        loop.run_until_complete(client.send(message))
+                    except Exception as e:
+                        self.get_logger().debug(f'发送消息到客户端时出错: {e}')
+                        self.connected_clients.discard(client)
+            finally:
+                loop.close()
         
         threading.Thread(target=send_message, daemon=True).start()
+    
+    def check_manual_control_status(self):
+        """检查手动控制状态，超时后自动停用手动控制"""
+        current_time = time.time()
+        if (self.manual_control_active and 
+            current_time - self.last_manual_control_time > self.manual_control_timeout):
+            self.manual_control_active = False
+            self.get_logger().debug('手动控制超时，停用手动控制模式')
 
 def main(args=None):
     rclpy.init(args=args)

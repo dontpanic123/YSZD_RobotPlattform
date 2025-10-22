@@ -51,6 +51,9 @@ class ROS2WebSocketBridge(Node):
         self.odom_sub = self.create_subscription(
             Odometry, '/odom', self.odom_callback, 10
         )
+        self.robot_state_sub = self.create_subscription(
+            String, '/robot_state', self.robot_state_callback, 10
+        )
         
         # OpenCV桥接
         self.bridge = CvBridge()
@@ -69,6 +72,7 @@ class ROS2WebSocketBridge(Node):
         def run_server():
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
+            self.server_loop = loop
             loop.run_until_complete(self.websocket_handler())
         
         self.server_thread = threading.Thread(target=run_server, daemon=True)
@@ -76,9 +80,15 @@ class ROS2WebSocketBridge(Node):
     
     async def websocket_handler(self):
         """WebSocket处理器"""
-        async with serve(self.handle_client, "localhost", 9090):
-            self.get_logger().info('WebSocket服务器已启动在端口 9090')
-            await asyncio.Future()  # 保持服务器运行
+        try:
+            async with serve(self.handle_client, "0.0.0.0", 9090):
+                self.get_logger().info('WebSocket服务器已启动在 0.0.0.0:9090')
+                await asyncio.Future()  # 保持服务器运行
+        except Exception as e:
+            self.get_logger().error(f'启动WebSocket服务器失败: {e}')
+            # 短暂延时后重试
+            await asyncio.sleep(1.0)
+            await self.websocket_handler()
     
     async def handle_client(self, websocket, path):
         """处理WebSocket客户端连接"""
@@ -211,8 +221,21 @@ class ROS2WebSocketBridge(Node):
     def apriltag_pose_callback(self, msg):
         """处理AprilTag位姿"""
         try:
+            # 从frame_id中提取数值ID（形如 'apriltag_23'）
+            frame_id = msg.header.frame_id or ''
+            tag_id_num = None
+            if frame_id:
+                try:
+                    if 'apriltag_' in frame_id:
+                        tag_id_num = int(frame_id.split('apriltag_')[-1])
+                    else:
+                        tag_id_num = int(frame_id)
+                except Exception:
+                    tag_id_num = None
+            
             data = {
                 'type': 'apriltag_pose',
+                'tag_id': tag_id_num if tag_id_num is not None else frame_id,
                 'position': {
                     'x': msg.pose.position.x,
                     'y': msg.pose.position.y,
@@ -295,6 +318,19 @@ class ROS2WebSocketBridge(Node):
         except Exception as e:
             self.get_logger().error(f'处理里程计数据时出错: {e}')
     
+    def robot_state_callback(self, msg):
+        """处理机器人状态"""
+        try:
+            data = {
+                'type': 'robot_state',
+                'state': msg.data
+            }
+            
+            self.broadcast_to_clients(data)
+            
+        except Exception as e:
+            self.get_logger().error(f'处理机器人状态时出错: {e}')
+    
     def broadcast_to_clients(self, data):
         """向所有客户端广播数据"""
         if not self.connected_clients:
@@ -302,21 +338,18 @@ class ROS2WebSocketBridge(Node):
         
         message = json.dumps(data)
         
-        # 在单独的线程中发送消息
-        def send_message():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
+        # 使用服务器事件循环线程安全地发送消息
+        for client in self.connected_clients.copy():
             try:
-                for client in self.connected_clients.copy():
-                    try:
-                        loop.run_until_complete(client.send(message))
-                    except Exception as e:
-                        self.get_logger().debug(f'发送消息到客户端时出错: {e}')
-                        self.connected_clients.discard(client)
-            finally:
-                loop.close()
-        
-        threading.Thread(target=send_message, daemon=True).start()
+                if hasattr(self, 'server_loop') and self.server_loop is not None:
+                    asyncio.run_coroutine_threadsafe(client.send(message), self.server_loop)
+                else:
+                    # 回退：如果没有服务器循环，跳过发送
+                    self.get_logger().warn('服务器事件循环未就绪，跳过消息发送')
+                    break
+            except Exception as e:
+                self.get_logger().debug(f'发送消息到客户端时出错: {e}')
+                self.connected_clients.discard(client)
     
     def check_manual_control_status(self):
         """检查手动控制状态，超时后自动停用手动控制"""
