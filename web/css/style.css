@@ -925,17 +925,18 @@ body {
     font-family: monospace;
 }
 
-/* 紧急停止 */
+/* 紧急停止和复位 */
 .emergency-controls {
     display: flex;
     justify-content: center;
+    gap: 0.75rem;
     padding-top: 1rem;
     border-top: 1px solid #e0e0e0;
 }
 
-.emergency-btn {
+.emergency-btn,
+.reset-btn {
     padding: 0.75rem 1.5rem;
-    background: #e74c3c;
     color: white;
     border: none;
     border-radius: 8px;
@@ -945,7 +946,14 @@ body {
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
+    min-width: 140px;
+    height: 48px;
+}
+
+.emergency-btn {
+    background: #e74c3c;
 }
 
 .emergency-btn:hover {
@@ -957,6 +965,33 @@ body {
 .emergency-btn:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
+}
+
+.reset-btn {
+    background: #27ae60;
+}
+
+.reset-btn:hover {
+    background: #229954;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+.reset-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
+}
+
+.reset-btn:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.reset-btn:disabled:hover {
+    background: #95a5a6;
+    transform: none;
+    box-shadow: none;
 }
 
 /* 键盘控制 */
@@ -1467,6 +1502,8 @@ body {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .waypoint-btn {
@@ -1479,7 +1516,10 @@ body {
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
+    min-width: 120px;
+    height: 40px;
 }
 
 .waypoint-btn.start {
@@ -1489,6 +1529,16 @@ body {
 
 .waypoint-btn.stop {
     background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.waypoint-btn.pause {
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.waypoint-btn.pause.continue {
+    background: linear-gradient(145deg, #27ae60, #229954);
     color: white;
 }
 
@@ -2002,5 +2052,28 @@ select.success:focus,
 textarea.success:focus {
     border-color: #27ae60;
     box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+}
+
+/* 通知动画 */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
 

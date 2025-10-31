@@ -1,5 +1,5 @@
 /**
- * Waypoint导航系统 - 重写版本
+ * 路径导航系统 - 重写版本
  * 确保所有按钮功能正常工作
  */
 class WaypointSystem {
@@ -9,6 +9,8 @@ class WaypointSystem {
         // 状态管理
         this.isRecording = false;
         this.isFollowing = false;
+        this.isPaused = false;  // 是否暂停跟踪
+        this.pausedWaypointIndex = 0;  // 暂停时的waypoint索引
         this.waypoints = [];
         this.currentPathName = '';
         this.selectedWaypointFile = '';
@@ -102,11 +104,10 @@ class WaypointSystem {
         
         // 跟踪控制按钮
         this.setupButton('startWaypointFollowingBtn', () => this.startFollowing());
+        this.setupButton('pauseWaypointFollowingBtn', () => this.togglePause());
         this.setupButton('stopWaypointFollowingBtn', () => this.stopFollowing());
         
         // 路径管理按钮
-        this.setupButton('loadWaypointsBtn', () => this.loadWaypoints());
-        this.setupButton('deleteWaypointsBtn', () => this.deleteWaypoints());
         this.setupButton('refreshWaypointFilesBtn', () => this.refreshWaypointFiles());
         
         // 输入框事件
@@ -117,6 +118,12 @@ class WaypointSystem {
         
         // 机器人控制按钮
         this.setupRobotControlButtons();
+        
+        // Waypoint状态监听
+        this.setupWaypointStatusListener();
+        
+        // 紧急停止状态监听
+        this.setupEmergencyStopListener();
         
         console.log('✅ 事件监听器设置完成');
     }
@@ -173,6 +180,78 @@ class WaypointSystem {
             });
             console.log(`✅ 设置了 ${controlButtons.length} 个机器人控制按钮`);
         }
+    }
+    
+    /**
+     * 设置Waypoint状态监听
+     */
+    setupWaypointStatusListener() {
+        document.addEventListener('waypoint_status', (event) => {
+            const status = event.detail.status;
+            console.log('📨 收到Waypoint状态更新:', status);
+            
+            if (status === 'completed') {
+                // Waypoint跟踪完成，切换到空闲状态
+                this.onWaypointCompleted();
+            } else if (status === 'stopped') {
+                // Waypoint跟踪停止，切换到空闲状态
+                this.onWaypointStopped();
+            }
+        });
+        console.log('✅ Waypoint状态监听器已设置');
+    }
+    
+    /**
+     * 设置紧急停止状态监听
+     */
+    setupEmergencyStopListener() {
+        // 使用定时器定期检查紧急停止状态
+        setInterval(() => {
+            this.checkEmergencyStopState();
+        }, 200); // 每200ms检查一次
+        console.log('✅ 紧急停止状态监听器已设置');
+    }
+    
+    /**
+     * 检查紧急停止状态并更新UI
+     */
+    checkEmergencyStopState() {
+        const isEmergencyStop = this.isEmergencyStopActive();
+        if (isEmergencyStop && this.isFollowing) {
+            // 如果紧急停止激活且正在跟踪，停止跟踪
+            console.log('🚨 检测到紧急停止，停止跟踪');
+            this.stopFollowing();
+        }
+        // 更新UI以反映紧急停止状态
+        this.updateFollowingUI();
+        this.updateFollowingButtonStates();
+    }
+    
+    /**
+     * 检查是否处于紧急停止状态
+     */
+    isEmergencyStopActive() {
+        if (window.robotController) {
+            return window.robotController.emergencyStopActive === true;
+        }
+        return false;
+    }
+    
+    /**
+     * 检查AprilTag是否被检测到
+     */
+    isAprilTagDetected() {
+        const statusElement = document.getElementById('apriltagStatus');
+        if (statusElement) {
+            const statusText = statusElement.textContent || '';
+            // 检查状态文本：包含"检测到"但不包含"未检测到"
+            // 状态格式：检测到 X 个AprilTag: [ids] 或 未检测到AprilTag
+            if (statusText.includes('未检测到')) {
+                return false;
+            }
+            return statusText.includes('检测到');
+        }
+        return false;
     }
     
     /**
@@ -324,33 +403,184 @@ class WaypointSystem {
     }
     
     /**
-     * 开始跟踪
+     * 开始跟踪（从头开始）
      */
     async startFollowing() {
         console.log('🚀 开始跟踪waypoints...');
         
         try {
-            if (!this.selectedWaypointFile) {
-                this.showNotification('请选择waypoint文件', 'warning');
+            // 检查紧急停止状态
+            if (this.isEmergencyStopActive()) {
+                this.showNotification('紧急停止状态下无法开始跟踪，请先复位', 'warning');
                 return;
             }
             
-            // 设置waypoint文件路径
+            // 检查AprilTag是否被检测到
+            if (!this.isAprilTagDetected()) {
+                this.showNotification('当前坐标未知，请确保信标可以被识别', 'warning');
+                return;
+            }
+            
+            if (!this.selectedWaypointFile) {
+                this.showNotification('请选择路径文件', 'warning');
+                return;
+            }
+            
+            // 确保清除所有暂停状态和索引（开始跟踪总是从头开始）
+            this.isPaused = false;
+            this.pausedWaypointIndex = 0;
+            
+            // 设置路径文件路径
             await this.callService('/set_waypoints_file_path', {
                 file_path: this.selectedWaypointFile
             });
             
-            // 开始跟踪
+            // 开始跟踪（从头开始，索引0）
+            // 注意：start_following服务会检查resume_waypoint_index参数
+            // 如果为0或未设置，会从索引0开始
             await this.callService('/start_following');
             
             this.isFollowing = true;
             this.updateFollowingUI();
-            this.showNotification('开始跟踪waypoints', 'success');
+            this.showNotification('开始跟踪waypoints，从第一个点开始', 'success');
             
-            console.log('✅ 跟踪已开始');
+            // 发布自动导航目标点到状态机
+            this.publishNavigationGoal();
+            
+            // 通知机器人控制器开始waypoint跟踪
+            if (window.robotController) {
+                window.robotController.setWaypointFollowing(true);
+            }
+            
+            console.log('✅ 跟踪已开始，从第0个waypoint开始');
         } catch (error) {
             console.error('❌ 开始跟踪失败:', error);
             this.showNotification('开始跟踪失败: ' + error.message, 'error');
+        }
+    }
+    
+    /**
+     * 切换暂停/继续跟踪
+     */
+    async togglePause() {
+        if (this.isPaused) {
+            // 当前是暂停状态，点击后继续跟踪
+            await this.resumeFollowing();
+        } else {
+            // 当前是跟踪状态，点击后暂停跟踪
+            await this.pauseFollowing();
+        }
+    }
+    
+    /**
+     * 继续跟踪（从暂停点）
+     */
+    async resumeFollowing() {
+        console.log('▶️ 继续跟踪waypoints...');
+        
+        try {
+            if (!this.isPaused) {
+                this.showNotification('当前未在暂停状态', 'warning');
+                return;
+            }
+            
+            if (this.pausedWaypointIndex <= 0) {
+                this.showNotification('无效的暂停点索引', 'error');
+                return;
+            }
+            
+            // 设置路径文件路径（确保文件已加载）
+            await this.callService('/set_waypoints_file_path', {
+                file_path: this.selectedWaypointFile
+            });
+            
+            // 从暂停点继续跟踪
+            await this.callService('/resume_following', {
+                waypoint_index: this.pausedWaypointIndex
+            });
+            
+            this.isFollowing = true;
+            this.isPaused = false;
+            const resumeIndex = this.pausedWaypointIndex;
+            this.pausedWaypointIndex = 0;
+            
+            this.updateFollowingUI();
+            this.showNotification(`继续跟踪，从第${resumeIndex}个waypoint开始`, 'success');
+            
+            // 发布自动导航目标点到状态机
+            this.publishNavigationGoal();
+            
+            // 通知机器人控制器开始waypoint跟踪
+            if (window.robotController) {
+                window.robotController.setWaypointFollowing(true);
+            }
+            
+            console.log(`✅ 跟踪已继续，从第${resumeIndex}个waypoint开始`);
+        } catch (error) {
+            console.error('❌ 继续跟踪失败:', error);
+            this.showNotification('继续跟踪失败: ' + error.message, 'error');
+        }
+    }
+    
+    /**
+     * 暂停跟踪
+     */
+    async pauseFollowing() {
+        console.log('⏸️ 暂停跟踪waypoints...');
+        
+        try {
+            if (!this.isFollowing) {
+                this.showNotification('当前未在跟踪中', 'warning');
+                return;
+            }
+            
+            // 调用ROS2服务暂停跟踪，并获取当前waypoint索引
+            const result = await this.callService('/pause_following');
+            
+            // 获取当前waypoint索引（从服务返回）
+            const waypointIndex = result?.waypoint_index || 0;
+            this.pausedWaypointIndex = waypointIndex;
+            
+            this.isFollowing = false;
+            this.isPaused = true;
+            this.updateFollowingUI();
+            this.showNotification(`已暂停跟踪，当前到达第${this.pausedWaypointIndex}个waypoint`, 'success');
+            
+            // 通知机器人控制器停止waypoint跟踪
+            if (window.robotController) {
+                window.robotController.setWaypointFollowing(false);
+            }
+            
+            console.log(`✅ 跟踪已暂停，暂停点索引: ${this.pausedWaypointIndex}`);
+        } catch (error) {
+            console.error('❌ 暂停跟踪失败:', error);
+            this.showNotification('暂停跟踪失败: ' + error.message, 'error');
+        }
+    }
+    
+    publishNavigationGoal() {
+        if (window.ros2Bridge && window.ros2Bridge.isConnected()) {
+            // 发布一个默认的导航目标点（可以根据实际需要修改）
+            const goalMsg = {
+                pose: {
+                    position: {
+                        x: 1.0,
+                        y: 0.0,
+                        z: 0.0
+                    },
+                    orientation: {
+                        x: 0.0,
+                        y: 0.0,
+                        z: 0.0,
+                        w: 1.0
+                    }
+                }
+            };
+            console.log('🔍 准备发送导航目标点:', goalMsg);
+            const success = window.ros2Bridge.publish('/goal_pose', goalMsg);
+            console.log('📤 已发送自动导航目标点到状态机, 结果:', success);
+        } else {
+            console.warn('⚠️ ROS2桥接未连接，无法发送导航目标点');
         }
     }
     
@@ -364,14 +594,64 @@ class WaypointSystem {
             // 调用ROS2服务
             await this.callService('/stop_following');
             
+            // 清除所有跟踪状态，确保下次从头开始
             this.isFollowing = false;
-            this.updateFollowingUI();
-            this.showNotification('已停止跟踪waypoints', 'success');
+            this.isPaused = false;  // 停止时清除暂停状态
+            this.pausedWaypointIndex = 0;  // 重置暂停点索引
             
-            console.log('✅ 跟踪已停止');
+            // 更新UI
+            this.updateFollowingUI();
+            this.showNotification('已停止跟踪waypoints，状态已清零', 'success');
+            
+            // 通知机器人控制器停止waypoint跟踪
+            if (window.robotController) {
+                window.robotController.setWaypointFollowing(false);
+            }
+            
+            console.log('✅ 跟踪已停止，所有状态已清零，下次将从第一个点开始');
         } catch (error) {
             console.error('❌ 停止跟踪失败:', error);
             this.showNotification('停止跟踪失败: ' + error.message, 'error');
+        }
+    }
+    
+    /**
+     * Waypoint跟踪完成回调
+     */
+    onWaypointCompleted() {
+        console.log('✅ Waypoint跟踪已完成');
+        
+        // 清空所有跟踪状态，确保下次从头开始
+        this.isFollowing = false;
+        this.isPaused = false;
+        this.pausedWaypointIndex = 0;
+        
+        this.updateFollowingUI();
+        this.showNotification('Waypoint跟踪已完成', 'success');
+        
+        // 通知机器人控制器停止waypoint跟踪
+        if (window.robotController) {
+            window.robotController.setWaypointFollowing(false);
+        }
+        
+        // 确保状态机切换到空闲状态（通过WebSocket发送空的目标点或等待状态机自动切换）
+        // 状态机已经通过waypoint_status话题接收到了完成消息，会自动切换
+        
+        console.log('✅ 已清空所有跟踪状态，下次将从第一个点开始');
+    }
+    
+    /**
+     * Waypoint跟踪停止回调
+     */
+    onWaypointStopped() {
+        console.log('⏹️ Waypoint跟踪已停止');
+        this.isFollowing = false;
+        this.updateFollowingUI();
+        this.showNotification('Waypoint跟踪已停止', 'info');
+        
+        // 通知机器人控制器停止waypoint跟踪
+        if (window.robotController) {
+            window.robotController.setWaypointFollowing(false);
         }
     }
     
@@ -383,11 +663,11 @@ class WaypointSystem {
         
         try {
             if (!this.selectedWaypointFile) {
-                this.showNotification('请选择waypoint文件', 'warning');
+                this.showNotification('请选择路径文件', 'warning');
             return;
         }
         
-            // 设置waypoint文件路径
+            // 设置路径文件路径
             await this.callService('/set_waypoints_file_path', {
                 file_path: this.selectedWaypointFile
             });
@@ -413,7 +693,7 @@ class WaypointSystem {
             return;
         }
         
-            if (!confirm('确定要删除选中的waypoint文件吗？')) {
+            if (!confirm('确定要删除选中的路径文件吗？')) {
                 return;
             }
             
@@ -428,10 +708,10 @@ class WaypointSystem {
     }
     
     /**
-     * 刷新waypoint文件列表
+     * 刷新路径文件列表
      */
     async refreshWaypointFiles() {
-        console.log('🔄 刷新waypoint文件列表...');
+        console.log('🔄 刷新路径文件列表...');
         
         try {
             await this.loadWaypointFiles();
@@ -483,10 +763,10 @@ class WaypointSystem {
     }
     
     /**
-     * 加载waypoint文件列表
+     * 加载路径文件列表
      */
     async loadWaypointFiles() {
-        console.log('📂 加载waypoint文件列表...');
+        console.log('📂 加载路径文件列表...');
         
         try {
             const response = await fetch('http://localhost:8081/waypoint_files');
@@ -504,7 +784,7 @@ class WaypointSystem {
             
             const fileSelect = document.getElementById('waypointFileSelect');
             if (fileSelect) {
-                fileSelect.innerHTML = '<option value="">请选择waypoints文件...</option>';
+                fileSelect.innerHTML = '<option value="">请选择路径文件...</option>';
                 
                 if (Array.isArray(files)) {
                     files.forEach(file => {
@@ -518,9 +798,9 @@ class WaypointSystem {
                 }
             }
             
-            console.log(`✅ 加载了 ${files.length} 个waypoint文件`);
+            console.log(`✅ 加载了 ${files.length} 个路径文件`);
         } catch (error) {
-            console.error('❌ 加载waypoint文件列表失败:', error);
+            console.error('❌ 加载路径文件列表失败:', error);
         }
     }
     
@@ -549,14 +829,44 @@ class WaypointSystem {
      */
     updateFollowingUI() {
         const startBtn = document.getElementById('startWaypointFollowingBtn');
+        const pauseBtn = document.getElementById('pauseWaypointFollowingBtn');
         const stopBtn = document.getElementById('stopWaypointFollowingBtn');
         const status = document.getElementById('waypointFollowingStatus');
         
-        if (startBtn) startBtn.disabled = this.isFollowing;
-        if (stopBtn) stopBtn.disabled = !this.isFollowing;
+        // 更新按钮状态
+        if (startBtn) {
+            const isEmergencyStop = this.isEmergencyStopActive();
+            startBtn.disabled = isEmergencyStop || this.isFollowing || this.isPaused;
+        }
+        
+        if (pauseBtn) {
+            pauseBtn.disabled = !this.isFollowing && !this.isPaused;
+            // 更新按钮文本和图标
+            if (this.isPaused) {
+                pauseBtn.innerHTML = '<i class="fas fa-play"></i> 继续跟踪';
+                pauseBtn.className = 'waypoint-btn pause continue';
+            } else {
+                pauseBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停跟踪';
+                pauseBtn.className = 'waypoint-btn pause';
+            }
+        }
+        
+        if (stopBtn) {
+            stopBtn.disabled = !this.isFollowing && !this.isPaused;
+        }
+        
+        // 更新状态显示
         if (status) {
-            status.textContent = this.isFollowing ? '跟踪中' : '未跟踪';
-            status.style.color = this.isFollowing ? '#3498db' : '#666';
+            if (this.isPaused) {
+                status.textContent = `已暂停 (第${this.pausedWaypointIndex}个waypoint)`;
+                status.style.color = '#f39c12';
+            } else if (this.isFollowing) {
+                status.textContent = '跟踪中';
+                status.style.color = '#3498db';
+            } else {
+                status.textContent = '未跟踪';
+                status.style.color = '#666';
+            }
         }
     }
     
@@ -566,7 +876,8 @@ class WaypointSystem {
     updateFollowingButtonStates() {
         const startBtn = document.getElementById('startWaypointFollowingBtn');
         if (startBtn) {
-            startBtn.disabled = !this.selectedWaypointFile || this.isFollowing;
+            const isEmergencyStop = this.isEmergencyStopActive();
+            startBtn.disabled = isEmergencyStop || !this.selectedWaypointFile || this.isFollowing || this.isPaused;
         }
     }
     
@@ -635,8 +946,46 @@ class WaypointSystem {
     showNotification(message, type = 'info') {
         console.log(`📢 ${type.toUpperCase()}: ${message}`);
         
-        // 这里可以实现更复杂的通知系统
-        // 目前只是简单的console输出
+        // 创建通知元素
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        // 添加样式
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        `;
+        
+        // 设置背景颜色
+        const colors = {
+            success: '#27ae60',
+            error: '#e74c3c',
+            info: '#3498db',
+            warning: '#f39c12'
+        };
+        notification.style.backgroundColor = colors[type] || colors.info;
+        
+        // 添加到页面
+        document.body.appendChild(notification);
+        
+        // 自动移除
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-in';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
     }
 }
 

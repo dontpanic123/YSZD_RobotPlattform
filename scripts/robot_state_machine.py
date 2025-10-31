@@ -46,6 +46,11 @@ class RobotStateMachine(Node):
         self.apriltag_timeout = self.get_parameter('apriltag_timeout').value
         self.last_apriltag_time = 0.0
         
+        # 手动控制保持时间设置
+        self.declare_parameter('manual_control_hold_time', 1.5)  # 默认1.5秒保持时间
+        self.manual_control_hold_time = self.get_parameter('manual_control_hold_time').value
+        self.manual_control_start_time = 0.0
+        
         # 创建发布者
         self.state_pub = self.create_publisher(String, '/robot_state', 10)
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
@@ -63,6 +68,9 @@ class RobotStateMachine(Node):
         )
         self.emergency_stop_sub = self.create_subscription(
             Bool, '/emergency_stop', self.emergency_stop_callback, 10
+        )
+        self.waypoint_status_sub = self.create_subscription(
+            String, '/waypoint_following_status', self.waypoint_status_callback, 10
         )
         self.charging_sub = self.create_subscription(
             Bool, '/charging_status', self.charging_callback, 10
@@ -90,6 +98,7 @@ class RobotStateMachine(Node):
         self.get_logger().info('🤖 机器人状态机节点已启动')
         self.get_logger().info(f'📊 当前状态: {self.current_state.value}')
         self.get_logger().info(f'⏰ AprilTag跟踪超时: {self.apriltag_timeout}秒')
+        self.get_logger().info(f'🎮 手动控制保持时间: {self.manual_control_hold_time}秒')
         
     def manual_control_callback(self, msg):
         """手动控制回调"""
@@ -99,6 +108,11 @@ class RobotStateMachine(Node):
                        abs(msg.angular.y) > 0.001 or abs(msg.angular.z) > 0.001)
         
         if has_velocity:
+            # 如果当前是空闲状态且收到运动指令，记录开始时间
+            if self.current_state == RobotState.IDLE and not self.manual_control_active:
+                self.manual_control_start_time = time.time()
+                self.get_logger().info(f'🎮 收到运动指令，开始手动控制保持 {self.manual_control_hold_time} 秒')
+            
             self.manual_control_active = True
             self.manual_control_time = time.time()
         else:
@@ -120,11 +134,33 @@ class RobotStateMachine(Node):
         self.last_apriltag_time = time.time()  # 记录最后收到AprilTag的时间
         self.get_logger().debug(f'🏷️ 收到AprilTag位姿: ({msg.pose.position.x:.2f}, {msg.pose.position.y:.2f})')
     
+    def waypoint_status_callback(self, msg):
+        """Waypoint状态回调"""
+        status = msg.data
+        if status == 'completed':
+            self.get_logger().info('✅ Waypoint跟踪已完成，切换到空闲状态')
+            self.auto_navigation_active = False
+        elif status == 'stopped':
+            self.get_logger().info('⏹️ Waypoint跟踪已停止，切换到空闲状态')
+            self.auto_navigation_active = False
+    
     def emergency_stop_callback(self, msg):
         """紧急停止回调"""
+        previous_state = self.emergency_stop_active
         self.emergency_stop_active = msg.data
-        if self.emergency_stop_active:
+        
+        # 只在状态变化时记录日志，避免重复日志
+        if self.emergency_stop_active and not previous_state:
             self.get_logger().warn('🚨 紧急停止激活!')
+            # 紧急停止时重置导航状态
+            self.auto_navigation_active = False
+            self.apriltag_tracking_active = False
+        elif not self.emergency_stop_active and previous_state:
+            self.get_logger().info('✅ 紧急停止已解除，重置所有状态')
+            # 解除紧急停止时重置所有活动状态，确保回到空闲状态
+            self.auto_navigation_active = False
+            self.manual_control_active = False
+            self.apriltag_tracking_active = False
     
     def charging_callback(self, msg):
         """充电状态回调"""
@@ -170,6 +206,15 @@ class RobotStateMachine(Node):
                 return RobotState.APRILTAG_TRACKING
         
         elif self.current_state == RobotState.MANUAL_CONTROL:
+            # 检查手动控制保持时间
+            if self.manual_control_start_time > 0:
+                elapsed_time = time.time() - self.manual_control_start_time
+                if elapsed_time >= self.manual_control_hold_time:
+                    self.get_logger().info(f'⏰ 手动控制保持时间到达 ({self.manual_control_hold_time}秒)，返回空闲状态')
+                    self.manual_control_active = False
+                    self.manual_control_start_time = 0.0
+                    return RobotState.IDLE
+            
             if not self.manual_control_active:
                 return RobotState.IDLE
         

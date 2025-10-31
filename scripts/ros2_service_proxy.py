@@ -26,6 +26,8 @@ class ROS2ServiceProxy(Node):
         self.save_waypoints_client = self.create_client(Empty, '/save_waypoints')
         self.start_following_client = self.create_client(Empty, '/start_following')
         self.stop_following_client = self.create_client(Empty, '/stop_following')
+        self.pause_following_client = self.create_client(Empty, '/pause_following')
+        self.resume_following_client = self.create_client(Empty, '/resume_following')
         self.set_waypoints_file_client = self.create_client(Empty, '/set_waypoints_file')
         
         # 等待服务可用
@@ -43,6 +45,8 @@ class ROS2ServiceProxy(Node):
             (self.save_waypoints_client, '/save_waypoints'),
             (self.start_following_client, '/start_following'),
             (self.stop_following_client, '/stop_following'),
+            (self.pause_following_client, '/pause_following'),
+            (self.resume_following_client, '/resume_following'),
             (self.set_waypoints_file_client, '/set_waypoints_file')
         ]
         
@@ -89,6 +93,25 @@ class ROS2ServiceProxy(Node):
                 future = self.start_following_client.call_async(Empty.Request())
             elif service_name == '/stop_following':
                 future = self.stop_following_client.call_async(Empty.Request())
+            elif service_name == '/pause_following':
+                future = self.pause_following_client.call_async(Empty.Request())
+            elif service_name == '/resume_following':
+                # 处理waypoint_index参数
+                if args and 'waypoint_index' in args:
+                    waypoint_index = args['waypoint_index']
+                    self.get_logger().info(f'从第{waypoint_index}个waypoint继续跟踪')
+                    # 通过参数客户端设置参数
+                    param_client = self.create_client(SetParameters, '/simple_waypoint_follower/set_parameters')
+                    if param_client.wait_for_service(timeout_sec=2.0):
+                        param_request = SetParameters.Request()
+                        param_request.parameters = [Parameter(name='resume_waypoint_index', value=int(waypoint_index)).to_parameter_msg()]
+                        param_future = param_client.call_async(param_request)
+                        rclpy.spin_until_future_complete(self, param_future, timeout_sec=2.0)
+                        if param_future.done():
+                            self.get_logger().info('参数设置成功')
+                        else:
+                            self.get_logger().warn('参数设置超时')
+                future = self.resume_following_client.call_async(Empty.Request())
             elif service_name == '/set_waypoints_file_path':
                 # 处理waypoints文件路径参数
                 if args and 'file_path' in args:
@@ -121,6 +144,25 @@ class ROS2ServiceProxy(Node):
             
             if future.done():
                 result = future.result()
+                # 如果是暂停服务，需要获取暂停时的waypoint索引
+                if service_name == '/pause_following':
+                    # 通过参数客户端获取paused_waypoint_index参数
+                    try:
+                        from rcl_interfaces.srv import GetParameters
+                        get_param_client = self.create_client(GetParameters, '/simple_waypoint_follower/get_parameters')
+                        if get_param_client.wait_for_service(timeout_sec=2.0):
+                            get_param_request = GetParameters.Request()
+                            get_param_request.names = ['paused_waypoint_index']
+                            get_param_future = get_param_client.call_async(get_param_request)
+                            rclpy.spin_until_future_complete(self, get_param_future, timeout_sec=2.0)
+                            if get_param_future.done():
+                                param_result = get_param_future.result()
+                                if param_result.values:
+                                    waypoint_index = param_result.values[0].integer_value
+                                    return {'success': True, 'result': str(result), 'waypoint_index': waypoint_index}
+                    except Exception as e:
+                        self.get_logger().warn(f'获取waypoint索引失败: {e}')
+                
                 return {'success': True, 'result': str(result)}
             else:
                 return {'error': '服务调用超时'}

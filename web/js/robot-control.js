@@ -16,6 +16,7 @@ class RobotController {
         this.waypointFollowing = false;  // 是否正在执行waypoint跟踪
         this.manualControlEnabled = true;  // 手动控制是否启用
         this.controlLocked = false;  // 控制锁定状态
+        this.emergencyStopActive = false;  // 紧急停止状态
         
         this.init();
     }
@@ -118,17 +119,167 @@ class RobotController {
                 this.emergencyStop();
             });
         }
+        
+        // 设置复位按钮
+        const resetBtn = document.getElementById('resetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                this.resetSystem();
+            });
+        }
     }
     
     emergencyStop() {
+        // 防止重复发送紧急停止消息
+        if (this.emergencyStopActive) {
+            console.log('⚠️ 紧急停止已经激活，跳过重复发送');
+            return;
+        }
+        
         console.log('🚨 紧急停止！');
+        
+        // 激活紧急停止状态（防止重复发送）
+        this.emergencyStopActive = true;
+        
+        // 锁定所有控制输入
+        this.controlLocked = true;
+        
+        // 立即停止所有运动
         this.forceStop();
+        
+        // 停止waypoint跟踪（如果正在进行）
+        this.stopWaypointFollowing();
+        
+        // 显示紧急停止通知（提示需要复位）
         this.showEmergencyStopNotification();
+        
+        // 发布紧急停止消息到状态机（仅发送一次）
+        if (window.ros2Bridge && window.ros2Bridge.isConnected()) {
+            const emergencyMsg = {
+                active: true  // 使用active字段，而不是data
+            };
+            console.log('🔍 准备发送紧急停止消息（一次性）:', emergencyMsg);
+            const success = window.ros2Bridge.publish('/emergency_stop', emergencyMsg);
+            console.log('📤 已发送紧急停止信号到状态机（一次性）, 结果:', success);
+            
+            // 注意：不再自动解除紧急停止，需要用户手动按复位按钮
+            console.log('ℹ️ 请按复位按钮恢复系统');
+        }
+    }
+    
+    clearEmergencyStop() {
+        console.log('✅ 解除紧急停止');
+        
+        // 发布解除紧急停止消息到状态机
+        if (window.ros2Bridge && window.ros2Bridge.isConnected()) {
+            const emergencyMsg = {
+                active: false  // 使用active字段，而不是data
+            };
+            console.log('🔍 准备发送解除紧急停止消息:', emergencyMsg);
+            const success = window.ros2Bridge.publish('/emergency_stop', emergencyMsg);
+            console.log('📤 已发送解除紧急停止信号到状态机, 结果:', success);
+            return success;
+        } else {
+            console.error('❌ ROS2桥接未连接，无法发送解除紧急停止消息');
+            return false;
+        }
+    }
+    
+    /**
+     * 复位系统 - 取消紧急停止状态，恢复空闲
+     */
+    resetSystem() {
+        console.log('🔄 系统复位中...');
+        
+        // 解除紧急停止状态
+        this.emergencyStopActive = false;
+        
+        // 解锁控制输入
+        this.controlLocked = false;
+        
+        // 移除紧急停止通知
+        this.removeEmergencyStopNotification();
+        
+        // 发布解除紧急停止消息到状态机
+        const clearSuccess = this.clearEmergencyStop();
+        if (!clearSuccess) {
+            console.error('❌ 发布解除紧急停止消息失败');
+        }
+        
+        // 确保机器人停止
+        this.forceStop();
+        
+        // 清除所有按键状态
+        this.currentKeys.clear();
+        this.isMoving = false;
+        
+        // 更新速度显示
+        this.updateSpeedDisplay();
+        
+        // 显示复位通知
+        this.showResetNotification();
+        
+        // 更新复位按钮状态（如果需要）
+        this.updateResetButtonState();
+        
+        // 等待一小段时间后检查状态是否已更新
+        setTimeout(() => {
+            console.log('📊 复位后状态检查:');
+            console.log('  - emergencyStopActive:', this.emergencyStopActive);
+            console.log('  - controlLocked:', this.controlLocked);
+            console.log('  - 等待状态机更新状态...');
+        }, 500);
+        
+        console.log('✅ 系统复位完成，控制已解锁，可以开始导航');
+    }
+    
+    /**
+     * 显示复位通知
+     */
+    showResetNotification() {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        `;
+        notification.innerHTML = '✅ 系统已复位，恢复空闲状态';
+        document.body.appendChild(notification);
+        
+        // 3秒后移除通知
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+    
+    /**
+     * 更新复位按钮状态
+     */
+    updateResetButtonState() {
+        const resetBtn = document.getElementById('resetBtn');
+        if (resetBtn) {
+            // 可以根据需要禁用/启用复位按钮
+            // 例如：只有在紧急停止状态下才允许复位
+        }
     }
     
     showEmergencyStopNotification() {
-        // 创建紧急停止通知
+        // 创建紧急停止通知（持续显示，直到复位）
+        // 先移除之前的通知（如果有）
+        const existingNotification = document.getElementById('emergencyStopNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
         const notification = document.createElement('div');
+        notification.id = 'emergencyStopNotification';
         notification.style.cssText = `
             position: fixed;
             top: 20px;
@@ -140,14 +291,18 @@ class RobotController {
             font-weight: 600;
             z-index: 10000;
             animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
         `;
-        notification.innerHTML = '🚨 紧急停止已激活';
+        notification.innerHTML = '🚨 紧急停止已激活<br><small style="opacity: 0.9;">请按复位按钮恢复系统</small>';
         document.body.appendChild(notification);
-        
-        // 3秒后移除通知
-        setTimeout(() => {
+    }
+    
+    removeEmergencyStopNotification() {
+        // 移除紧急停止通知
+        const notification = document.getElementById('emergencyStopNotification');
+        if (notification) {
             notification.remove();
-        }, 3000);
+        }
     }
     
     highlightKeyboardButton(key) {
@@ -394,6 +549,12 @@ class RobotController {
             return;
         }
         
+        // 检查紧急停止状态 - 紧急停止时禁止所有控制输入
+        if (this.emergencyStopActive) {
+            console.log('🚨 紧急停止状态，禁止控制输入。请按复位按钮恢复系统');
+            return;
+        }
+        
         // 检查控制锁定状态
         if (this.controlLocked) {
             console.log('🔒 控制已锁定，跳过命令发送');
@@ -444,13 +605,11 @@ class RobotController {
             return;
         }
         
-        // 检查控制锁定状态
-        if (this.controlLocked) {
-            return;
-        }
+        // 检查紧急停止状态 - 紧急停止时仍可发送停止命令（确保停止）
+        // 但不检查锁定状态，因为紧急停止需要强制停止
         
         // 如果正在执行waypoint跟踪，不发送停止命令
-        if (this.waypointFollowing) {
+        if (this.waypointFollowing && !this.emergencyStopActive) {
             return;
         }
         
@@ -475,6 +634,11 @@ class RobotController {
     sendZeroCommand() {
         if (!window.ros2Bridge || !window.ros2Bridge.isConnected()) {
             console.warn('⚠️ ROS2桥接未连接，无法发送归零命令');
+            return;
+        }
+        
+        // 紧急停止时不需要发送归零命令（已经强制停止了）
+        if (this.emergencyStopActive) {
             return;
         }
         
@@ -597,19 +761,25 @@ class RobotController {
     
     // 停止waypoint跟踪
     stopWaypointFollowing() {
-        console.log('🛑 手动控制请求停止waypoint跟踪');
+        console.log('🛑 请求停止waypoint跟踪');
         this.waypointFollowing = false;
         
         // 调用waypoint系统的停止方法
-        if (window.waypointSystem && typeof window.waypointSystem.stopFollowingExternal === 'function') {
+        if (window.waypointSystem) {
             try {
-                window.waypointSystem.stopFollowingExternal();
-                console.log('✅ 已通知waypoint系统停止跟踪');
+                // 如果waypoint系统正在跟踪，调用停止方法
+                if (window.waypointSystem.isFollowing) {
+                    console.log('🛑 紧急停止：正在停止waypoint跟踪...');
+                    window.waypointSystem.stopFollowing();
+                    console.log('✅ 已通知waypoint系统停止跟踪');
+                } else {
+                    console.log('ℹ️ Waypoint系统未在跟踪状态，跳过停止操作');
+                }
             } catch (error) {
                 console.error('❌ 停止waypoint跟踪时出错:', error);
             }
         } else {
-            console.warn('⚠️ WaypointSystem未正确初始化或stopFollowingExternal方法不存在');
+            console.warn('⚠️ WaypointSystem未正确初始化');
         }
     }
     

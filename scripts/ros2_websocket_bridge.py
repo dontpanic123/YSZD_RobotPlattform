@@ -11,7 +11,7 @@ import time
 from sensor_msgs.msg import Image, CameraInfo
 from geometry_msgs.msg import Twist, PoseStamped
 from nav_msgs.msg import Odometry
-from std_msgs.msg import String
+from std_msgs.msg import String, Bool
 from cv_bridge import CvBridge
 import cv2
 import base64
@@ -33,7 +33,9 @@ class ROS2WebSocketBridge(Node):
         
         # ROS2发布者和订阅者
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.manual_cmd_vel_pub = self.create_publisher(Twist, '/manual_cmd_vel', 10)
         self.goal_pose_pub = self.create_publisher(PoseStamped, '/goal_pose', 10)
+        self.emergency_stop_pub = self.create_publisher(Bool, '/emergency_stop', 10)
         
         # 订阅话题
         self.image_sub = self.create_subscription(
@@ -53,6 +55,9 @@ class ROS2WebSocketBridge(Node):
         )
         self.robot_state_sub = self.create_subscription(
             String, '/robot_state', self.robot_state_callback, 10
+        )
+        self.waypoint_status_sub = self.create_subscription(
+            String, '/waypoint_following_status', self.waypoint_status_callback, 10
         )
         
         # OpenCV桥接
@@ -134,6 +139,7 @@ class ROS2WebSocketBridge(Node):
                     self.manual_control_active = True
                     self.last_manual_control_time = time.time()
                     self.cmd_vel_pub.publish(twist)
+                    self.manual_cmd_vel_pub.publish(twist)  # 同时发布到手动控制话题
                     self.get_logger().debug(f'发布速度命令: {twist}')
                 else:
                     # 零速度命令，检查是否应该发送归零命令
@@ -142,6 +148,7 @@ class ROS2WebSocketBridge(Node):
                         current_time - self.last_manual_control_time < self.manual_control_timeout):
                         # 在超时时间内，发送归零命令防止漂移
                         self.cmd_vel_pub.publish(twist)
+                        self.manual_cmd_vel_pub.publish(twist)  # 同时发布到手动控制话题
                         self.get_logger().debug(f'发送归零命令防止漂移: {twist}')
                     else:
                         # 超时或未激活手动控制，不发送任何命令
@@ -160,6 +167,21 @@ class ROS2WebSocketBridge(Node):
                 
                 self.goal_pose_pub.publish(pose)
                 self.get_logger().info(f'设置目标点: ({pose.pose.position.x}, {pose.pose.position.y}, {pose.pose.position.z})')
+                
+            elif msg_type == 'emergency_stop':
+                # 处理紧急停止
+                emergency_msg = Bool()
+                # 正确处理active字段，当active为False时不能使用默认值True
+                active = data.get('active')
+                if active is None:
+                    # 如果没有active字段，检查data字段（向后兼容）
+                    active = data.get('data', True)
+                emergency_msg.data = bool(active)
+                self.emergency_stop_pub.publish(emergency_msg)
+                if emergency_msg.data:
+                    self.get_logger().warn(f'🚨 紧急停止激活: {emergency_msg.data}')
+                else:
+                    self.get_logger().info(f'✅ 紧急停止解除: {emergency_msg.data}')
                 
             elif msg_type == 'ping':
                 # 响应ping消息
@@ -330,6 +352,20 @@ class ROS2WebSocketBridge(Node):
             
         except Exception as e:
             self.get_logger().error(f'处理机器人状态时出错: {e}')
+    
+    def waypoint_status_callback(self, msg):
+        """处理Waypoint状态"""
+        try:
+            data = {
+                'type': 'waypoint_status',
+                'status': msg.data
+            }
+            
+            self.broadcast_to_clients(data)
+            self.get_logger().info(f'📤 已转发waypoint状态到前端: {msg.data}')
+            
+        except Exception as e:
+            self.get_logger().error(f'处理Waypoint状态时出错: {e}')
     
     def broadcast_to_clients(self, data):
         """向所有客户端广播数据"""

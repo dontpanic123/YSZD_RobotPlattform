@@ -116,6 +116,7 @@
 
 **特征**：
 - ✅ 响应手动控制命令
+- ✅ 保持1.5秒后自动返回空闲
 - ✅ 2秒无命令自动返回空闲
 - ✅ 实时响应控制输入
 
@@ -223,7 +224,7 @@
 
 | 当前状态 | 返回条件 | 超时时间 |
 |---------|----------|----------|
-| MANUAL_CONTROL | 无控制命令 | 2秒 |
+| MANUAL_CONTROL | 无控制命令 | 1.5秒保持 + 2秒超时 |
 | AUTO_NAVIGATION | 导航完成 | 无限制 |
 | APRILTAG_TRACKING | 失去AprilTag | 60秒超时 |
 | EMERGENCY_STOP | 解除紧急停止 | 手动 |
@@ -367,6 +368,15 @@ ros2 param set /robot_state_machine apriltag_timeout 30.0
 ros2 param get /robot_state_machine apriltag_timeout
 ```
 
+#### 配置手动控制保持时间
+```bash
+# 设置手动控制保持时间为2秒
+ros2 param set /robot_state_machine manual_control_hold_time 2.0
+
+# 查看当前参数
+ros2 param get /robot_state_machine manual_control_hold_time
+```
+
 ---
 
 ## 故障排除
@@ -464,6 +474,7 @@ ros2 service call /force_state_change std_srvs/srv/SetString "{data: 'idle'}"
 | `state_timeout` | double | 30.0 | 状态超时时间（秒） |
 | `manual_control_timeout` | double | 2.0 | 手动控制超时时间（秒） |
 | `apriltag_timeout` | double | 60.0 | AprilTag跟踪超时时间（秒） |
+| `manual_control_hold_time` | double | 1.5 | 手动控制保持时间（秒） |
 | `enable_auto_navigation` | bool | true | 启用自动导航 |
 | `enable_apriltag_tracking` | bool | true | 启用AprilTag跟踪 |
 

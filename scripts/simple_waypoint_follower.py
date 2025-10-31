@@ -6,10 +6,11 @@
 
 import rclpy
 from rclpy.node import Node
+from rclpy.parameter import Parameter
 from geometry_msgs.msg import Twist, PoseStamped
 from nav_msgs.msg import Odometry
 from visualization_msgs.msg import MarkerArray, Marker
-from std_msgs.msg import ColorRGBA
+from std_msgs.msg import ColorRGBA, Bool, String, Int32
 import json
 import math
 import time
@@ -49,6 +50,7 @@ class SimpleWaypointFollower(Node):
         self.waypoints = []
         self.current_waypoint_index = 0
         self.is_following = False
+        self.is_paused = False  # 是否暂停
         self.current_pose = None
         self.shutdown_requested = False
         self.waypoint_start_time = None
@@ -58,9 +60,14 @@ class SimpleWaypointFollower(Node):
         self.angle_convergence_count = 0  # 角度收敛计数器
         self.min_angular_velocity = 0.05  # 最小角速度阈值
         
+        # 声明参数（用于接收waypoint_index）
+        self.declare_parameter('resume_waypoint_index', 0)
+        self.declare_parameter('paused_waypoint_index', 0)
+        
         # 创建发布器
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
         self.waypoint_markers_pub = self.create_publisher(MarkerArray, '/waypoint_markers', 10)
+        self.waypoint_status_pub = self.create_publisher(String, '/waypoint_following_status', 10)
         
         # 创建订阅器
         self.odom_sub = self.create_subscription(
@@ -69,10 +76,18 @@ class SimpleWaypointFollower(Node):
             self.odom_callback, 
             10
         )
+        self.emergency_stop_sub = self.create_subscription(
+            Bool,
+            '/emergency_stop',
+            self.emergency_stop_callback,
+            10
+        )
         
         # 创建服务
         self.create_service(Empty, 'start_following', self.start_following_callback)
         self.create_service(Empty, 'stop_following', self.stop_following_callback)
+        self.create_service(Empty, 'pause_following', self.pause_following_callback)
+        self.create_service(Empty, 'resume_following', self.resume_following_callback)
         self.create_service(Empty, 'set_waypoints_file', self.set_waypoints_file_callback)
         # 使用参数设置服务来接收文件路径
         self.create_service(Empty, 'set_waypoints_file_path', self.set_waypoints_file_path_callback)
@@ -113,28 +128,130 @@ class SimpleWaypointFollower(Node):
     def odom_callback(self, msg):
         """里程计回调"""
         self.current_pose = msg.pose.pose
+    
+    def emergency_stop_callback(self, msg):
+        """紧急停止回调"""
+        if msg.data:
+            # 收到紧急停止信号，立即停止waypoint跟踪
+            if self.is_following:
+                self.get_logger().warn('🚨 收到紧急停止信号，立即停止waypoint跟踪')
+                self.is_following = False
+                
+                # 发送停止命令
+                stop_cmd = Twist()
+                stop_cmd.linear.x = 0.0
+                stop_cmd.linear.y = 0.0
+                stop_cmd.linear.z = 0.0
+                stop_cmd.angular.x = 0.0
+                stop_cmd.angular.y = 0.0
+                stop_cmd.angular.z = 0.0
+                self.cmd_vel_pub.publish(stop_cmd)
+                
+                # 发布waypoint停止消息
+                status_msg = String()
+                status_msg.data = 'stopped'
+                self.waypoint_status_pub.publish(status_msg)
+                self.get_logger().info('已发布waypoint停止消息（紧急停止）')
         
     def start_following_callback(self, request, response):
         """开始跟踪服务"""
         if not self.waypoints:
             self.get_logger().warn('没有加载waypoints，无法开始跟踪')
             return response
-            
+        
+        # 检查是否是从暂停状态恢复（通过resume_waypoint_index参数）
+        resume_index = self.get_parameter('resume_waypoint_index').value
+        if resume_index > 0:
+            self.current_waypoint_index = resume_index
+            self.get_logger().info(f'从第{resume_index}个waypoint继续跟踪')
+            # 重置参数，避免下次误用
+            self.set_parameters([Parameter('resume_waypoint_index', Parameter.Type.INTEGER, 0)])
+        else:
+            # 确保从头开始（索引0，第一个点）
+            self.current_waypoint_index = 0
+            self.get_logger().info('从头开始跟踪waypoints（第0个waypoint）')
+        
         self.is_following = True
-        self.current_waypoint_index = 0
-        self.get_logger().info('开始跟踪waypoints')
+        self.is_paused = False
         # 更新可视化
         self.publish_waypoint_markers()
         return response
         
-    def stop_following_callback(self, request, response):
-        """停止跟踪服务"""
+    def pause_following_callback(self, request, response):
+        """暂停跟踪服务"""
+        if not self.is_following:
+            self.get_logger().warn('当前未在跟踪中，无法暂停')
+            return response
+        
+        # 记录当前waypoint索引
+        paused_index = self.current_waypoint_index
         self.is_following = False
-        self.get_logger().info('停止跟踪waypoints')
+        self.is_paused = True
         
         # 停止机器人
         cmd = Twist()
         self.cmd_vel_pub.publish(cmd)
+        
+        self.get_logger().info(f'暂停跟踪waypoints，当前到达第{paused_index}个waypoint')
+        
+        # 返回当前索引（通过服务响应的一个技巧，实际上Empty服务不支持返回值）
+        # 我们将通过其他方式返回索引，比如发布到状态话题或通过参数
+        # 由于Empty服务无法返回值，我们需要通过其他机制
+        # 这里我们使用参数存储，前端可以通过其他服务获取
+        self.set_parameters([Parameter('paused_waypoint_index', Parameter.Type.INTEGER, paused_index)])
+        
+        return response
+    
+    def resume_following_callback(self, request, response):
+        """继续跟踪服务"""
+        if not self.is_paused:
+            self.get_logger().warn('当前未在暂停状态，无法继续')
+            return response
+        
+        # 从参数获取要恢复的waypoint索引
+        resume_index = self.get_parameter('resume_waypoint_index').value
+        if resume_index > 0:
+            self.current_waypoint_index = resume_index
+        else:
+            # 如果没有设置resume_waypoint_index，使用paused_waypoint_index
+            paused_index = self.get_parameter('paused_waypoint_index').value
+            if paused_index > 0:
+                self.current_waypoint_index = paused_index
+        
+        self.is_following = True
+        self.is_paused = False
+        
+        self.get_logger().info(f'继续跟踪waypoints，从第{self.current_waypoint_index}个waypoint开始')
+        
+        # 更新可视化
+        self.publish_waypoint_markers()
+        
+        return response
+    
+    def stop_following_callback(self, request, response):
+        """停止跟踪服务"""
+        self.is_following = False
+        self.is_paused = False  # 停止时清除暂停状态
+        self.current_waypoint_index = 0  # 重置索引到0，从第一个点开始
+        
+        # 清除所有相关参数，确保下次从头开始
+        self.set_parameters([
+            Parameter('resume_waypoint_index', Parameter.Type.INTEGER, 0),
+            Parameter('paused_waypoint_index', Parameter.Type.INTEGER, 0)
+        ])
+        
+        self.get_logger().info('停止跟踪waypoints，已重置所有状态和索引')
+        
+        # 停止机器人
+        cmd = Twist()
+        self.cmd_vel_pub.publish(cmd)
+        
+        # 发布waypoint停止消息
+        status_msg = String()
+        status_msg.data = 'stopped'
+        self.waypoint_status_pub.publish(status_msg)
+        self.get_logger().info('已发布waypoint停止消息')
+        
         return response
         
     def set_waypoints_file_callback(self, request, response):
@@ -176,6 +293,15 @@ class SimpleWaypointFollower(Node):
         if self.current_waypoint_index >= len(self.waypoints):
             self.get_logger().info('所有waypoints已完成')
             self.is_following = False
+            self.is_paused = False  # 清除暂停状态
+            
+            # 重置waypoint索引和相关参数，确保下次从头开始
+            self.current_waypoint_index = 0
+            self.set_parameters([
+                Parameter('resume_waypoint_index', Parameter.Type.INTEGER, 0),
+                Parameter('paused_waypoint_index', Parameter.Type.INTEGER, 0)
+            ])
+            self.get_logger().info('已重置所有导航状态，下次将从第一个点开始')
             
             # 发送停止命令，确保速度和旋转都归零
             stop_cmd = Twist()
@@ -186,6 +312,12 @@ class SimpleWaypointFollower(Node):
             stop_cmd.angular.y = 0.0
             stop_cmd.angular.z = 0.0
             self.cmd_vel_pub.publish(stop_cmd)
+            
+            # 发布waypoint完成消息，通知状态机切换到空闲状态
+            status_msg = String()
+            status_msg.data = 'completed'
+            self.waypoint_status_pub.publish(status_msg)
+            self.get_logger().info('已发布waypoint完成消息，通知状态机切换回空闲状态')
             
             self.get_logger().info('机器人已停止，所有运动命令已归零')
             return
@@ -353,6 +485,15 @@ class SimpleWaypointFollower(Node):
             if self.current_waypoint_index >= len(self.waypoints):
                 self.get_logger().info('所有waypoints已完成，发送停止命令')
                 self.is_following = False
+                self.is_paused = False  # 清除暂停状态
+                
+                # 重置waypoint索引和相关参数，确保下次从头开始
+                self.current_waypoint_index = 0
+                self.set_parameters([
+                    Parameter('resume_waypoint_index', Parameter.Type.INTEGER, 0),
+                    Parameter('paused_waypoint_index', Parameter.Type.INTEGER, 0)
+                ])
+                self.get_logger().info('已重置所有导航状态，下次将从第一个点开始')
                 
                 # 发送停止命令
                 stop_cmd = Twist()
@@ -362,6 +503,13 @@ class SimpleWaypointFollower(Node):
                 stop_cmd.angular.x = 0.0
                 stop_cmd.angular.y = 0.0
                 stop_cmd.angular.z = 0.0
+                
+                # 发布waypoint完成消息，通知状态机切换到空闲状态
+                status_msg = String()
+                status_msg.data = 'completed'
+                self.waypoint_status_pub.publish(status_msg)
+                self.get_logger().info('已发布waypoint完成消息，通知状态机切换回空闲状态')
+                
                 return stop_cmd
         
         return cmd
@@ -412,6 +560,15 @@ class SimpleWaypointFollower(Node):
             if self.current_waypoint_index >= len(self.waypoints):
                 self.get_logger().info('所有waypoints已完成，发送停止命令')
                 self.is_following = False
+                self.is_paused = False  # 清除暂停状态
+                
+                # 重置waypoint索引和相关参数，确保下次从头开始
+                self.current_waypoint_index = 0
+                self.set_parameters([
+                    Parameter('resume_waypoint_index', Parameter.Type.INTEGER, 0),
+                    Parameter('paused_waypoint_index', Parameter.Type.INTEGER, 0)
+                ])
+                self.get_logger().info('已重置所有导航状态，下次将从第一个点开始')
                 
                 # 发送停止命令
                 stop_cmd = Twist()
@@ -421,6 +578,13 @@ class SimpleWaypointFollower(Node):
                 stop_cmd.angular.x = 0.0
                 stop_cmd.angular.y = 0.0
                 stop_cmd.angular.z = 0.0
+                
+                # 发布waypoint完成消息，通知状态机切换到空闲状态
+                status_msg = String()
+                status_msg.data = 'completed'
+                self.waypoint_status_pub.publish(status_msg)
+                self.get_logger().info('已发布waypoint完成消息，通知状态机切换回空闲状态')
+                
                 return stop_cmd
         
         return cmd

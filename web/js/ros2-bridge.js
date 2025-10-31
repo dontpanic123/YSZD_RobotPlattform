@@ -160,8 +160,14 @@ class ROS2Bridge {
                     case 'apriltag_status':
                         this.handleAprilTagStatus(message);
                         break;
+                    case 'robot_state':
+                        this.handleRobotState(message);
+                        break;
                     case 'odom':
                         this.handleOdometry(message);
+                        break;
+                    case 'waypoint_status':
+                        this.handleWaypointStatus(message);
                         break;
                     case 'pong':
                         console.log('🏓 收到pong响应');
@@ -283,6 +289,26 @@ class ROS2Bridge {
         }
     }
     
+    handleWaypointStatus(message) {
+        // 处理Waypoint状态消息
+        console.log('🎯 收到Waypoint状态消息:', message.status);
+        // 触发自定义事件，让waypoint-system.js监听
+        const event = new CustomEvent('waypoint_status', {
+            detail: {
+                status: message.status
+            }
+        });
+        document.dispatchEvent(event);
+        
+        // 如果存在回调，也调用它
+        if (this.callbacks['/waypoint_following_status']) {
+            const rosMessage = {
+                data: message.status || 'unknown'
+            };
+            this.callbacks['/waypoint_following_status'](rosMessage);
+        }
+    }
+    
     updateConnectionStatus(connected, message = '') {
         const statusElement = document.getElementById('connectionStatus');
         if (statusElement) {
@@ -367,6 +393,14 @@ class ROS2Bridge {
                     x: message.pose.position.x,
                     y: message.pose.position.y,
                     z: message.pose.position.z
+                };
+            } else if (topicName === '/emergency_stop') {
+                // 正确处理active字段，当active为false时不能使用||运算，因为它会被当作falsy值
+                const active = message.active !== undefined ? message.active : 
+                               (message.data !== undefined ? message.data : true);
+                wsMessage = {
+                    type: 'emergency_stop',
+                    active: active
                 };
             } else {
                 console.warn(`⚠️ 不支持的话题: ${topicName}`);

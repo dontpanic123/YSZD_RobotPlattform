@@ -39,7 +39,7 @@
                 <div id="control-tab" class="tab-panel active">
                     <!-- 两列布局 -->
                     <div class="two-column-layout">
-                        <!-- 左列：遥控控制和Waypoint导航 -->
+                        <!-- 左列：遥控控制和路径导航 -->
                         <div class="left-column">
                             <!-- 遥控控制 -->
                             <div class="control-panel">
@@ -116,10 +116,13 @@
                                         </div>
                                     </div>
 
-                                    <!-- 紧急停止 -->
+                                    <!-- 紧急停止和复位 -->
                                     <div class="emergency-controls">
                                         <button id="emergencyStopBtn" class="emergency-btn" title="紧急停止">
                                             <i class="fas fa-stop"></i> 紧急停止
+                                        </button>
+                                        <button id="resetBtn" class="reset-btn" title="复位">
+                                            <i class="fas fa-redo"></i> 复位
                                         </button>
                                     </div>
                                 </div>
@@ -128,9 +131,9 @@
 
 
 
-                <!-- Waypoint导航功能 -->
+                <!-- 路径导航功能 -->
                 <div class="panel-section">
-                    <h3><i class="fas fa-route"></i> Waypoint导航</h3>
+                    <h3><i class="fas fa-route"></i> 路径导航</h3>
                         
                         <!-- 录制控制区域 -->
                         <div class="waypoint-recording-controls">
@@ -146,7 +149,7 @@
                                     <i class="fas fa-stop"></i> 停止录制
                                 </button>
                                 <button id="saveWaypointsBtn" class="waypoint-btn save">
-                                    <i class="fas fa-save"></i> 保存Waypoints
+                                    <i class="fas fa-save"></i> 保存路径
                                 </button>
                             </div>
                             <div class="recording-status">
@@ -158,10 +161,10 @@
                         <!-- 跟踪控制区域 -->
                         <div class="waypoint-following-controls">
                             <div class="waypoint-file-selection">
-                                <label for="waypointFileSelect">选择Waypoints文件:</label>
+                                <label for="waypointFileSelect">选择路径文件:</label>
                                 <div class="file-selector-container">
                                     <select id="waypointFileSelect" class="waypoint-file-select">
-                                        <option value="">请选择waypoints文件...</option>
+                                        <option value="">请选择路径文件...</option>
                                     </select>
                                     <button id="refreshWaypointFilesBtn" class="refresh-btn" title="刷新文件列表">
                                         <i class="fas fa-sync-alt"></i>
@@ -171,6 +174,9 @@
                             <div class="following-controls">
                                 <button id="startWaypointFollowingBtn" class="waypoint-btn start" disabled>
                                     <i class="fas fa-play"></i> 开始跟踪
+                                </button>
+                                <button id="pauseWaypointFollowingBtn" class="waypoint-btn pause" disabled>
+                                    <i class="fas fa-pause"></i> 暂停跟踪
                                 </button>
                                 <button id="stopWaypointFollowingBtn" class="waypoint-btn stop" disabled>
                                     <i class="fas fa-stop"></i> 停止跟踪
@@ -182,15 +188,6 @@
                         </div>
 
 
-                        <!-- 路径管理 -->
-                        <div class="waypoint-actions">
-                            <button id="loadWaypointsBtn" class="action-btn load">
-                                <i class="fas fa-folder-open"></i> 加载路径
-                            </button>
-                            <button id="deleteWaypointsBtn" class="action-btn delete">
-                                <i class="fas fa-trash"></i> 删除路径
-                            </button>
-                        </div>
                     </div>
                 </div>
 
