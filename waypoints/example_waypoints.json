@@ -1,0 +1,101 @@
+{
+  "waypoints": [
+    {
+      "id": 0,
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "orientation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "timestamp": {
+        "sec": 1701234567,
+        "nanosec": 0
+      }
+    },
+    {
+      "id": 1,
+      "position": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "orientation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "timestamp": {
+        "sec": 1701234568,
+        "nanosec": 0
+      }
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "orientation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071067811865476,
+        "w": 0.7071067811865476
+      },
+      "timestamp": {
+        "sec": 1701234569,
+        "nanosec": 0
+      }
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "orientation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": 0.0
+      },
+      "timestamp": {
+        "sec": 1701234570,
+        "nanosec": 0
+      }
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "orientation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7071067811865476,
+        "w": 0.7071067811865476
+      },
+      "timestamp": {
+        "sec": 1701234571,
+        "nanosec": 0
+      }
+    }
+  ],
+  "metadata": {
+    "total_waypoints": 5,
+    "recording_duration": 4.0,
+    "distance_threshold": 0.5,
+    "angle_threshold": 0.2,
+    "created_at": "2024-12-01T14:30:22"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "waypoints": [
+    {
+      "id": 0,
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "orientation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "timestamp": {
+        "sec": 1762704355,
+        "nanosec": 285305530
+      }
+    }
+  ],
+  "metadata": {
+    "total_waypoints": 1,
+    "recording_duration": 4.343176364898682,
+    "distance_threshold": 0.5,
+    "angle_threshold": 0.2,
+    "created_at": "2025-11-09T17:06:00.747955"
+  }
+}

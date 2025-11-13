@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>状态显示调试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .connected { background-color: #d4edda; color: #155724; }
+        .disconnected { background-color: #f8d7da; color: #721c24; }
+        .log { background-color: #f8f9fa; padding: 10px; margin: 10px 0; border-radius: 5px; max-height: 300px; overflow-y: auto; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; }
+        .state-display { font-size: 24px; font-weight: bold; padding: 20px; border: 2px solid #ccc; border-radius: 10px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>机器人状态显示调试</h1>
+    
+    <div id="connectionStatus" class="status disconnected">连接状态: 检查中...</div>
+    <div id="stateDisplay" class="state-display">当前状态: --</div>
+    
+    <div>
+        <button id="testState">测试状态变化</button>
+        <button id="clearLogs">清空日志</button>
+    </div>
+    
+    <div id="logs" class="log"></div>
+
+    <script src="js/ros2-bridge.js?v=4"></script>
+    <script>
+        function log(message) {
+            const logs = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            logs.innerHTML += '<div>[' + timestamp + '] ' + message + '</div>';
+            logs.scrollTop = logs.scrollHeight;
+            console.log('[' + timestamp + '] ' + message);
+        }
+
+        function updateConnectionStatus(connected) {
+            const status = document.getElementById('connectionStatus');
+            if (connected) {
+                status.textContent = '连接状态: 已连接';
+                status.className = 'status connected';
+            } else {
+                status.textContent = '连接状态: 未连接';
+                status.className = 'status disconnected';
+            }
+        }
+
+        function updateStateDisplay(state) {
+            const stateDisplay = document.getElementById('stateDisplay');
+            const stateNames = {
+                'idle': '空闲',
+                'manual_control': '手动控制',
+                'auto_navigation': '自动导航',
+                'apriltag_tracking': 'AprilTag跟踪',
+                'emergency_stop': '紧急停止',
+                'charging': '充电中',
+                'error': '错误'
+            };
+            const displayName = stateNames[state] || state;
+            stateDisplay.textContent = '当前状态: ' + displayName;
+            stateDisplay.className = 'state-display state-indicator ' + state;
+        }
+
+        // 等待ROS2桥接初始化
+        function waitForBridge() {
+            if (window.ros2Bridge) {
+                log('✅ ROS2桥接已加载');
+                
+                // 监听连接状态
+                const checkConnection = () => {
+                    const connected = window.ros2Bridge.isConnected();
+                    updateConnectionStatus(connected);
+                    
+                    if (connected) {
+                        log('✅ WebSocket连接成功');
+                        setupStateSubscription();
+                    } else {
+                        log('❌ WebSocket未连接，1秒后重试...');
+                        setTimeout(checkConnection, 1000);
+                    }
+                };
+                
+                checkConnection();
+                
+                // 设置状态订阅
+                function setupStateSubscription() {
+                    log('📡 设置状态订阅...');
+                    window.ros2Bridge.subscribe('/robot_state', (message) => {
+                        log('📨 收到状态消息: ' + JSON.stringify(message));
+                        const state = message.data || message.state || 'unknown';
+                        updateStateDisplay(state);
+                    });
+                    log('✅ 状态订阅已设置');
+                }
+                
+                // 测试状态变化
+                document.getElementById('testState').addEventListener('click', () => {
+                    log('🧪 开始测试状态变化...');
+                    const states = ['idle', 'manual_control', 'auto_navigation', 'emergency_stop', 'idle'];
+                    let index = 0;
+                    
+                    const testInterval = setInterval(() => {
+                        if (index < states.length) {
+                            const state = states[index];
+                            log('📤 模拟状态变化: ' + state);
+                            updateStateDisplay(state);
+                            index++;
+                        } else {
+                            clearInterval(testInterval);
+                            log('🎉 状态测试完成');
+                        }
+                    }, 2000);
+                });
+                
+                // 清空日志
+                document.getElementById('clearLogs').addEventListener('click', () => {
+                    document.getElementById('logs').innerHTML = '';
+                });
+                
+            } else {
+                log('⏳ 等待ROS2桥接加载...');
+                setTimeout(waitForBridge, 100);
+            }
+        }
+
+        waitForBridge();
+    </script>
+</body>
+</html>
+
+
+
+
+
+

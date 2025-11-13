@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路线录制功能演示</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        .demo-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .demo-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+        .demo-header p {
+            margin: 1rem 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .demo-content {
+            padding: 2rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #3498db;
+            transition: transform 0.2s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card h3 {
+            color: #2c3e50;
+            margin: 0 0 1rem 0;
+            font-size: 1.3rem;
+        }
+        .feature-card ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        .feature-card li {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+        .demo-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .demo-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .demo-btn.primary {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+        }
+        .demo-btn.secondary {
+            background: linear-gradient(145deg, #27ae60, #229954);
+            color: white;
+        }
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .demo-screenshot {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .demo-screenshot img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .tech-stack {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .tech-stack h3 {
+            color: #2c3e50;
+            margin: 0 0 1rem 0;
+        }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .tech-item {
+            background: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1><i class="fas fa-route"></i> 路线录制功能演示</h1>
+            <p>机器人路径录制、重播和管理系统</p>
+        </div>
+        
+        <div class="demo-content">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3><i class="fas fa-robot"></i> 机器人控制</h3>
+                    <ul>
+                        <li>键盘控制 (WASD+QE)</li>
+                        <li>按钮控制界面</li>
+                        <li>速度调节滑块</li>
+                        <li>实时状态显示</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><i class="fas fa-record-vinyl"></i> 路径录制</h3>
+                    <ul>
+                        <li>实时录制机器人运动</li>
+                        <li>录制ROS话题数据</li>
+                        <li>暂停/恢复录制</li>
+                        <li>录制时长统计</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><i class="fas fa-play-circle"></i> 路径重播</h3>
+                    <ul>
+                        <li>精确重播录制路径</li>
+                        <li>可调节重播速度</li>
+                        <li>暂停/恢复重播</li>
+                        <li>实时重播状态</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><i class="fas fa-folder-open"></i> 路径管理</h3>
+                    <ul>
+                        <li>路径命名和分类</li>
+                        <li>保存到指定目录</li>
+                        <li>路径列表管理</li>
+                        <li>删除不需要的路径</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="demo-buttons">
+                <a href="index.html" class="demo-btn primary">
+                    <i class="fas fa-home"></i> 主页面
+                </a>
+                <a href="test_route_recording.html" class="demo-btn secondary">
+                    <i class="fas fa-flask"></i> 测试页面
+                </a>
+            </div>
+            
+            <div class="tech-stack">
+                <h3><i class="fas fa-code"></i> 技术栈</h3>
+                <div class="tech-list">
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript ES6</span>
+                    <span class="tech-item">ROS2</span>
+                    <span class="tech-item">WebSocket</span>
+                    <span class="tech-item">LocalStorage</span>
+                </div>
+            </div>
+            
+            <div class="demo-screenshot">
+                <h3><i class="fas fa-image"></i> 界面预览</h3>
+                <p>现代化的Tab界面设计，支持响应式布局</p>
+                <div style="background: #f0f0f0; padding: 2rem; border-radius: 8px; margin: 1rem 0;">
+                    <p style="color: #666; font-style: italic;">
+                        <i class="fas fa-info-circle"></i> 
+                        界面截图将在这里显示（需要实际运行系统后截图）
+                    </p>
+                </div>
+            </div>
+            
+            <div style="background: #e8f4fd; border-radius: 12px; padding: 1.5rem; margin: 2rem 0;">
+                <h3 style="color: #2c3e50; margin: 0 0 1rem 0;">
+                    <i class="fas fa-rocket"></i> 快速开始
+                </h3>
+                <ol style="color: #555; line-height: 1.6;">
+                    <li>运行启动脚本: <code>./start_route_recording_test.sh</code></li>
+                    <li>访问测试页面: <code>http://localhost:8080/test_route_recording.html</code></li>
+                    <li>切换到"路线录制"tab</li>
+                    <li>输入路径名称并开始录制</li>
+                    <li>使用键盘或按钮控制机器人</li>
+                    <li>停止录制并保存路径</li>
+                    <li>选择路径进行重播</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>

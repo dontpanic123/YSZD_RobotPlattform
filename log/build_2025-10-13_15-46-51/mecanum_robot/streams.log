@@ -1,0 +1,68 @@
+[0.011s] Invoking command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/bd/Documents/Robot/agv_sim/build/mecanum_robot -- -j16 -l16
+[0.080s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.221s] -- Found rclpy: 3.3.15 (/opt/ros/humble/share/rclpy/cmake)
+[0.221s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.260s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.263s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.272s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.282s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.295s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.328s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.346s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[0.363s] -- Found tf2_ros: 0.25.12 (/opt/ros/humble/share/tf2_ros/cmake)
+[0.418s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.420s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.509s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.611s] -- Found tf2_geometry_msgs: 0.25.12 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[0.617s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[0.619s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[0.693s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.761s] -- Added test 'copyright' to check source files copyright and LICENSE
+[0.769s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.769s] -- Configured cppcheck include dirs: 
+[0.770s] -- Configured cppcheck exclude dirs and/or files: 
+[0.786s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[0.786s] -- Configured cpplint exclude dirs and/or files: 
+[0.788s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.793s] -- Added test 'lint_cmake' to check CMake code style
+[0.796s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.808s] -- Added test 'uncrustify' to check C / C++ code style
+[0.808s] -- Configured uncrustify additional arguments: 
+[0.809s] -- Added test 'xmllint' to check XML markup files
+[0.810s] -- Configuring done
+[0.815s] -- Generating done
+[0.818s] -- Build files have been written to: /home/bd/Documents/Robot/agv_sim/build/mecanum_robot
+[0.858s] Built target ament_cmake_python_copy_mecanum_robot
+[1.158s] running egg_info
+[1.171s] writing mecanum_robot.egg-info/PKG-INFO
+[1.171s] writing dependency_links to mecanum_robot.egg-info/dependency_links.txt
+[1.171s] writing top-level names to mecanum_robot.egg-info/top_level.txt
+[1.253s] [10/13/25 15:46:53] ERROR    listing git files failed - pretending     git.py:26
+[1.253s]                              there aren't any                                   
+[1.368s] reading manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[1.369s] writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[1.399s] Built target ament_cmake_python_build_mecanum_robot_egg
+[1.408s] Invoked command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/bd/Documents/Robot/agv_sim/build/mecanum_robot -- -j16 -l16
+[1.415s] Invoking command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/bd/Documents/Robot/agv_sim/build/mecanum_robot
+[1.421s] -- Install configuration: ""
+[1.421s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.sh
+[1.421s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.dsv
+[1.421s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info
+[1.422s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/top_level.txt
+[1.422s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/dependency_links.txt
+[1.422s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/PKG-INFO
+[1.422s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/SOURCES.txt
+[1.422s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot
+[1.422s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot/__init__.py
+[1.448s] Listing '/home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot'...
+[1.448s] Compiling '/home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot/__init__.py'...
+[1.452s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/robot_node.py
+[1.452s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/remote_control.py
+[1.452s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/path_publisher.py
+[1.453s] CMake Error at cmake_install.cmake:70 (file):
+[1.453s]   file INSTALL cannot find
+[1.453s]   "/home/bd/Documents/Robot/agv_sim/scripts/camera_node.py": No such file or
+[1.453s]   directory.
+[1.453s] 
+[1.453s] 
+[1.454s] Invoked command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/bd/Documents/Robot/agv_sim/build/mecanum_robot

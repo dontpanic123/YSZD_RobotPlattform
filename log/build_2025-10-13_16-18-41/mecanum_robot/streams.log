@@ -1,0 +1,99 @@
+[0.007s] Invoking command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/bd/Documents/Robot/agv_sim/build/mecanum_robot -- -j16 -l16
+[0.032s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.142s] -- Found rclpy: 3.3.15 (/opt/ros/humble/share/rclpy/cmake)
+[0.142s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.182s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.184s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.188s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.194s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.201s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.225s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.236s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[0.246s] -- Found tf2_ros: 0.25.12 (/opt/ros/humble/share/tf2_ros/cmake)
+[0.275s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.276s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.348s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.413s] -- Found tf2_geometry_msgs: 0.25.12 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[0.415s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[0.416s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[0.477s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.542s] -- Added test 'copyright' to check source files copyright and LICENSE
+[0.552s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.552s] -- Configured cppcheck include dirs: 
+[0.552s] -- Configured cppcheck exclude dirs and/or files: 
+[0.561s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[0.561s] -- Configured cpplint exclude dirs and/or files: 
+[0.562s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.565s] -- Added test 'lint_cmake' to check CMake code style
+[0.566s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.575s] -- Added test 'uncrustify' to check C / C++ code style
+[0.575s] -- Configured uncrustify additional arguments: 
+[0.576s] -- Added test 'xmllint' to check XML markup files
+[0.577s] -- Configuring done
+[0.581s] -- Generating done
+[0.583s] -- Build files have been written to: /home/bd/Documents/Robot/agv_sim/build/mecanum_robot
+[0.619s] Built target ament_cmake_python_copy_mecanum_robot
+[0.824s] running egg_info
+[0.838s] writing mecanum_robot.egg-info/PKG-INFO
+[0.838s] writing dependency_links to mecanum_robot.egg-info/dependency_links.txt
+[0.839s] writing top-level names to mecanum_robot.egg-info/top_level.txt
+[0.909s] [10/13/25 16:18:42] ERROR    listing git files failed - pretending     git.py:26
+[0.909s]                              there aren't any                                   
+[0.989s] reading manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[0.990s] writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[1.020s] Built target ament_cmake_python_build_mecanum_robot_egg
+[1.030s] Invoked command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/bd/Documents/Robot/agv_sim/build/mecanum_robot -- -j16 -l16
+[1.039s] Invoking command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/bd/Documents/Robot/agv_sim/build/mecanum_robot
+[1.043s] -- Install configuration: ""
+[1.044s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.sh
+[1.044s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.dsv
+[1.044s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info
+[1.044s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/top_level.txt
+[1.044s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/dependency_links.txt
+[1.044s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/PKG-INFO
+[1.044s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info/SOURCES.txt
+[1.044s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot
+[1.045s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot/__init__.py
+[1.067s] Listing '/home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot'...
+[1.071s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/robot_node.py
+[1.071s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/remote_control.py
+[1.071s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/path_publisher.py
+[1.071s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/camera_node_fixed.py
+[1.071s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_enhanced.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/position_calculator.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/image_viewer.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/waypoint_follower.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/waypoint_recorder.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/mecanum_robot/ros2_websocket_bridge.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot_clean.launch.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot.launch.py
+[1.072s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot_fixed.launch.py
+[1.073s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/nav2_with_obstacles.launch.py
+[1.073s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot.launch.py
+[1.073s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//urdf
+[1.073s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//urdf/mecanum_robot.urdf
+[1.073s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz
+[1.073s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot.rviz
+[1.074s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/nav2_with_obstacles.rviz
+[1.074s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot_path.rviz
+[1.074s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/map_display.rviz
+[1.075s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//rviz/simple_path.rviz
+[1.075s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//config
+[1.075s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot//config/nav2_params.yaml
+[1.075s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/ament_index/resource_index/package_run_dependencies/mecanum_robot
+[1.076s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/ament_index/resource_index/parent_prefix_path/mecanum_robot
+[1.076s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.sh
+[1.076s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.dsv
+[1.076s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/path.sh
+[1.077s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/environment/path.dsv
+[1.077s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.bash
+[1.077s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.sh
+[1.077s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.zsh
+[1.077s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/local_setup.dsv
+[1.077s] -- Installing: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/package.dsv
+[1.078s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/ament_index/resource_index/packages/mecanum_robot
+[1.078s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig.cmake
+[1.078s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig-version.cmake
+[1.078s] -- Up-to-date: /home/bd/Documents/Robot/agv_sim/install/mecanum_robot/share/mecanum_robot/package.xml
+[1.078s] Invoked command in '/home/bd/Documents/Robot/agv_sim/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/bd/Documents/Robot/agv_sim/build/mecanum_robot
