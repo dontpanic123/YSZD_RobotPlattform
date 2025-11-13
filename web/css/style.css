@@ -360,6 +360,19 @@ body {
     color: white;
 }
 
+/* 定位状态颜色：5秒内检测到为绿色，超过5秒为黄色 */
+.location-indicator.location-fresh {
+    background: #27ae60 !important; /* 绿色：5秒内检测到 */
+    color: white;
+    box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+}
+
+.location-indicator.location-stale {
+    background: #f1c40f !important; /* 黄色：超过5秒未检测到 */
+    color: #333;
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+}
+
 @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0.3; }

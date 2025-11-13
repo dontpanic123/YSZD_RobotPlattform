@@ -17,6 +17,10 @@ class RobotWebApp {
         this.cmdVelPublisher = null;
         this.cmdVelLock = false;
         
+        // 定位状态管理
+        this.lastApriltagDetectionTime = 0;
+        this.locationUpdateTimer = null;
+        
         this.init();
     }
     
@@ -36,8 +40,52 @@ class RobotWebApp {
         this.setupEventListeners();
         this.startUpdateLoop();
         this.updateTime();
+        this.startLocationStatusCheck();
         
         console.log('✅ 机器人Web应用启动完成');
+    }
+    
+    startLocationStatusCheck() {
+        // 每0.5秒检查一次定位状态，更新背景色
+        this.locationUpdateTimer = setInterval(() => {
+            this.updateLocationStatusColor();
+        }, 500);
+    }
+    
+    updateLocationStatusColor() {
+        const locationElement = document.getElementById('robotCurrentLocation');
+        if (!locationElement) return;
+        
+        const location = locationElement.textContent;
+        
+        // 如果是"未定位"，不改变颜色
+        if (location === '未定位') {
+            // 移除所有状态颜色类
+            locationElement.classList.remove('location-fresh', 'location-stale');
+            return;
+        }
+        
+        // 如果没有检测时间戳，不改变颜色
+        if (this.lastApriltagDetectionTime <= 0) {
+            return;
+        }
+        
+        // 计算距离最后检测的时间
+        // 注意：服务器发送的时间戳是Unix时间戳（秒），需要与当前时间（秒）比较
+        const currentTime = Date.now() / 1000; // 转换为秒
+        const timeSinceDetection = currentTime - this.lastApriltagDetectionTime;
+        
+        // 移除之前的颜色类
+        locationElement.classList.remove('location-fresh', 'location-stale');
+        
+        // 根据时间设置颜色
+        if (timeSinceDetection <= 5.0) {
+            // 5秒内：绿色
+            locationElement.classList.add('location-fresh');
+        } else {
+            // 超过5秒：黄色
+            locationElement.classList.add('location-stale');
+        }
     }
     
     setupModules() {
@@ -311,12 +359,49 @@ class RobotWebApp {
         console.log('📍 更新机器人定位:', message);
         const locationElement = document.getElementById('robotCurrentLocation');
         if (locationElement) {
-            // 从消息中获取定位，支持不同的消息格式
-            const location = message.data || message.location || '未定位';
-            console.log('📍 设置定位为:', location);
+            let location = '未定位';
+            let lastDetectionTime = 0;
+            
+            // 尝试解析JSON格式的消息
+            try {
+                // 优先使用直接从WebSocket接收的字段
+                if (message.last_detection_time !== undefined) {
+                    location = message.location || message.data || '未定位';
+                    lastDetectionTime = message.last_detection_time;
+                    // 更新最后检测时间
+                    if (lastDetectionTime > 0) {
+                        this.lastApriltagDetectionTime = lastDetectionTime;
+                    }
+                } else {
+                    // 尝试从data字段解析JSON
+                    const messageData = message.data || message.location || '未定位';
+                    if (typeof messageData === 'string') {
+                        // 尝试解析JSON
+                        try {
+                            const locationData = JSON.parse(messageData);
+                            location = locationData.location || '未定位';
+                            lastDetectionTime = locationData.last_detection_time || 0;
+                            // 更新最后检测时间
+                            if (lastDetectionTime > 0) {
+                                this.lastApriltagDetectionTime = lastDetectionTime;
+                            }
+                        } catch (e) {
+                            // 如果不是JSON，直接使用字符串
+                            location = messageData;
+                        }
+                    } else {
+                        location = messageData;
+                    }
+                }
+            } catch (e) {
+                console.warn('⚠️ 解析定位消息失败:', e);
+                location = message.data || message.location || '未定位';
+            }
+            
+            console.log('📍 设置定位为:', location, '最后检测时间:', lastDetectionTime);
             locationElement.textContent = location;
             
-            // 根据定位类型设置不同的样式
+            // 根据定位类型设置基础样式
             let locationClass = 'location-indicator';
             if (location === '充电桩') {
                 locationClass += ' location-charging';
@@ -329,7 +414,12 @@ class RobotWebApp {
             } else {
                 locationClass += ' location-other';
             }
+            
+            // 设置基础类，然后通过定时器更新颜色状态
             locationElement.className = locationClass;
+            
+            // 立即更新一次颜色状态
+            this.updateLocationStatusColor();
         } else {
             console.warn('⚠️ 找不到robotCurrentLocation元素');
         }

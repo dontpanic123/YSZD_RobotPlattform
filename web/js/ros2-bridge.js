@@ -295,8 +295,12 @@ class ROS2Bridge {
     handleRobotLocation(message) {
         // 处理机器人定位消息
         if (this.callbacks['/robot_location']) {
+            // 如果消息包含JSON格式的数据，传递完整信息
             const rosMessage = {
-                data: message.location || message.data || '未定位'
+                data: message.location || message.data || '未定位',
+                location: message.location,
+                last_detection_time: message.last_detection_time,
+                current_time: message.current_time
             };
             this.callbacks['/robot_location'](rosMessage);
         }
