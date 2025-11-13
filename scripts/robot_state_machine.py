@@ -10,6 +10,7 @@ from nav_msgs.msg import Odometry
 from tf2_ros import TransformListener, Buffer
 import time
 import threading
+import json
 from enum import Enum
 
 class RobotState(Enum):
@@ -49,8 +50,7 @@ class RobotStateMachine(Node):
         
         # 当前定位状态
         self.current_location = "未定位"  # 默认状态为未定位
-        self.last_location_time = 0.0  # 最后检测到定位的时间
-        self.location_timeout = 10.0  # 定位超时时间（秒），如果10秒内没有检测到AprilTag，则重置为未定位
+        self.last_apriltag_detection_time = 0.0  # 最后检测到AprilTag的时间戳
         
         # 手动控制保持时间设置
         self.declare_parameter('manual_control_hold_time', 1.5)  # 默认1.5秒保持时间
@@ -93,7 +93,6 @@ class RobotStateMachine(Node):
         # 创建定时器
         self.state_timer = self.create_timer(0.1, self.state_machine_update)
         self.publish_timer = self.create_timer(1.0, self.publish_state)
-        self.location_timer = self.create_timer(0.5, self.check_location_timeout)  # 检查定位超时
         self.tf_check_timer = self.create_timer(0.5, self.check_apriltag_tf)  # 检查AprilTag TF变换
         
         # 状态转换表
@@ -112,7 +111,6 @@ class RobotStateMachine(Node):
         self.get_logger().info(f'📊 当前状态: {self.current_state.value}')
         self.get_logger().info(f'📍 当前定位: {self.current_location}')
         self.get_logger().info(f'⏰ AprilTag跟踪超时: {self.apriltag_timeout}秒')
-        self.get_logger().info(f'⏰ 定位超时: {self.location_timeout}秒')
         self.get_logger().info(f'🎮 手动控制保持时间: {self.manual_control_hold_time}秒')
         self.get_logger().info(f'📡 订阅话题: /apriltag_pose')
         self.get_logger().info(f'📡 发布话题: /robot_location')
@@ -150,7 +148,6 @@ class RobotStateMachine(Node):
         self.apriltag_tracking_active = True
         self.apriltag_pose = msg
         self.last_apriltag_time = time.time()  # 记录最后收到AprilTag的时间
-        self.last_location_time = time.time()  # 记录最后检测到定位的时间
         
         # 从frame_id中提取tag_id
         frame_id = msg.header.frame_id
@@ -194,6 +191,9 @@ class RobotStateMachine(Node):
                 # 其他ID保持当前定位或设置为未知
                 self.current_location = f"未知位置(ID:{tag_id})"
             
+            # 更新最后检测时间
+            self.last_apriltag_detection_time = time.time()
+            
             # 如果定位状态发生变化，记录日志
             if old_location != self.current_location:
                 self.get_logger().info(f'📍 定位更新: {old_location} -> {self.current_location} (AprilTag ID: {tag_id})')
@@ -234,11 +234,6 @@ class RobotStateMachine(Node):
     
     def check_apriltag_tf(self):
         """定期检查AprilTag TF变换，更新定位状态"""
-        # 如果最近没有收到AprilTag位姿消息，尝试从TF变换中获取
-        if self.last_location_time > 0 and (time.time() - self.last_location_time) < 2.0:
-            # 最近2秒内收到过位姿消息，不需要从TF获取
-            return
-        
         tag_id = self.get_tag_id_from_tf()
         if tag_id is not None:
             old_location = self.current_location
@@ -251,9 +246,11 @@ class RobotStateMachine(Node):
             else:
                 self.current_location = f"未知位置(ID:{tag_id})"
             
+            # 更新最后检测时间
+            self.last_apriltag_detection_time = time.time()
+            
             if old_location != self.current_location:
                 self.get_logger().info(f'📍 从TF变换更新定位: {old_location} -> {self.current_location} (AprilTag ID: {tag_id})')
-                self.last_location_time = time.time()
     
     def waypoint_status_callback(self, msg):
         """Waypoint状态回调"""
@@ -433,26 +430,15 @@ class RobotStateMachine(Node):
         status_msg.data = str(status_info)
         self.status_pub.publish(status_msg)
         
-        # 发布定位状态
+        # 发布定位状态（包含时间戳）
+        location_data = {
+            'location': self.current_location,
+            'last_detection_time': self.last_apriltag_detection_time,
+            'current_time': time.time()
+        }
         location_msg = String()
-        location_msg.data = self.current_location
+        location_msg.data = json.dumps(location_data)
         self.location_pub.publish(location_msg)
-    
-    def check_location_timeout(self):
-        """检查定位超时"""
-        # 如果距离上次检测到定位的时间超过超时时间，且当前不是未定位状态，则重置为未定位
-        if self.last_location_time > 0 and self.current_location != "未定位":
-            elapsed_time = time.time() - self.last_location_time
-            if elapsed_time > self.location_timeout:
-                old_location = self.current_location
-                self.current_location = "未定位"
-                self.get_logger().info(f'⏰ 定位超时 ({self.location_timeout}秒)，定位状态重置: {old_location} -> {self.current_location}')
-                self.last_location_time = 0.0  # 重置时间戳
-            else:
-                # 调试信息：显示距离超时还有多长时间
-                remaining_time = self.location_timeout - elapsed_time
-                if remaining_time < 1.0:  # 只在快超时时记录
-                    self.get_logger().debug(f'⏱️ 定位将在 {remaining_time:.1f} 秒后超时')
     
     def reset_error_state(self):
         """重置错误状态"""

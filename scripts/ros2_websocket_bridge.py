@@ -359,10 +359,23 @@ class ROS2WebSocketBridge(Node):
     def robot_location_callback(self, msg):
         """处理机器人定位消息"""
         try:
-            data = {
-                'type': 'robot_location',
-                'location': msg.data
-            }
+            # 尝试解析JSON格式的消息，如果失败则作为普通字符串处理
+            location_data = msg.data
+            try:
+                # 尝试解析JSON
+                parsed_data = json.loads(location_data)
+                data = {
+                    'type': 'robot_location',
+                    'location': parsed_data.get('location', location_data),
+                    'last_detection_time': parsed_data.get('last_detection_time', 0),
+                    'current_time': parsed_data.get('current_time', 0)
+                }
+            except (json.JSONDecodeError, TypeError):
+                # 如果不是JSON格式，作为普通字符串处理
+                data = {
+                    'type': 'robot_location',
+                    'location': location_data
+                }
             
             self.broadcast_to_clients(data)
             
