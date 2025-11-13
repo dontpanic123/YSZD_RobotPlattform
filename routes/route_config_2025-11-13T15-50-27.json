@@ -1,0 +1,115 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "created_at": "2025-11-13T15:50:27.290Z",
+    "node_count": 5,
+    "connection_count": 7
+  },
+  "nodes": [
+    {
+      "id": "node_1",
+      "name": "充电站",
+      "x": 309.69569494672373,
+      "y": 59.16328832658799,
+      "type": "charging",
+      "markerId": null,
+      "position": null,
+      "customProps": {}
+    },
+    {
+      "id": "node_2",
+      "name": "装药点",
+      "x": 85,
+      "y": 320.5,
+      "type": "loading",
+      "markerId": 2,
+      "position": null,
+      "customProps": {}
+    },
+    {
+      "id": "node_3",
+      "name": "送药点",
+      "x": 293,
+      "y": 575.5,
+      "type": "delivery",
+      "markerId": 1,
+      "position": null,
+      "customProps": {}
+    },
+    {
+      "id": "node_4",
+      "name": "站点 4",
+      "x": 564.4110805019895,
+      "y": 492.61172329354156,
+      "type": "delivery",
+      "markerId": 3,
+      "position": null,
+      "customProps": {}
+    },
+    {
+      "id": "node_5",
+      "name": "站点 5",
+      "x": 641.3907764513824,
+      "y": 335.66763595551487,
+      "type": "delivery",
+      "markerId": 4,
+      "position": null,
+      "customProps": {}
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn_1",
+      "fromNodeId": "node_3",
+      "toNodeId": "node_1",
+      "waypointsFile": "waypoints_20251017_164203.json"
+    },
+    {
+      "id": "conn_2",
+      "fromNodeId": "node_1",
+      "toNodeId": "node_2",
+      "waypointsFile": "waypoints_20251017_161140.json"
+    },
+    {
+      "id": "conn_3",
+      "fromNodeId": "node_2",
+      "toNodeId": "node_3",
+      "waypointsFile": "waypoints_20251017_163417.json"
+    },
+    {
+      "id": "conn_4",
+      "fromNodeId": "node_2",
+      "toNodeId": "node_4",
+      "waypointsFile": null
+    },
+    {
+      "id": "conn_5",
+      "fromNodeId": "node_4",
+      "toNodeId": "node_1",
+      "waypointsFile": null
+    },
+    {
+      "id": "conn_6",
+      "fromNodeId": "node_2",
+      "toNodeId": "node_5",
+      "waypointsFile": null
+    },
+    {
+      "id": "conn_7",
+      "fromNodeId": "node_5",
+      "toNodeId": "node_1",
+      "waypointsFile": null
+    }
+  ],
+  "loadedFiles": [
+    {
+      "name": "waypoints_20251017_161140.json"
+    },
+    {
+      "name": "waypoints_20251017_163417.json"
+    },
+    {
+      "name": "waypoints_20251017_164203.json"
+    }
+  ]
+}

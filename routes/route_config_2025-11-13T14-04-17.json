@@ -1,0 +1,68 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "created_at": "2025-11-13T14:04:17.004Z",
+    "node_count": 3,
+    "connection_count": 3
+  },
+  "nodes": [
+    {
+      "id": "node_1",
+      "name": "充电站",
+      "x": 228,
+      "y": 214.5,
+      "type": "charging",
+      "position": null,
+      "customProps": {}
+    },
+    {
+      "id": "node_2",
+      "name": "装药点",
+      "x": 345,
+      "y": 488.5,
+      "type": "loading",
+      "position": null,
+      "customProps": {}
+    },
+    {
+      "id": "node_3",
+      "name": "送药点",
+      "x": 675,
+      "y": 386.5,
+      "type": "delivery",
+      "position": null,
+      "customProps": {}
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn_1",
+      "fromNodeId": "node_3",
+      "toNodeId": "node_1",
+      "waypointsFile": "waypoints_20251017_164203.json"
+    },
+    {
+      "id": "conn_2",
+      "fromNodeId": "node_1",
+      "toNodeId": "node_2",
+      "waypointsFile": "waypoints_20251017_161140.json"
+    },
+    {
+      "id": "conn_3",
+      "fromNodeId": "node_2",
+      "toNodeId": "node_3",
+      "waypointsFile": "waypoints_20251017_163417.json"
+    }
+  ],
+  "loadedFiles": [
+    {
+      "name": "waypoints_20251017_161140.json"
+    },
+    {
+      "name": "waypoints_20251017_163417.json"
+    },
+    {
+      "name": "waypoints_20251017_164203.json"
+    }
+  ]
+}

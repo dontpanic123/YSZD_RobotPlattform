@@ -199,7 +199,8 @@ class ROS2ServiceProxy(Node):
             workspace_root = get_workspace_root()
             waypoints_dir = os.path.join(workspace_root, 'waypoints')
             if not os.path.exists(waypoints_dir):
-                return {'error': f'Waypoints目录不存在: {waypoints_dir}'}
+                os.makedirs(waypoints_dir, exist_ok=True)
+                return {'success': True, 'files': []}
             
             # 获取所有.json文件
             pattern = os.path.join(waypoints_dir, '*.json')
@@ -214,6 +215,93 @@ class ROS2ServiceProxy(Node):
             
         except Exception as e:
             self.get_logger().error(f'获取waypoint文件列表失败: {e}')
+            return {'error': str(e)}
+    
+    def get_route_files(self):
+        """获取routes目录中的文件列表"""
+        try:
+            workspace_root = get_workspace_root()
+            routes_dir = os.path.join(workspace_root, 'routes')
+            if not os.path.exists(routes_dir):
+                os.makedirs(routes_dir, exist_ok=True)
+                return {'success': True, 'files': []}
+            
+            # 获取所有.json文件
+            pattern = os.path.join(routes_dir, '*.json')
+            files = glob.glob(pattern)
+            
+            # 只返回文件名，不包含路径
+            filenames = [os.path.basename(f) for f in files]
+            filenames.sort()  # 按文件名排序
+            
+            self.get_logger().info(f'找到 {len(filenames)} 个路线配置文件')
+            return {'success': True, 'files': filenames}
+            
+        except Exception as e:
+            self.get_logger().error(f'获取路线文件列表失败: {e}')
+            return {'error': str(e)}
+    
+    def save_route_file(self, filename, data):
+        """保存路线配置文件到routes目录"""
+        try:
+            workspace_root = get_workspace_root()
+            routes_dir = os.path.join(workspace_root, 'routes')
+            
+            # 确保目录存在
+            os.makedirs(routes_dir, exist_ok=True)
+            
+            # 构建完整路径
+            filepath = os.path.join(routes_dir, filename)
+            
+            # 保存文件
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            
+            self.get_logger().info(f'路线配置已保存: {filepath}')
+            return {'success': True, 'filepath': filepath}
+            
+        except Exception as e:
+            self.get_logger().error(f'保存路线配置文件失败: {e}')
+            return {'error': str(e)}
+    
+    def load_route_file(self, filename):
+        """从routes目录加载路线配置文件"""
+        try:
+            workspace_root = get_workspace_root()
+            routes_dir = os.path.join(workspace_root, 'routes')
+            filepath = os.path.join(routes_dir, filename)
+            
+            if not os.path.exists(filepath):
+                return {'error': f'文件不存在: {filepath}'}
+            
+            with open(filepath, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            self.get_logger().info(f'路线配置已加载: {filepath}')
+            return {'success': True, 'data': data}
+            
+        except Exception as e:
+            self.get_logger().error(f'加载路线配置文件失败: {e}')
+            return {'error': str(e)}
+    
+    def load_waypoint_file(self, filename):
+        """从waypoints目录加载waypoints文件"""
+        try:
+            workspace_root = get_workspace_root()
+            waypoints_dir = os.path.join(workspace_root, 'waypoints')
+            filepath = os.path.join(waypoints_dir, filename)
+            
+            if not os.path.exists(filepath):
+                return {'error': f'文件不存在: {filepath}'}
+            
+            with open(filepath, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            self.get_logger().info(f'Waypoints文件已加载: {filepath}')
+            return {'success': True, 'data': data}
+            
+        except Exception as e:
+            self.get_logger().error(f'加载waypoints文件失败: {e}')
             return {'error': str(e)}
 
 class ServiceHandler(BaseHTTPRequestHandler):
@@ -245,15 +333,114 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 error_response = {'error': str(e)}
                 self.wfile.write(json.dumps(error_response).encode('utf-8'))
+        elif self.path == '/save_route':
+            try:
+                # 读取请求数据
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length)
+                data = json.loads(post_data.decode('utf-8'))
+                
+                filename = data.get('filename')
+                route_data = data.get('data')
+                
+                if not filename or not route_data:
+                    raise ValueError('缺少filename或data参数')
+                
+                # 保存路线配置
+                result = self.server.ros2_node.save_route_file(filename, route_data)
+                
+                # 发送响应
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps(result).encode('utf-8'))
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                error_response = {'error': str(e)}
+                self.wfile.write(json.dumps(error_response).encode('utf-8'))
         else:
             self.send_response(404)
             self.end_headers()
     
     def do_GET(self):
-        if self.path == '/waypoint_files':
+        parsed_path = urllib.parse.urlparse(self.path)
+        path = parsed_path.path
+        query_params = urllib.parse.parse_qs(parsed_path.query)
+        
+        if path == '/waypoint_files':
             try:
                 # 获取waypoint文件列表
                 result = self.server.ros2_node.get_waypoint_files()
+                
+                # 发送响应
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps(result).encode('utf-8'))
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                error_response = {'error': str(e)}
+                self.wfile.write(json.dumps(error_response).encode('utf-8'))
+        elif path == '/waypoint_file':
+            try:
+                # 获取waypoints文件内容
+                filename = query_params.get('name', [None])[0]
+                if not filename:
+                    raise ValueError('缺少name参数')
+                
+                result = self.server.ros2_node.load_waypoint_file(filename)
+                
+                # 发送响应
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps(result).encode('utf-8'))
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                error_response = {'error': str(e)}
+                self.wfile.write(json.dumps(error_response).encode('utf-8'))
+        elif path == '/route_files':
+            try:
+                # 获取路线文件列表
+                result = self.server.ros2_node.get_route_files()
+                
+                # 发送响应
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps(result).encode('utf-8'))
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                error_response = {'error': str(e)}
+                self.wfile.write(json.dumps(error_response).encode('utf-8'))
+        elif path == '/route_file':
+            try:
+                # 获取路线文件内容
+                filename = query_params.get('name', [None])[0]
+                if not filename:
+                    raise ValueError('缺少name参数')
+                
+                result = self.server.ros2_node.load_route_file(filename)
                 
                 # 发送响应
                 self.send_response(200)
@@ -277,7 +464,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
         # 处理CORS预检请求
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
 
