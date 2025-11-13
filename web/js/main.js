@@ -554,6 +554,16 @@ class RobotWebApp {
                     targetPanel.classList.add('active');
                     console.log('✅ Tab切换成功:', targetTab);
                     console.log('📊 目标面板类名:', targetPanel.className);
+                    
+                    // 如果是路线规划标签页，确保RoutePlanner已初始化
+                    if (targetTab === 'route-planner' && window.routePlanner) {
+                        if (!window.routePlanner.initialized) {
+                            window.routePlanner.initialize();
+                        } else {
+                            // 重新设置画布尺寸（可能在切换标签时窗口大小改变了）
+                            window.routePlanner.setupCanvas();
+                        }
+                    }
                     console.log('📊 目标面板样式:', window.getComputedStyle(targetPanel).display);
                     
                     // 如果是waypoint tab，检查内容

@@ -28,6 +28,9 @@
                 <button class="tab-btn active" data-tab="control">
                     <i class="fas fa-gamepad"></i> 机器人控制
                 </button>
+                <button class="tab-btn" data-tab="route-planner">
+                    <i class="fas fa-route"></i> 路线规划
+                </button>
                 <button class="tab-btn" onclick="window.open('http://localhost:8080/diagnostic.html', '_blank')">
                     <i class="fas fa-stethoscope"></i> 系统诊断
                 </button>
@@ -253,6 +256,94 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 路线规划Tab -->
+                <div id="route-planner-tab" class="tab-panel">
+                    <div class="route-planner-container">
+                        <!-- 工具栏 -->
+                        <div class="route-planner-toolbar">
+                            <div class="toolbar-group">
+                                <button id="addNodeBtn" class="toolbar-btn" title="添加节点">
+                                    <i class="fas fa-plus-circle"></i> 添加节点
+                                </button>
+                                <button id="connectModeBtn" class="toolbar-btn" title="连接模式（双击节点也可进入连接模式）">
+                                    <i class="fas fa-link"></i> 连接模式
+                                </button>
+                                <button id="loadWaypointsBtn" class="toolbar-btn" title="加载Waypoints文件">
+                                    <i class="fas fa-folder-open"></i> 加载文件
+                                </button>
+                                <input type="file" id="waypointsFileInput" accept=".json" style="display: none;">
+                                <button id="saveRouteBtn" class="toolbar-btn" title="保存路线配置">
+                                    <i class="fas fa-save"></i> 保存路线
+                                </button>
+                                <button id="importRouteBtn" class="toolbar-btn" title="导入路线配置">
+                                    <i class="fas fa-upload"></i> 导入路线
+                                </button>
+                                <input type="file" id="routeFileInput" accept=".json" style="display: none;">
+                                <button id="clearCanvasBtn" class="toolbar-btn" title="清空画布">
+                                    <i class="fas fa-trash"></i> 清空
+                                </button>
+                            </div>
+                            <div class="toolbar-group">
+                                <button id="zoomInBtn" class="toolbar-btn" title="放大">
+                                    <i class="fas fa-search-plus"></i>
+                                </button>
+                                <button id="zoomOutBtn" class="toolbar-btn" title="缩小">
+                                    <i class="fas fa-search-minus"></i>
+                                </button>
+                                <button id="resetViewBtn" class="toolbar-btn" title="重置视图">
+                                    <i class="fas fa-home"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 主要内容区域 -->
+                        <div class="route-planner-content">
+                            <!-- 画布区域 -->
+                            <div class="route-planner-canvas-container">
+                                <svg id="routePlannerCanvas" class="route-planner-canvas">
+                                    <defs>
+                                        <!-- 箭头标记定义 -->
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                            <polygon points="0 0, 10 3, 0 6" fill="#000000" />
+                                        </marker>
+                                    </defs>
+                                    <!-- 连接线将在这里动态添加 -->
+                                    <g id="connections-layer"></g>
+                                    <!-- 节点将在这里动态添加 -->
+                                    <g id="nodes-layer"></g>
+                                </svg>
+                            </div>
+
+                            <!-- 右侧面板 -->
+                            <div class="route-planner-sidebar">
+                                <!-- 属性面板 -->
+                                <div class="route-planner-properties">
+                                    <h3><i class="fas fa-edit"></i> 站点属性</h3>
+                                    <div id="nodePropertiesPanel" class="properties-panel">
+                                        <p class="no-selection">未选择站点</p>
+                                    </div>
+                                </div>
+
+                                <!-- 连接属性面板 -->
+                                <div class="route-planner-connection-properties">
+                                    <h3><i class="fas fa-link"></i> 连接属性</h3>
+                                    <div id="connectionPropertiesPanel" class="properties-panel">
+                                        <p class="no-selection">未选择连接（单击连接线选择）</p>
+                                    </div>
+                                </div>
+
+                                <!-- 文件列表 -->
+                                <div class="route-planner-files">
+                                    <h3><i class="fas fa-file"></i> 已加载文件</h3>
+                                    <div id="loadedFilesList" class="files-list">
+                                        <p class="no-files">暂无加载的文件</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </main>
@@ -277,6 +368,7 @@
     <script src="js/ros2-bridge.js?v=4"></script>
     <script src="js/robot-control.js?v=2"></script>
     <script src="js/waypoint-system.js?v=2"></script>
+    <script src="js/route-planner.js?v=1"></script>
     <script src="js/main.js?v=3"></script>
 </body>
 </html>
