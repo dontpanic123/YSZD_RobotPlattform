@@ -15,6 +15,12 @@ class WaypointSystem {
         this.currentPathName = '';
         this.selectedWaypointFile = '';
         
+        // APRILTAG定位管理
+        this.currentApriltagIds = [];  // 存储所有当前检测到的APRILTAG ID列表
+        this.selectedApriltagId = null;  // 用户选择的APRILTAG ID（当检测到多个时）
+        this.currentLocationNode = null;  // 当前选择的起点节点
+        this.selectedDestinationNodeId = null;  // 选择的终点节点ID
+        
         // 录制时间管理
         this.recordingStartTime = null;
         this.recordingTimer = null;
@@ -107,8 +113,7 @@ class WaypointSystem {
         this.setupButton('pauseWaypointFollowingBtn', () => this.togglePause());
         this.setupButton('stopWaypointFollowingBtn', () => this.stopFollowing());
         
-        // 路径管理按钮
-        this.setupButton('refreshWaypointFilesBtn', () => this.refreshWaypointFiles());
+        // 路径管理按钮（已废弃，不再需要刷新文件按钮）
         
         // 输入框事件
         this.setupInputEvents();
@@ -125,7 +130,313 @@ class WaypointSystem {
         // 紧急停止状态监听
         this.setupEmergencyStopListener();
         
+        // APRILTAG定位监听
+        this.setupApriltagListener();
+        
+        // 路线规划更新监听
+        this.setupRoutePlannerListener();
+        
         console.log('✅ 事件监听器设置完成');
+    }
+    
+    /**
+     * 设置位置监听（从/robot_location话题获取位置信息）
+     */
+    setupApriltagListener() {
+        if (!this.ros2Bridge) {
+            console.warn('⚠️ ROS2桥接未初始化，无法订阅位置话题');
+            return;
+        }
+        
+        // 等待连接建立后再订阅
+        if (!this.ros2Bridge.connected) {
+            setTimeout(() => this.setupApriltagListener(), 1000);
+            return;
+        }
+        
+        // 订阅机器人定位话题（复用机器人状态中的数据流）
+        try {
+            this.ros2Bridge.subscribe('/robot_location', (message) => {
+                this.handleRobotLocation(message);
+            });
+            console.log('✅ 位置监听器已设置，已订阅 /robot_location 话题');
+        } catch (error) {
+            console.error('❌ 订阅位置话题失败:', error);
+        }
+    }
+    
+    /**
+     * 处理机器人定位消息（从/robot_location话题）
+     */
+    handleRobotLocation(message) {
+        try {
+            console.log('📨 收到机器人定位消息:', message);
+            
+            // 从消息中提取位置信息
+            const location = message.location || message.data || '未定位';
+            
+            // 如果位置是"未定位"，清空当前选择
+            if (location === '未定位' || !location || location.trim() === '') {
+                this.selectedApriltagId = null;
+                this.currentLocationNode = null;
+                this.updateCurrentLocationDisplay();
+                this.updateDestinationNodeList();
+                return;
+            }
+            
+            // 完全从路线规划节点图中查找对应关系
+            // 先尝试根据位置名称查找节点
+            let node = this.findNodeByLocationName(location);
+            
+            // 如果位置名称是"未知位置(ID:xxx)"格式，尝试从ID查找
+            if (!node && location.startsWith('未知位置(ID:')) {
+                const match = location.match(/未知位置\(ID:(\d+)\)/);
+                if (match) {
+                    const tagId = parseInt(match[1]);
+                    if (!isNaN(tagId)) {
+                        // 根据APRILTAG ID查找节点
+                        const nodes = this.getNodesByApriltagId(tagId);
+                        if (nodes.length > 0) {
+                            node = nodes[0];
+                            this.selectedApriltagId = tagId;
+                        }
+                    }
+                }
+            }
+            
+            if (node) {
+                // 找到了对应的节点
+                this.currentLocationNode = node;
+                
+                // 从节点的markerId获取APRILTAG ID
+                if (node.node.markerId !== null && node.node.markerId !== undefined) {
+                    this.selectedApriltagId = node.node.markerId;
+                    console.log(`🎯 从路线规划节点"${node.node.name}"获取APRILTAG ID:`, this.selectedApriltagId);
+                } else {
+                    // 如果节点没有配置markerId，清空selectedApriltagId
+                    this.selectedApriltagId = null;
+                    console.warn(`⚠️ 节点"${node.node.name}"未配置APRILTAG ID`);
+                }
+                
+                // 更新UI
+                this.updateCurrentLocationDisplay();
+                this.updateDestinationNodeList();
+            } else {
+                // 没找到对应节点
+                console.warn(`⚠️ 在路线规划中未找到位置"${location}"对应的节点`);
+                this.currentLocationNode = null;
+                this.selectedApriltagId = null;
+                this.updateCurrentLocationDisplay();
+                this.updateDestinationNodeList();
+            }
+        } catch (error) {
+            console.error('❌ 处理机器人定位时出错:', error, message);
+        }
+    }
+    
+    /**
+     * 根据位置名称查找节点（不依赖APRILTAG ID）
+     */
+    findNodeByLocationName(locationName) {
+        if (!window.routePlanner || !window.routePlanner.nodes) {
+            return null;
+        }
+        
+        // 遍历所有节点，查找名称匹配的节点
+        for (const [nodeId, node] of window.routePlanner.nodes) {
+            if (node.name === locationName) {
+                return { id: nodeId, node: node };
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * 定期清理过期的APRILTAG ID（如果长时间未检测到，从列表中移除）
+     * 注意：这个方法需要在外部定期调用，或者通过定时器实现
+     */
+    cleanupStaleApriltagIds() {
+        // 这里可以添加逻辑来清理长时间未检测到的APRILTAG ID
+        // 目前暂时保留所有检测到的ID，直到用户手动选择或重新检测
+    }
+    
+    /**
+     * 监听路线规划页面的更新（当节点或连接发生变化时）
+     */
+    setupRoutePlannerListener() {
+        // 使用定时器定期检查路线规划是否更新，并同步机器人状态中的位置信息
+        setInterval(() => {
+            if (window.routePlanner && window.routePlanner.nodes) {
+                // 更新终点节点列表
+                this.updateDestinationNodeList();
+                
+                // 同步机器人状态中的位置信息
+                this.syncLocationFromRobotStatus();
+            }
+        }, 1000); // 每1秒检查一次
+    }
+    
+    /**
+     * 从机器人状态中同步位置信息
+     */
+    syncLocationFromRobotStatus() {
+        const robotLocationElement = document.getElementById('robotCurrentLocation');
+        if (!robotLocationElement) {
+            return;
+        }
+        
+        const currentLocation = robotLocationElement.textContent;
+        
+        // 如果位置发生变化，更新路径导航中的位置
+        if (currentLocation && currentLocation !== '未定位') {
+            // 完全从路线规划节点图中查找
+            let node = this.findNodeByLocationName(currentLocation);
+            
+            // 如果位置名称是"未知位置(ID:xxx)"格式，尝试从ID查找
+            if (!node && currentLocation.startsWith('未知位置(ID:')) {
+                const match = currentLocation.match(/未知位置\(ID:(\d+)\)/);
+                if (match) {
+                    const tagId = parseInt(match[1]);
+                    if (!isNaN(tagId)) {
+                        const nodes = this.getNodesByApriltagId(tagId);
+                        if (nodes.length > 0) {
+                            node = nodes[0];
+                        }
+                    }
+                }
+            }
+            
+            // 检查节点是否发生变化
+            const nodeChanged = node !== this.currentLocationNode;
+            const nodeIdChanged = node && node.node.markerId !== this.selectedApriltagId;
+            
+            if (nodeChanged || nodeIdChanged) {
+                this.currentLocationNode = node;
+                
+                // 从节点的markerId获取APRILTAG ID
+                if (node && node.node.markerId !== null && node.node.markerId !== undefined) {
+                    this.selectedApriltagId = node.node.markerId;
+                } else {
+                    this.selectedApriltagId = null;
+                }
+                
+                this.updateCurrentLocationDisplay();
+                this.updateDestinationNodeList();
+            }
+        } else if (this.selectedApriltagId !== null || this.currentLocationNode !== null) {
+            // 如果机器人状态显示"未定位"，清空路径导航中的位置
+            this.selectedApriltagId = null;
+            this.currentLocationNode = null;
+            this.updateCurrentLocationDisplay();
+            this.updateDestinationNodeList();
+        }
+    }
+    
+    /**
+     * 处理多个APRILTAG的情况
+     */
+    handleMultipleApriltags(apriltagIds) {
+        // 创建选择对话框
+        const message = `检测到多个APRILTAG，请选择当前位置:\n${apriltagIds.map(id => `  - APRILTAG ID: ${id}`).join('\n')}`;
+        
+        // 使用简单的prompt让用户选择（可以后续改进为更友好的UI）
+        const userInput = prompt(message + '\n\n请输入要选择的APRILTAG ID:');
+        if (userInput !== null) {
+            const selectedId = parseInt(userInput);
+            if (!isNaN(selectedId) && apriltagIds.includes(selectedId)) {
+                this.selectedApriltagId = selectedId;
+                this.updateCurrentLocationNode();
+                this.updateCurrentLocationDisplay();
+                this.updateDestinationNodeList();
+            } else {
+                this.showNotification('无效的APRILTAG ID', 'warning');
+            }
+        }
+    }
+    
+    /**
+     * 根据APRILTAG ID查找匹配的节点
+     */
+    getNodesByApriltagId(apriltagId) {
+        if (!window.routePlanner || !window.routePlanner.nodes) {
+            return [];
+        }
+        
+        const matchingNodes = [];
+        window.routePlanner.nodes.forEach((node, nodeId) => {
+            if (node.markerId !== null && node.markerId !== undefined && node.markerId === apriltagId) {
+                matchingNodes.push({ id: nodeId, node: node });
+            }
+        });
+        
+        return matchingNodes;
+    }
+    
+    /**
+     * 更新当前定位节点
+     */
+    updateCurrentLocationNode() {
+        if (!this.selectedApriltagId) {
+            this.currentLocationNode = null;
+            return;
+        }
+        
+        const matchingNodes = this.getNodesByApriltagId(this.selectedApriltagId);
+        if (matchingNodes.length > 0) {
+            // 如果找到多个匹配的节点，使用第一个
+            this.currentLocationNode = matchingNodes[0];
+        } else {
+            this.currentLocationNode = null;
+        }
+    }
+    
+    /**
+     * 获取可用的终点节点列表
+     */
+    getAvailableDestinationNodes() {
+        if (!window.routePlanner || !window.routePlanner.nodes) {
+            return [];
+        }
+        
+        const availableNodes = [];
+        const currentNodeId = this.currentLocationNode ? this.currentLocationNode.id : null;
+        
+        window.routePlanner.nodes.forEach((node, nodeId) => {
+            // 排除当前节点（起点）
+            if (nodeId !== currentNodeId) {
+                availableNodes.push({
+                    id: nodeId,
+                    name: node.name,
+                    type: node.type,
+                    markerId: node.markerId
+                });
+            }
+        });
+        
+        return availableNodes;
+    }
+    
+    /**
+     * 查找两个节点之间的连接
+     */
+    findConnectionBetweenNodes(fromNodeId, toNodeId) {
+        if (!window.routePlanner || !window.routePlanner.connections) {
+            return null;
+        }
+        
+        // 遍历所有连接，查找匹配的连接
+        for (const [connId, connection] of window.routePlanner.connections) {
+            if (connection.fromNodeId === fromNodeId && connection.toNodeId === toNodeId) {
+                return {
+                    id: connId,
+                    connection: connection,
+                    waypointsFile: connection.waypointsFile
+                };
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -155,13 +466,14 @@ class WaypointSystem {
     }
     
     /**
-     * 设置文件选择器
+     * 设置文件选择器（已废弃，改为终点节点选择器）
      */
     setupFileSelector() {
-        const fileSelect = document.getElementById('waypointFileSelect');
-        if (fileSelect) {
-            fileSelect.addEventListener('change', (e) => {
-                this.selectedWaypointFile = e.target.value;
+        // 改为设置终点节点选择器
+        const destinationSelect = document.getElementById('destinationNodeSelect');
+        if (destinationSelect) {
+            destinationSelect.addEventListener('change', (e) => {
+                this.selectedDestinationNodeId = e.target.value;
                 this.updateFollowingButtonStates();
             });
         }
@@ -282,12 +594,120 @@ class WaypointSystem {
             // 加载保存的路径
             await this.loadSavedPaths();
             
-            // 加载waypoint文件列表
-            await this.loadWaypointFiles();
+            // 不再加载waypoint文件列表，改为从路线规划节点获取
+            // 更新终点节点列表
+            this.updateDestinationNodeList();
+            
+            // 更新当前位置显示
+            this.updateCurrentLocationDisplay();
             
             console.log('✅ 初始数据加载完成');
         } catch (error) {
             console.error('❌ 加载初始数据失败:', error);
+        }
+    }
+    
+    /**
+     * 更新当前位置显示
+     */
+    updateCurrentLocationDisplay() {
+        const locationText = document.getElementById('currentLocationText');
+        const locationInfo = document.getElementById('currentLocationInfo');
+        
+        if (!locationText || !locationInfo) {
+            return;
+        }
+        
+        // 从机器人状态中获取当前位置（如果可用）
+        const robotLocationElement = document.getElementById('robotCurrentLocation');
+        const currentLocation = robotLocationElement ? robotLocationElement.textContent : null;
+        
+        // 如果机器人状态显示"未定位"，显示未检测
+        if (!currentLocation || currentLocation === '未定位') {
+            locationText.textContent = '未检测到APRILTAG';
+            locationInfo.className = 'location-info location-unknown';
+            return;
+        }
+        
+        // 如果找到了对应的节点，显示详细信息
+        if (this.currentLocationNode) {
+            const node = this.currentLocationNode.node;
+            const nodeTypeNames = {
+                'charging': '充电桩',
+                'loading': '装载点',
+                'delivery': '送达点',
+                'custom': '自定义'
+            };
+            const typeName = nodeTypeNames[node.type] || '未知';
+            
+            if (this.selectedApriltagId !== null) {
+                locationText.textContent = `${node.name} (${typeName}) - APRILTAG ID: ${this.selectedApriltagId}`;
+            } else {
+                locationText.textContent = `${node.name} (${typeName})`;
+            }
+            locationInfo.className = 'location-info location-configured';
+        } else {
+            // 如果没找到节点，但机器人状态有位置信息，显示提示信息
+            // 提示用户需要在路线规划页面创建对应的节点
+            locationText.textContent = `${currentLocation} (未在路线规划中配置)`;
+            locationInfo.className = 'location-info location-unconfigured';
+            locationInfo.title = `当前位置"${currentLocation}"已被识别，但路线规划中未找到对应节点。\n\n解决方法：\n1. 切换到"路线规划"标签页\n2. 创建名称为"${currentLocation}"的节点\n3. 在节点属性中设置对应的APRILTAG ID（当前检测到的ID）\n4. 保存路线配置`;
+        }
+    }
+    
+    /**
+     * 更新终点节点列表
+     */
+    updateDestinationNodeList() {
+        const destinationSelect = document.getElementById('destinationNodeSelect');
+        if (!destinationSelect) {
+            return;
+        }
+        
+        // 清空现有选项
+        destinationSelect.innerHTML = '<option value="">请选择终点...</option>';
+        
+        // 检查路线规划是否可用
+        if (!window.routePlanner || !window.routePlanner.nodes) {
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = '路线规划未加载';
+            option.disabled = true;
+            destinationSelect.appendChild(option);
+            return;
+        }
+        
+        // 获取可用终点节点
+        const availableNodes = this.getAvailableDestinationNodes();
+        
+        if (availableNodes.length === 0) {
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = '没有可用的终点节点';
+            option.disabled = true;
+            destinationSelect.appendChild(option);
+            return;
+        }
+        
+        // 添加节点选项
+        availableNodes.forEach(node => {
+            const nodeTypeNames = {
+                'charging': '充电桩',
+                'loading': '装载点',
+                'delivery': '送达点',
+                'custom': '自定义'
+            };
+            const typeName = nodeTypeNames[node.type] || '未知';
+            
+            const option = document.createElement('option');
+            option.value = node.id;
+            option.textContent = `${node.name} (${typeName})`;
+            destinationSelect.appendChild(option);
+        });
+        
+        // 如果之前选择了终点，尝试恢复选择
+        if (this.selectedDestinationNodeId) {
+            destinationSelect.value = this.selectedDestinationNodeId;
         }
     }
     
@@ -415,14 +835,35 @@ class WaypointSystem {
                 return;
             }
             
-            // 检查AprilTag是否被检测到
-            if (!this.isAprilTagDetected()) {
-                this.showNotification('当前坐标未知，请确保信标可以被识别', 'warning');
+            // 检查是否检测到APRILTAG（从机器人状态中检查）
+            const robotLocationElement = document.getElementById('robotCurrentLocation');
+            const currentLocation = robotLocationElement ? robotLocationElement.textContent : null;
+            
+            if (!currentLocation || currentLocation === '未定位') {
+                this.showNotification('请确保APRILTAG可以被识别', 'warning');
                 return;
             }
             
-            if (!this.selectedWaypointFile) {
-                this.showNotification('请选择路径文件', 'warning');
+            // 检查当前位置节点是否配置
+            if (!this.currentLocationNode) {
+                this.showNotification(`当前位置"${currentLocation}"未在路线规划中配置，请在路线规划页面创建名称为"${currentLocation}"的节点并设置对应的APRILTAG ID`, 'warning');
+                return;
+            }
+            
+            // 检查是否选择了终点
+            if (!this.selectedDestinationNodeId || this.selectedDestinationNodeId === '') {
+                this.showNotification('请选择终点', 'warning');
+                return;
+            }
+            
+            // 查找从起点到终点的连接
+            const connection = this.findConnectionBetweenNodes(
+                this.currentLocationNode.id,
+                this.selectedDestinationNodeId
+            );
+            
+            if (!connection || !connection.waypointsFile) {
+                this.showNotification('起点到终点之间没有配置路径，请在路线规划页面添加连接', 'warning');
                 return;
             }
             
@@ -432,7 +873,7 @@ class WaypointSystem {
             
             // 设置路径文件路径
             await this.callService('/set_waypoints_file_path', {
-                file_path: this.selectedWaypointFile
+                file_path: connection.waypointsFile
             });
             
             // 开始跟踪（从头开始，索引0）
@@ -441,8 +882,12 @@ class WaypointSystem {
             await this.callService('/start_following');
             
             this.isFollowing = true;
+            this.selectedWaypointFile = connection.waypointsFile; // 保存当前使用的文件路径
             this.updateFollowingUI();
-            this.showNotification('开始跟踪waypoints，从第一个点开始', 'success');
+            
+            const startNode = this.currentLocationNode.node;
+            const endNode = window.routePlanner.nodes.get(this.selectedDestinationNodeId);
+            this.showNotification(`开始跟踪: ${startNode.name} -> ${endNode ? endNode.name : '未知'}`, 'success');
             
             // 发布自动导航目标点到状态机
             this.publishNavigationGoal();
@@ -486,6 +931,12 @@ class WaypointSystem {
             
             if (this.pausedWaypointIndex <= 0) {
                 this.showNotification('无效的暂停点索引', 'error');
+                return;
+            }
+            
+            // 检查是否有有效的文件路径
+            if (!this.selectedWaypointFile) {
+                this.showNotification('路径文件未设置，无法继续跟踪', 'error');
                 return;
             }
             
@@ -877,7 +1328,9 @@ class WaypointSystem {
         const startBtn = document.getElementById('startWaypointFollowingBtn');
         if (startBtn) {
             const isEmergencyStop = this.isEmergencyStopActive();
-            startBtn.disabled = isEmergencyStop || !this.selectedWaypointFile || this.isFollowing || this.isPaused;
+            const hasCurrentLocation = this.currentLocationNode !== null;
+            const hasDestination = this.selectedDestinationNodeId !== null && this.selectedDestinationNodeId !== '';
+            startBtn.disabled = isEmergencyStop || !hasCurrentLocation || !hasDestination || this.isFollowing || this.isPaused;
         }
     }
     

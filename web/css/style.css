@@ -2072,6 +2072,85 @@ select {
     font-size: 0.9rem;
 }
 
+/* 当前位置显示 */
+.current-location-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.current-location-display label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.location-info {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    font-size: 0.9rem;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.location-info.location-unknown {
+    background: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+}
+
+.location-info.location-unconfigured {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.location-info.location-configured {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+/* 终点选择 */
+.destination-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.destination-selection label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.destination-node-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: white;
+    color: #333;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.destination-node-select:hover {
+    border-color: #3498db;
+}
+
+.destination-node-select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
 /* 禁用状态样式 */
 input:disabled,
 select:disabled,
@@ -2291,12 +2370,13 @@ textarea.success:focus {
 }
 
 .route-planner-files {
-    display: none; /* 隐藏已加载文件部分 */
+    display: block; /* 显示已加载文件部分 */
     background: white;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-top: 1rem;
 }
 
 .route-planner-properties h3,

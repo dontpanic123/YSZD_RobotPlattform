@@ -204,7 +204,10 @@ class ROS2Bridge {
                 encoding: message.encoding,
                 data: message.data
             };
-            this.callbacks['/camera/image_raw'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/camera/image_raw']) 
+                ? this.callbacks['/camera/image_raw'] 
+                : [this.callbacks['/camera/image_raw']];
+            callbacks.forEach(cb => cb(rosMessage));
         }
     }
     
@@ -221,7 +224,10 @@ class ROS2Bridge {
                 encoding: message.encoding,
                 data: message.data
             };
-            this.callbacks['/apriltag_detection'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/apriltag_detection']) 
+                ? this.callbacks['/apriltag_detection'] 
+                : [this.callbacks['/apriltag_detection']];
+            callbacks.forEach(cb => cb(rosMessage));
         }
     }
     
@@ -229,6 +235,7 @@ class ROS2Bridge {
         // 处理AprilTag位姿
         if (this.callbacks['/apriltag_pose']) {
             const rosMessage = {
+                tag_id: message.tag_id, // 保留原始tag_id
                 header: {
                     stamp: { sec: 0, nanosec: 0 },
                     frame_id: typeof message.tag_id === 'number' ? `apriltag_${message.tag_id}` : (message.tag_id || 'camera_link')
@@ -238,7 +245,16 @@ class ROS2Bridge {
                     orientation: message.orientation
                 }
             };
-            this.callbacks['/apriltag_pose'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/apriltag_pose']) 
+                ? this.callbacks['/apriltag_pose'] 
+                : [this.callbacks['/apriltag_pose']];
+            callbacks.forEach(cb => {
+                try {
+                    cb(rosMessage);
+                } catch (error) {
+                    console.error('❌ 调用APRILTAG位姿回调时出错:', error);
+                }
+            });
         }
     }
     
@@ -248,7 +264,10 @@ class ROS2Bridge {
             const rosMessage = {
                 data: message.status
             };
-            this.callbacks['/apriltag_status'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/apriltag_status']) 
+                ? this.callbacks['/apriltag_status'] 
+                : [this.callbacks['/apriltag_status']];
+            callbacks.forEach(cb => cb(rosMessage));
         }
     }
     
@@ -278,7 +297,10 @@ class ROS2Bridge {
                     covariance: message.twist?.covariance || new Array(36).fill(0)
                 }
             };
-            this.callbacks['/odom'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/odom']) 
+                ? this.callbacks['/odom'] 
+                : [this.callbacks['/odom']];
+            callbacks.forEach(cb => cb(rosMessage));
         }
     }
     
@@ -288,7 +310,10 @@ class ROS2Bridge {
             const rosMessage = {
                 data: message.state || message.data || 'unknown'
             };
-            this.callbacks['/robot_state'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/robot_state']) 
+                ? this.callbacks['/robot_state'] 
+                : [this.callbacks['/robot_state']];
+            callbacks.forEach(cb => cb(rosMessage));
         }
     }
     
@@ -302,7 +327,10 @@ class ROS2Bridge {
                 last_detection_time: message.last_detection_time,
                 current_time: message.current_time
             };
-            this.callbacks['/robot_location'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/robot_location']) 
+                ? this.callbacks['/robot_location'] 
+                : [this.callbacks['/robot_location']];
+            callbacks.forEach(cb => cb(rosMessage));
         }
     }
     
@@ -322,7 +350,10 @@ class ROS2Bridge {
             const rosMessage = {
                 data: message.status || 'unknown'
             };
-            this.callbacks['/waypoint_following_status'](rosMessage);
+            const callbacks = Array.isArray(this.callbacks['/waypoint_following_status']) 
+                ? this.callbacks['/waypoint_following_status'] 
+                : [this.callbacks['/waypoint_following_status']];
+            callbacks.forEach(cb => cb(rosMessage));
         }
     }
     
@@ -435,8 +466,19 @@ class ROS2Bridge {
     
     subscribe(topicName, callback) {
         // 允许在未连接时也登记回调，连接建立后消息到达仍可回调
+        // 支持多个回调函数（使用数组存储）
         try {
-            this.callbacks[topicName] = callback;
+            if (!this.callbacks[topicName]) {
+                this.callbacks[topicName] = [];
+            }
+            // 如果已经是数组，添加回调；否则转换为数组
+            if (Array.isArray(this.callbacks[topicName])) {
+                this.callbacks[topicName].push(callback);
+            } else {
+                // 如果之前是单个回调，转换为数组
+                const oldCallback = this.callbacks[topicName];
+                this.callbacks[topicName] = [oldCallback, callback];
+            }
             if (!this.connected) {
                 console.warn(`⚠️ WebSocket未连接，已预登记订阅: ${topicName}`);
             } else {

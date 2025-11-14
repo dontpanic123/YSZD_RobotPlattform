@@ -163,16 +163,17 @@
 
                         <!-- 跟踪控制区域 -->
                         <div class="waypoint-following-controls">
-                            <div class="waypoint-file-selection">
-                                <label for="waypointFileSelect">选择路径文件:</label>
-                                <div class="file-selector-container">
-                                    <select id="waypointFileSelect" class="waypoint-file-select">
-                                        <option value="">请选择路径文件...</option>
-                                    </select>
-                                    <button id="refreshWaypointFilesBtn" class="refresh-btn" title="刷新文件列表">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
+                            <div class="current-location-display">
+                                <label>当前位置:</label>
+                                <div id="currentLocationInfo" class="location-info">
+                                    <span id="currentLocationText">未检测到APRILTAG</span>
                                 </div>
+                            </div>
+                            <div class="destination-selection">
+                                <label for="destinationNodeSelect">选择终点:</label>
+                                <select id="destinationNodeSelect" class="destination-node-select">
+                                    <option value="">请选择终点...</option>
+                                </select>
                             </div>
                             <div class="following-controls">
                                 <button id="startWaypointFollowingBtn" class="waypoint-btn start" disabled>
@@ -269,8 +270,8 @@
                                 <button id="connectModeBtn" class="toolbar-btn" title="连接模式（双击节点也可进入连接模式）">
                                     <i class="fas fa-link"></i> 连接模式
                                 </button>
-                                <button id="loadWaypointsBtn" class="toolbar-btn" title="加载Waypoints文件">
-                                    <i class="fas fa-folder-open"></i> 加载文件
+                                <button id="loadWaypointsBtn" class="toolbar-btn" title="加载路径文件">
+                                    <i class="fas fa-folder-open"></i> 加载路径
                                 </button>
                                 <input type="file" id="waypointsFileInput" accept=".json" style="display: none;">
                                 <button id="saveRouteBtn" class="toolbar-btn" title="保存路线配置">
@@ -333,11 +334,11 @@
                                     </div>
                                 </div>
 
-                                <!-- 文件列表 -->
+                                <!-- 路径列表 -->
                                 <div class="route-planner-files">
-                                    <h3><i class="fas fa-file"></i> 已加载文件</h3>
+                                    <h3><i class="fas fa-file"></i> 已加载路径</h3>
                                     <div id="loadedFilesList" class="files-list">
-                                        <p class="no-files">暂无加载的文件</p>
+                                        <p class="no-files">暂无加载的路径</p>
                                     </div>
                                 </div>
                             </div>

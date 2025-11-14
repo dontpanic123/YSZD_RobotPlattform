@@ -564,6 +564,25 @@ class RobotWebApp {
                             window.routePlanner.setupCanvas();
                         }
                     }
+                    
+                    // 如果是机器人控制页面（包含路径导航），刷新路线规划节点配置
+                    if (targetTab === 'control' && window.waypointSystem) {
+                        console.log('🔄 切换到机器人控制页面，刷新路线规划节点配置...');
+                        // 刷新终点节点列表
+                        if (window.waypointSystem.updateDestinationNodeList) {
+                            window.waypointSystem.updateDestinationNodeList();
+                        }
+                        // 同步当前位置信息
+                        if (window.waypointSystem.syncLocationFromRobotStatus) {
+                            window.waypointSystem.syncLocationFromRobotStatus();
+                        }
+                        // 更新当前位置显示
+                        if (window.waypointSystem.updateCurrentLocationDisplay) {
+                            window.waypointSystem.updateCurrentLocationDisplay();
+                        }
+                        console.log('✅ 路线规划节点配置已刷新');
+                    }
+                    
                     console.log('📊 目标面板样式:', window.getComputedStyle(targetPanel).display);
                     
                     // 如果是waypoint tab，检查内容

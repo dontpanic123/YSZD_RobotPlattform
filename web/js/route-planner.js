@@ -1399,7 +1399,7 @@ class RoutePlanner {
         if (!this.loadedFilesList) return;
         
         if (this.loadedFiles.length === 0) {
-            this.loadedFilesList.innerHTML = '<p class="no-files">暂无加载的文件</p>';
+            this.loadedFilesList.innerHTML = '<p class="no-files">暂无加载的路径</p>';
             return;
         }
         
