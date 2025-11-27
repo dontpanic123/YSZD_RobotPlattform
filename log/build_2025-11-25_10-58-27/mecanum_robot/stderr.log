@@ -1,0 +1,1 @@
+CMake Error: The current CMakeCache.txt directory /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/CMakeCache.txt is different than the directory /home/bd/Documents/Robot/agv_sim/build/mecanum_robot where CMakeCache.txt was created. This may result in binaries being created in the wrong place. If you are not sure, reedit the CMakeCache.txt

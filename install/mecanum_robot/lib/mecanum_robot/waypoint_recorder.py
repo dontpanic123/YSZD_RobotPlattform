@@ -24,7 +24,15 @@ class WaypointRecorder(Node):
         self.declare_parameter('recording', False)
         self.declare_parameter('waypoint_distance_threshold', 0.5)  # 米
         self.declare_parameter('waypoint_angle_threshold', 0.2)      # 弧度
-        self.declare_parameter('output_directory', '/home/bd/Documents/Robot/agv_sim/waypoints')
+        # 获取工作空间根目录
+        workspace_root = os.path.join(os.path.expanduser('~'), 'Documents', 'Robot', 'YSZD_RobotPlattform')
+        # 尝试从环境变量获取
+        if 'COLCON_PREFIX_PATH' in os.environ:
+            colcon_path = os.environ['COLCON_PREFIX_PATH']
+            if 'install' in colcon_path:
+                workspace_root = os.path.dirname(colcon_path)
+        default_output_dir = os.path.join(workspace_root, 'waypoints')
+        self.declare_parameter('output_directory', default_output_dir)
         self.declare_parameter('topic_odom', '/odom')
         
         # 获取参数

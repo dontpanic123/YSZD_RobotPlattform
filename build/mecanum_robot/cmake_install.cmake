@@ -1,8 +1,8 @@
-# Install script for directory: /home/bd/Documents/Robot/agv_sim
+# Install script for directory: /home/bd/Documents/Robot/YSZD_RobotPlattform
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/bd/Documents/Robot/agv_sim/install/mecanum_robot")
+  set(CMAKE_INSTALL_PREFIX "/home/bd/Documents/Robot/YSZD_RobotPlattform/install/mecanum_robot")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -43,66 +43,67 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/pythonpath.sh")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/pythonpath.sh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/pythonpath.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/pythonpath.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_python/mecanum_robot/mecanum_robot.egg-info/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3.10/site-packages/mecanum_robot-1.0.0-py3.10.egg-info" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_python/mecanum_robot/mecanum_robot.egg-info/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3.10/site-packages/mecanum_robot" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/agv_sim/mecanum_robot/" REGEX "/[^/]*\\.pyc$" EXCLUDE REGEX "/\\_\\_pycache\\_\\_$" EXCLUDE)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3.10/site-packages/mecanum_robot" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/mecanum_robot/" REGEX "/[^/]*\\.pyc$" EXCLUDE REGEX "/\\_\\_pycache\\_\\_$" EXCLUDE)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   execute_process(
         COMMAND
         "/home/bd/Documents/airflow/airflow_env/bin/python3" "-m" "compileall"
-        "/home/bd/Documents/Robot/agv_sim/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot"
+        "/home/bd/Documents/Robot/YSZD_RobotPlattform/install/mecanum_robot/lib/python3.10/site-packages/mecanum_robot"
       )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/mecanum_robot" TYPE PROGRAM FILES
-    "/home/bd/Documents/Robot/agv_sim/scripts/robot_node.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/remote_control.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/path_publisher.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/camera_node_fixed.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/apriltag_detector_enhanced.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/position_calculator.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/image_viewer.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/waypoint_follower.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/waypoint_recorder.py"
-    "/home/bd/Documents/Robot/agv_sim/scripts/ros2_websocket_bridge.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/robot_node.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/remote_control.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/path_publisher.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/camera_node_fixed.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/apriltag_detector_enhanced.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/apriltag_detector_opencv4.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/position_calculator.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/image_viewer.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/waypoint_follower.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/waypoint_recorder.py"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/scripts/ros2_websocket_bridge.py"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/agv_sim/launch")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/launch")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/agv_sim/urdf")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/urdf")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/agv_sim/rviz")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/rviz")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/agv_sim/config")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/" TYPE DIRECTORY FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/config")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/package_run_dependencies" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/mecanum_robot")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/package_run_dependencies" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/mecanum_robot")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/parent_prefix_path" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/mecanum_robot")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/parent_prefix_path" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/mecanum_robot")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -110,7 +111,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/ament_prefix_path.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/ament_prefix_path.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -118,42 +119,42 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/path.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/environment" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/path.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.bash")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.bash")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.sh")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.sh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.zsh")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.zsh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/local_setup.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_environment_hooks/package.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_environment_hooks/package.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/packages" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_index/share/ament_index/resource_index/packages/mecanum_robot")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/packages" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_index/share/ament_index/resource_index/packages/mecanum_robot")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot/cmake" TYPE FILE FILES
-    "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_core/mecanum_robotConfig.cmake"
-    "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/ament_cmake_core/mecanum_robotConfig-version.cmake"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_core/mecanum_robotConfig.cmake"
+    "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_core/mecanum_robotConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/agv_sim/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mecanum_robot" TYPE FILE FILES "/home/bd/Documents/Robot/YSZD_RobotPlattform/package.xml")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -164,5 +165,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

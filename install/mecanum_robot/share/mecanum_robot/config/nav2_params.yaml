@@ -272,7 +272,8 @@ global_costmap:
 map_server:
   ros__parameters:
     use_sim_time: True
-    yaml_filename: "/home/bd/Documents/Robot/agv_sim/maps/map/test_map.yaml"
+    # yaml_filename 应该通过launch文件参数传递，这里留空或使用相对路径
+    # 实际路径会在launch文件中设置
 
 map_saver:
   ros__parameters:

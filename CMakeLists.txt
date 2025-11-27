@@ -26,6 +26,7 @@ install(PROGRAMS
   scripts/path_publisher.py
   scripts/camera_node_fixed.py
   scripts/apriltag_detector_enhanced.py
+  scripts/apriltag_detector_opencv4.py
   scripts/position_calculator.py
   scripts/image_viewer.py
   scripts/waypoint_follower.py

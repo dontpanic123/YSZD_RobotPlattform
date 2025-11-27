@@ -11,6 +11,7 @@ import numpy as np
 import math
 from tf2_ros import TransformBroadcaster
 from geometry_msgs.msg import Quaternion
+import time
 
 class AprilTagDetectorNode(Node):
     def __init__(self):
@@ -48,17 +49,35 @@ class AprilTagDetectorNode(Node):
         self.dist_coeffs = None
         self.camera_info_received = False
         
-        # AprilTag检测器
-        self.detector = cv2.aruco.ArucoDetector(
-            cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_APRILTAG_36h11),
-            cv2.aruco.DetectorParameters()
-        )
+        # AprilTag检测器（参数优化）
+        aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_APRILTAG_36h11)
+        detector_params = cv2.aruco.DetectorParameters()
+        # 角点细化提高定位稳定性
+        if hasattr(detector_params, 'cornerRefinementMethod'):
+            detector_params.cornerRefinementMethod = cv2.aruco.CORNER_REFINE_SUBPIX
+        if hasattr(detector_params, 'cornerRefinementWinSize'):
+            detector_params.cornerRefinementWinSize = 5
+        if hasattr(detector_params, 'cornerRefinementMaxIterations'):
+            detector_params.cornerRefinementMaxIterations = 30
+        if hasattr(detector_params, 'cornerRefinementMinAccuracy'):
+            detector_params.cornerRefinementMinAccuracy = 0.01
+        # 过滤极小/极大周长候选以降低误检
+        if hasattr(detector_params, 'minMarkerPerimeterRate'):
+            detector_params.minMarkerPerimeterRate = 0.02
+        if hasattr(detector_params, 'maxMarkerPerimeterRate'):
+            detector_params.maxMarkerPerimeterRate = 4.0
+        self.detector = cv2.aruco.ArucoDetector(aruco_dict, detector_params)
         
         # AprilTag物理尺寸（米）
         self.tag_size = 0.1  # 10cm x 10cm标签
         
         # 检测到的标签信息
         self.detected_tags = {}
+
+        # 性能与日志节流
+        self.image_scale = 0.75  # 0.5~1.0，越小越快
+        self.last_log_time = 0.0
+        self.log_interval_sec = 1.0
         
         # 创建定时器
         self.timer = self.create_timer(0.1, self.publish_status)
@@ -95,13 +114,26 @@ class AprilTagDetectorNode(Node):
         if not self.camera_info_received:
             return
         
+        # 可选下采样以提升性能
+        if self.image_scale < 1.0:
+            small_image = cv2.resize(image, None, fx=self.image_scale, fy=self.image_scale, interpolation=cv2.INTER_AREA)
+        else:
+            small_image = image
+        
         # 转换为灰度图像
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(small_image, cv2.COLOR_BGR2GRAY)
         
         # 检测AprilTag
         corners, ids, rejected = self.detector.detectMarkers(gray)
         
         if ids is not None and len(ids) > 0:
+            # 如果进行了下采样，需要把角点坐标放大回原始尺度
+            if self.image_scale < 1.0:
+                scaled_corners = []
+                scale = 1.0 / self.image_scale
+                for c in corners:
+                    scaled_corners.append((c * scale).astype(np.float32))
+                corners = scaled_corners
             # 使用solvePnP进行位姿估计
             self.estimate_pose_with_solvePnP(corners, ids, timestamp, image)
         else:
@@ -159,20 +191,15 @@ class AprilTagDetectorNode(Node):
                     # 在图像上绘制检测结果
                     self.draw_detection(image, corners[i], tag_id, tvec.flatten(), distance)
                     
-                    # 终端输出检测结果
-                    print(f"\n🎯 ===== AprilTag 检测结果 =====")
-                    print(f"🆔 标签ID: {tag_id}")
-                    print(f"📏 距离: {distance:.2f} 米")
-                    print(f"📍 位置: X={tvec[0][0]:.2f}, Y={tvec[1][0]:.2f}, Z={tvec[2][0]:.2f}")
-                    print(f"⏰ 时间戳: {timestamp.sec}.{timestamp.nanosec//1000000:03d}")
-                    print(f"🎯 ==============================\n")
-                    
-                    # 同时记录到日志
-                    self.get_logger().info(
-                        f'🎯 检测到AprilTag ID: {tag_id}, '
-                        f'距离: {distance:.2f}m, '
-                        f'位置: ({tvec[0][0]:.2f}, {tvec[1][0]:.2f}, {tvec[2][0]:.2f})'
-                    )
+                    # 节流日志输出，避免刷屏
+                    now = time.time()
+                    if now - self.last_log_time > self.log_interval_sec:
+                        self.last_log_time = now
+                        self.get_logger().info(
+                            f'🎯 检测到AprilTag ID: {int(tag_id)}, '
+                            f'距离: {distance:.2f}m, '
+                            f'位置: ({tvec[0][0]:.2f}, {tvec[1][0]:.2f}, {tvec[2][0]:.2f})'
+                        )
                     
             except Exception as e:
                 self.get_logger().error(f'位姿估计错误: {e}')
@@ -245,9 +272,11 @@ class AprilTagDetectorNode(Node):
         except Exception as e:
             self.get_logger().warn(f'绘制坐标轴失败: {e}')
         
-        # 添加文本信息
-        text = f"ID: {tag_id}, Dist: {distance:.2f}m"
-        cv2.putText(image, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        # 在标签附近添加文本信息（ID与距离）
+        center_pt = np.mean(corners, axis=1).astype(np.int32)[0]
+        text = f"ID:{int(tag_id)} {distance:.2f}m"
+        text_origin = (int(center_pt[0]) + 5, int(center_pt[1]) - 5)
+        cv2.putText(image, text, text_origin, cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
     
     def publish_processed_image(self, image):
         """发布处理后的图像"""
@@ -261,7 +290,9 @@ class AprilTagDetectorNode(Node):
         """发布检测状态"""
         status_msg = String()
         if self.detected_tags:
-            status_msg.data = f"检测到 {len(self.detected_tags)} 个标签"
+            ids = [int(i) for i in self.detected_tags.keys()]
+            ids.sort()
+            status_msg.data = f"检测到 {len(ids)} 个标签: {ids}"
         else:
             status_msg.data = "未检测到标签"
         

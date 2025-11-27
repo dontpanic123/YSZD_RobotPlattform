@@ -15,8 +15,12 @@ def generate_launch_description():
     # 参数文件路径
     params_file = os.path.join(pkg_share, 'config', 'nav2_params.yaml')
     
-    # 地图文件路径
-    map_file = '/home/bd/Documents/Robot/agv_sim/maps/map/test_map.yaml'
+    # 地图文件路径 - 使用包路径
+    map_file = os.path.join(pkg_share, '..', '..', '..', 'maps', 'map', 'test_map.yaml')
+    # 如果地图文件不在包路径下，可以通过启动参数指定
+    map_file_default = os.path.join(os.path.expanduser('~'), 'Documents', 'Robot', 'YSZD_RobotPlattform', 'maps', 'map', 'test_map.yaml')
+    if os.path.exists(map_file_default):
+        map_file = map_file_default
     
     # 机器人描述文件
     urdf_file = os.path.join(pkg_share, 'urdf', 'mecanum_robot.urdf')
@@ -85,7 +89,7 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        arguments=['-d', '/home/bd/Documents/Robot/agv_sim/rviz/nav2_with_obstacles.rviz'],
+        arguments=['-d', os.path.join(pkg_share, 'rviz', 'nav2_with_obstacles.rviz')],
         parameters=[{'use_sim_time': use_sim_time}],
         output='screen')
     
@@ -105,6 +109,15 @@ def generate_launch_description():
     ld.add_action(rviz_cmd)
     
     return ld
+
+
+
+
+
+
+
+
+
 
 
 

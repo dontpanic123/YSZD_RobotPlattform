@@ -447,10 +447,13 @@ class RobotController {
     
     updateMovement() {
         let linear = 0.0;      // 前进/后退 (linear.x)
-        let lateral = 0.0;      // 左移/右移 (linear.y)
-        let angular = 0.0;      // 旋转 (angular.z)
+        let lateral = 0.0;      // 左移/右移 (linear.y) - 舵轮模式下不使用
+        let angular = 0.0;      // 转向控制 (angular.z)
         
-        // 麦克纳姆轮控制逻辑 - 与remote_control.py保持一致
+        // 舵轮控制逻辑
+        // W/S: 控制主动轮正转/反转（前进/后退）
+        // A/D: 控制转向角（左转/右转）
+        
         // 前进/后退控制 (w/s)
         if (this.currentKeys.has('w') || this.currentKeys.has('forward')) {
             linear = this.maxLinearSpeed;
@@ -459,20 +462,22 @@ class RobotController {
             linear = -this.maxLinearSpeed;
         }
         
-        // 侧向移动控制 (a/d)
+        // 转向控制 (a/d) - 控制主动轮转向角
+        // A键: 左转 -> 前主动轮向左转45°，后主动轮向右转45°
+        // D键: 右转 -> 前主动轮向右转45°，后主动轮向左转45°
         if (this.currentKeys.has('a') || this.currentKeys.has('left_shift')) {
-            lateral = this.maxLateralSpeed;
+            angular = this.maxAngularSpeed;  // 左转
         }
         if (this.currentKeys.has('d') || this.currentKeys.has('right_shift')) {
-            lateral = -this.maxLateralSpeed;
+            angular = -this.maxAngularSpeed;  // 右转
         }
         
-        // 旋转控制 (q/e) - 提高灵敏度
+        // 旋转控制 (q/e) - 保留用于更精细的转向控制
         if (this.currentKeys.has('q') || this.currentKeys.has('rotate_left')) {
-            angular = this.maxAngularSpeed * 1.2; // 提高20%的灵敏度
+            angular = this.maxAngularSpeed;
         }
         if (this.currentKeys.has('e') || this.currentKeys.has('rotate_right')) {
-            angular = -this.maxAngularSpeed * 1.2; // 提高20%的灵敏度
+            angular = -this.maxAngularSpeed;
         }
         
         // 停止 (x)

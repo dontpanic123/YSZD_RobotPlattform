@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>像素化粒子轨迹效果</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d0e8f0 50%, #c8e0ec 100%);
+            min-height: 100vh;
+            font-family: 'Rajdhani', sans-serif;
+            color: #2a4a5e;
+            overflow: hidden;
+        }
+        
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        
+        video {
+            display: none;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            min-width: 260px;
+            box-shadow: 
+                0 8px 32px rgba(0, 100, 150, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .controls:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(0, 100, 150, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+        }
+        
+        .controls h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a3a4a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 150, 200, 0.2);
+        }
+        
+        .control-group {
+            margin-bottom: 18px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            color: #3a6a8a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, rgba(0, 180, 220, 0.2), rgba(0, 150, 200, 0.3));
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #00c8e0, #0090b0);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 180, 220, 0.4);
+            transition: transform 0.2s;
+        }
+        
+        .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        
+        .control-group .value {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #0090b0;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00c8e0, #0090b0);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 180, 220, 0.3);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(0, 180, 220, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.4);
+            color: #2a5a7a;
+            margin-top: 10px;
+            border: 1px solid rgba(0, 150, 200, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(0, 180, 220, 0.1);
+            border: 1px solid rgba(0, 180, 220, 0.2);
+            font-size: 0.7rem;
+            text-align: center;
+            color: #2a6a8a;
+        }
+        
+        .mode-toggle {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 8px 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(0, 150, 200, 0.2);
+            color: #5a8aa0;
+            font-size: 0.65rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, rgba(0, 200, 224, 0.3), rgba(0, 144, 176, 0.3));
+            border-color: #00c8e0;
+            color: #006080;
+        }
+        
+        .mode-btn:hover {
+            background: rgba(0, 200, 224, 0.2);
+        }
+        
+        /* 折叠按钮 */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #2a5a7a;
+            z-index: 100;
+        }
+        
+        .controls {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .controls.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(20px);
+        }
+        
+        body.hide-cursor {
+            cursor: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="controls" id="controls">
+        <h2>✦ 粒子控制 ✦</h2>
+        
+        <div class="mode-toggle">
+            <button class="mode-btn active" data-mode="trail">轨迹</button>
+            <button class="mode-btn" data-mode="explode">爆炸</button>
+            <button class="mode-btn" data-mode="wave">波浪</button>
+        </div>
+        
+        <div class="control-group">
+            <label>像素化程度</label>
+            <input type="range" id="pixelSize" min="4" max="16" value="6">
+            <div class="value" id="pixelSizeValue">6px</div>
+        </div>
+        
+        <div class="control-group">
+            <label>轨迹长度</label>
+            <input type="range" id="trailLength" min="5" max="30" value="12">
+            <div class="value" id="trailLengthValue">12</div>
+        </div>
+        
+        <div class="control-group">
+            <label>粒子速度</label>
+            <input type="range" id="speed" min="1" max="10" value="4">
+            <div class="value" id="speedValue">4</div>
+        </div>
+        
+        <div class="control-group">
+            <label>粒子大小</label>
+            <input type="range" id="particleSize" min="1" max="6" value="2">
+            <div class="value" id="particleSizeValue">2px</div>
+        </div>
+        
+        <div class="control-group">
+            <label>发光强度</label>
+            <input type="range" id="glow" min="0" max="15" value="6">
+            <div class="value" id="glowValue">6</div>
+        </div>
+        
+        <button class="btn btn-primary" id="startBtn">启动摄像头</button>
+        <button class="btn btn-secondary" id="resetBtn">重置粒子</button>
+        
+        <div class="status" id="status">点击"启动摄像头"开始</div>
+    </div>
+    
+    <video id="video" autoplay playsinline></video>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const video = document.getElementById('video');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const status = document.getElementById('status');
+        
+        // 全屏画布
+        let WIDTH, HEIGHT;
+        function resizeCanvas() {
+            WIDTH = window.innerWidth;
+            HEIGHT = window.innerHeight;
+            canvas.width = WIDTH;
+            canvas.height = HEIGHT;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            if (isRunning) {
+                createParticlesFromVideo();
+            }
+        });
+        
+        // 参数
+        let pixelSize = 6;
+        let trailLength = 12;
+        let speed = 4;
+        let particleSize = 2;
+        let glowIntensity = 6;
+        let currentMode = 'trail';
+        
+        // 粒子数组
+        let particles = [];
+        let isRunning = false;
+        
+        // 粒子类 - 极简优化版
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.ox = x;  // origin
+                this.oy = y;
+                this.r = color.r;
+                this.g = color.g;
+                this.b = color.b;
+                this.pr = color.r;  // prev color
+                this.pg = color.g;
+                this.pb = color.b;
+                this.vx = 0;
+                this.vy = 0;
+                this.m = 0;  // motion
+                this.fx = 0;  // flow
+                this.fy = 0;
+            }
+            
+            update() {
+                // 计算运动量
+                const diff = Math.abs(this.r - this.pr) + Math.abs(this.g - this.pg) + Math.abs(this.b - this.pb);
+                this.m = this.m * 0.5 + diff * 0.5;
+                this.pr = this.r;
+                this.pg = this.g;
+                this.pb = this.b;
+                
+                if (this.m < 15) {
+                    // 静态：快速回归
+                    this.x += (this.ox - this.x) * 0.5;
+                    this.y += (this.oy - this.y) * 0.5;
+                    return false;
+                }
+                
+                // 动态：沿光流方向运动
+                const mag = this.fx * this.fx + this.fy * this.fy;
+                if (mag > 0.25) {
+                    const s = speed * Math.min(this.m * 0.03, 2) / Math.sqrt(mag);
+                    this.vx += this.fx * s;
+                    this.vy += this.fy * s;
+                }
+                
+                // 回归力和阻尼
+                this.vx = this.vx * 0.9 + (this.ox - this.x) * 0.01;
+                this.vy = this.vy * 0.9 + (this.oy - this.y) * 0.01;
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                return true;
+            }
+        }
+        
+        function createParticlesFromVideo() {
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = WIDTH;
+            tempCanvas.height = HEIGHT;
+            
+            tempCtx.drawImage(video, 0, 0, WIDTH, HEIGHT);
+            const imageData = tempCtx.getImageData(0, 0, WIDTH, HEIGHT);
+            const data = imageData.data;
+            
+            particles = [];
+            
+            for (let y = 0; y < HEIGHT; y += pixelSize) {
+                for (let x = 0; x < WIDTH; x += pixelSize) {
+                    const i = (y * WIDTH + x) * 4;
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    
+                    // 不再跳过暗像素，所有位置都创建粒子
+                    particles.push(new Particle(x, y, { r, g, b }));
+                }
+            }
+            
+            status.textContent = `粒子: ${particles.length} | ${WIDTH}x${HEIGHT}`;
+        }
+        
+        // 复用对象
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        let prevData = null;
+        
+        function updateParticles() {
+            if (!video.videoWidth) return;
+            
+            if (tempCanvas.width !== WIDTH) {
+                tempCanvas.width = WIDTH;
+                tempCanvas.height = HEIGHT;
+            }
+            
+            tempCtx.drawImage(video, 0, 0, WIDTH, HEIGHT);
+            const data = tempCtx.getImageData(0, 0, WIDTH, HEIGHT).data;
+            const step = pixelSize;
+            const w4 = WIDTH * 4;
+            
+            for (let j = 0, len = particles.length; j < len; j++) {
+                const p = particles[j];
+                const px = p.ox | 0;
+                const py = p.oy | 0;
+                const i = py * w4 + px * 4;
+                
+                // 更新颜色
+                p.r = data[i];
+                p.g = data[i + 1];
+                p.b = data[i + 2];
+                
+                // 简化光流：只用帧差方向
+                if (prevData) {
+                    const dt = (p.r + p.g + p.b) - (prevData[i] + prevData[i+1] + prevData[i+2]);
+                    if (Math.abs(dt) > 20) {
+                        // 用相邻像素差估算方向
+                        const iR = i + step * 4;
+                        const iD = i + step * w4;
+                        if (iR < data.length && iD < data.length) {
+                            const dx = (data[iR] + data[iR+1] + data[iR+2]) - (p.r + p.g + p.b);
+                            const dy = (data[iD] + data[iD+1] + data[iD+2]) - (p.r + p.g + p.b);
+                            p.fx = p.fx * 0.5 - dx * 0.02;
+                            p.fy = p.fy * 0.5 - dy * 0.02;
+                        }
+                    } else {
+                        p.fx *= 0.8;
+                        p.fy *= 0.8;
+                    }
+                }
+            }
+            
+            prevData = new Uint8ClampedArray(data);
+        }
+        
+        let frameCount = 0;
+        
+        function animate() {
+            if (!isRunning) return;
+            
+            // 背景淡出
+            ctx.fillStyle = 'rgba(232, 244, 248, 0.18)';
+            ctx.fillRect(0, 0, WIDTH, HEIGHT);
+            
+            // 每3帧更新
+            if (++frameCount % 3 === 0) {
+                updateParticles();
+            }
+            
+            // 批量绘制 - 禁用阴影提升性能
+            ctx.shadowBlur = 0;
+            const len = particles.length;
+            
+            for (let i = 0; i < len; i++) {
+                const p = particles[i];
+                const isMoving = p.update();
+                
+                // 绘制粒子
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, particleSize, 0, 6.28);
+                
+                if (isMoving && glowIntensity > 3) {
+                    ctx.fillStyle = `rgba(${p.r}, ${p.g}, ${p.b}, 0.9)`;
+                } else {
+                    ctx.fillStyle = `rgb(${p.r}, ${p.g}, ${p.b})`;
+                }
+                ctx.fill();
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { 
+                        width: { ideal: 1280 }, 
+                        height: { ideal: 720 }, 
+                        facingMode: 'user',
+                        frameRate: { ideal: 60 }
+                    }
+                });
+                
+                video.srcObject = stream;
+                await video.play();
+                
+                status.textContent = '摄像头已启动...';
+                
+                setTimeout(() => {
+                    createParticlesFromVideo();
+                    isRunning = true;
+                    requestAnimationFrame(animate);
+                    startBtn.textContent = '重新采样';
+                }, 300);
+                
+            } catch (err) {
+                status.textContent = '摄像头错误: ' + err.message;
+                console.error(err);
+            }
+        }
+        
+        startBtn.addEventListener('click', () => {
+            if (video.srcObject) {
+                createParticlesFromVideo();
+            } else {
+                startCamera();
+            }
+        });
+        
+        resetBtn.addEventListener('click', () => {
+            particles.forEach(p => {
+                p.x = p.originX;
+                p.y = p.originY;
+                p.vx = 0;
+                p.vy = 0;
+                p.trail = [];
+            });
+        });
+        
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMode = btn.dataset.mode;
+            });
+        });
+        
+        // 滑块控制
+        document.getElementById('pixelSize').addEventListener('input', (e) => {
+            pixelSize = parseInt(e.target.value);
+            document.getElementById('pixelSizeValue').textContent = pixelSize + 'px';
+        });
+        
+        document.getElementById('trailLength').addEventListener('input', (e) => {
+            trailLength = parseInt(e.target.value);
+            document.getElementById('trailLengthValue').textContent = trailLength;
+        });
+        
+        document.getElementById('speed').addEventListener('input', (e) => {
+            speed = parseInt(e.target.value);
+            document.getElementById('speedValue').textContent = speed;
+        });
+        
+        document.getElementById('particleSize').addEventListener('input', (e) => {
+            particleSize = parseInt(e.target.value);
+            document.getElementById('particleSizeValue').textContent = particleSize + 'px';
+        });
+        
+        document.getElementById('glow').addEventListener('input', (e) => {
+            glowIntensity = parseInt(e.target.value);
+            document.getElementById('glowValue').textContent = glowIntensity;
+        });
+        
+        // 初始化
+        ctx.fillStyle = '#e8f4f8';
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        ctx.fillStyle = '#6a9ab0';
+        ctx.font = '18px Rajdhani';
+        ctx.textAlign = 'center';
+        ctx.fillText('点击右侧"启动摄像头"开始', WIDTH/2, HEIGHT/2);
+        
+        // 自动隐藏控制面板
+        let hideTimer = null;
+        const controlsEl = document.getElementById('controls');
+        
+        function showControls() {
+            controlsEl.classList.remove('hidden');
+            document.body.classList.remove('hide-cursor');
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(() => {
+                controlsEl.classList.add('hidden');
+                document.body.classList.add('hide-cursor');
+            }, 3000);
+        }
+        
+        document.addEventListener('mousemove', showControls);
+        document.addEventListener('click', showControls);
+        showControls();
+    </script>
+</body>
+</html>

@@ -101,31 +101,31 @@
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 38,
+				"line" : 39,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 44,
+				"line" : 45,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 50,
+				"line" : 51,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 56,
+				"line" : 57,
 				"parent" : 0
 			},
 			{
 				"command" : 9,
 				"file" : 3,
-				"line" : 66,
+				"line" : 67,
 				"parent" : 0
 			},
 			{
@@ -368,6 +368,7 @@
 				"scripts/path_publisher.py",
 				"scripts/camera_node_fixed.py",
 				"scripts/apriltag_detector_enhanced.py",
+				"scripts/apriltag_detector_opencv4.py",
 				"scripts/position_calculator.py",
 				"scripts/image_viewer.py",
 				"scripts/waypoint_follower.py",

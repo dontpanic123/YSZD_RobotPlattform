@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-12e555800cb7dafbaa61.json",
+					"jsonFile" : "directory-.-65ce6851069b07bd9451.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.12"
@@ -77,8 +77,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/bd/Documents/Robot/agv_sim/build/mecanum_robot",
-		"source" : "/home/bd/Documents/Robot/agv_sim"
+		"build" : "/home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot",
+		"source" : "/home/bd/Documents/Robot/YSZD_RobotPlattform"
 	},
 	"version" : 
 	{
