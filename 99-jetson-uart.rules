@@ -1,0 +1,17 @@
+# udev rules for Jetson UART devices
+# This file should be copied to /etc/udev/rules.d/99-jetson-uart.rules
+# Then run: sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# Jetson UART1 (ttyTHS1) - Allow dialout group access
+KERNEL=="ttyTHS1", MODE="0664", GROUP="dialout"
+
+# Jetson UART0 (ttyTHS0) - Allow dialout group access
+KERNEL=="ttyTHS0", MODE="0664", GROUP="dialout"
+
+# Jetson UART2 (ttyTHS2) - Allow dialout group access
+KERNEL=="ttyTHS2", MODE="0664", GROUP="dialout"
+
+# Jetson UART3 (ttyTHS3) - Allow dialout group access
+KERNEL=="ttyTHS3", MODE="0664", GROUP="dialout"
+
+

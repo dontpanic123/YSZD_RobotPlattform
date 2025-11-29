@@ -56,6 +56,31 @@ def generate_launch_description():
             default_value='false',
             description='是否启动遥控节点'
         ),
+        DeclareLaunchArgument(
+            'front_camera_serial',
+            default_value='',
+            description='前置摄像头序列号（留空则自动选择第一个）'
+        ),
+        DeclareLaunchArgument(
+            'back_camera_serial',
+            default_value='',
+            description='后置摄像头序列号（留空则自动选择第二个）'
+        ),
+        DeclareLaunchArgument(
+            'use_ultrasonic',
+            default_value='true',
+            description='是否启动超声波传感器'
+        ),
+        DeclareLaunchArgument(
+            'ultrasonic_serial_port',
+            default_value='/dev/ttyTHS1',
+            description='超声波传感器串口设备路径'
+        ),
+        DeclareLaunchArgument(
+            'ultrasonic_baudrate',
+            default_value='115200',
+            description='超声波传感器波特率'
+        ),
         
         # Robot State Publisher
         Node(
@@ -114,14 +139,19 @@ def generate_launch_description():
             }]
         ),
         
-        # 修复版摄像头节点
+        # RealSense双摄像头节点（C++多线程版本）
         Node(
             package='mecanum_robot',
-            executable='camera_node_fixed.py',
-            name='camera_node',
+            executable='realsense_dual_camera_node',
+            name='realsense_dual_camera_node',
             output='screen',
             parameters=[{
-                'use_sim_time': LaunchConfiguration('use_sim_time')
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
+                'front_camera_serial': LaunchConfiguration('front_camera_serial'),
+                'back_camera_serial': LaunchConfiguration('back_camera_serial'),
+                'width': 640,  # 标准分辨率（RealSense D435支持，如果失败会自动尝试其他分辨率）
+                'height': 480,
+                'fps': 30  # 标准帧率（如果内存不足会自动降级）
             }],
             condition=IfCondition(LaunchConfiguration('use_camera'))
         ),
@@ -148,6 +178,20 @@ def generate_launch_description():
                 'use_sim_time': LaunchConfiguration('use_sim_time')
             }],
             condition=IfCondition(LaunchConfiguration('use_navigation'))
+        ),
+        
+        # 超声波传感器节点
+        Node(
+            package='mecanum_robot',
+            executable='ultrasonic_sensor_node.py',
+            name='ultrasonic_sensor_node',
+            output='screen',
+            parameters=[{
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
+                'serial_port': LaunchConfiguration('ultrasonic_serial_port'),
+                'baudrate': LaunchConfiguration('ultrasonic_baudrate')
+            }],
+            condition=IfCondition(LaunchConfiguration('use_ultrasonic'))
         ),
         
         # RViz

@@ -9,12 +9,17 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(image_transport REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(realsense2 REQUIRED)
 
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
@@ -25,6 +30,7 @@ install(PROGRAMS
   scripts/remote_control.py
   scripts/path_publisher.py
   scripts/camera_node_fixed.py
+  scripts/realsense_camera_node.py
   scripts/apriltag_detector_enhanced.py
   scripts/apriltag_detector_opencv4.py
   scripts/position_calculator.py
@@ -32,6 +38,7 @@ install(PROGRAMS
   scripts/waypoint_follower.py
   scripts/waypoint_recorder.py
   scripts/ros2_websocket_bridge.py
+  scripts/ultrasonic_sensor_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -57,6 +64,30 @@ install(DIRECTORY
 install(DIRECTORY
   config
   DESTINATION share/${PROJECT_NAME}/
+)
+
+# Build C++ executables
+add_executable(realsense_dual_camera_node src/realsense_dual_camera_node.cpp)
+ament_target_dependencies(realsense_dual_camera_node
+  rclcpp
+  sensor_msgs
+  std_msgs
+  cv_bridge
+  image_transport
+)
+
+target_link_libraries(realsense_dual_camera_node
+  ${OpenCV_LIBS}
+  realsense2::realsense2
+)
+
+target_include_directories(realsense_dual_camera_node PUBLIC
+  ${OpenCV_INCLUDE_DIRS}
+)
+
+install(TARGETS
+  realsense_dual_camera_node
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

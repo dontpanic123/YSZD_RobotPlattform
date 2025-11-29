@@ -230,9 +230,20 @@
 
                 <!-- 摄像头视频 -->
                 <div class="video-section">
-                    <h3><i class="fas fa-video"></i> 摄像头画面</h3>
+                    <div class="video-section-header">
+                        <h3><i class="fas fa-video"></i> 摄像头画面</h3>
+                        <div class="camera-toggle-controls">
+                            <button id="cameraSelectBtn" class="camera-select-btn" title="切换摄像头: 前置 / 后置">
+                                <i class="fas fa-camera"></i> <span id="cameraSelectLabel">前置</span>
+                            </button>
+                            <button id="cameraToggleBtn" class="camera-toggle-btn" title="切换视图: RGB / 深度 / 叠加">
+                                <i class="fas fa-eye"></i> <span id="cameraToggleLabel">RGB</span>
+                            </button>
+                        </div>
+                    </div>
                     <div class="video-container">
                         <img id="cameraImage" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjQ4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuaXoOazleiDveWKoOi9vTwvdGV4dD48L3N2Zz4=" alt="摄像头画面">
+                        <img id="depthImage" class="depth-image-overlay" src="" alt="深度图像" style="display: none;">
                         <div class="video-overlay">
                             <div class="video-info">
                                 <span id="videoFPS">FPS: --</span>
@@ -252,6 +263,14 @@
                         <div class="detected-tags" id="detectedTags">
                             <!-- 检测到的标签信息将在这里显示 -->
                         </div>
+                    </div>
+                </div>
+
+                <!-- 超声波传感器显示 -->
+                <div class="ultrasonic-section">
+                    <h3><i class="fas fa-wave-square"></i> 超声波传感器</h3>
+                    <div class="ultrasonic-sensors-grid" id="ultrasonicSensorsGrid">
+                        <!-- 传感器数据将在这里动态显示 -->
                     </div>
                 </div>
                         </div>

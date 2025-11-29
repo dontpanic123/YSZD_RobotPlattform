@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/bd/Documents/Robot/YSZD_RobotPlattform
+CMAKE_SOURCE_DIR = /home/y1234/Documents/robot_ws/YSZD_RobotPlattform
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot
+CMAKE_BINARY_DIR = /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot
 
 # Utility rule file for uninstall.
 
@@ -78,6 +78,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/bd/Documents/Robot/YSZD_RobotPlattform /home/bd/Documents/Robot/YSZD_RobotPlattform /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/y1234/Documents/robot_ws/YSZD_RobotPlattform /home/y1234/Documents/robot_ws/YSZD_RobotPlattform /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/uninstall.dir/depend
 

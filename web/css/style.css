@@ -1208,15 +1208,23 @@ body {
     gap: 1.5rem;
 }
 
-.video-section, .apriltag-section, .robot-status {
+.video-section, .apriltag-section, .robot-status, .ultrasonic-section {
     background: white;
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border: 1px solid #e0e0e0;
+    margin-bottom: 1.5rem;
 }
 
-.video-section h3, .apriltag-section h3, .robot-status h3 {
+.video-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.video-section h3, .apriltag-section h3, .robot-status h3, .ultrasonic-section h3 {
     color: #2c3e50;
     margin-bottom: 1rem;
     font-size: 1.1rem;
@@ -1225,8 +1233,168 @@ body {
     gap: 0.5rem;
 }
 
-.video-section h3 i, .apriltag-section h3 i, .robot-status h3 i {
+.camera-toggle-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.camera-toggle-btn {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.camera-toggle-btn:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #1f6391 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.camera-toggle-btn:active {
+    transform: translateY(0);
+}
+
+.camera-toggle-btn.mode-rgb {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.camera-toggle-btn.mode-depth {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.camera-toggle-btn.mode-overlay {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+.camera-select-btn {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-right: 0.5rem;
+}
+
+.camera-select-btn:hover {
+    background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.camera-select-btn:active {
+    transform: translateY(0);
+}
+
+.camera-select-btn.camera-front {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.camera-select-btn.camera-back {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+.video-section h3 i, .apriltag-section h3 i, .robot-status h3 i, .ultrasonic-section h3 i {
     color: #3498db;
+}
+
+/* 超声波传感器样式 */
+.ultrasonic-sensors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.ultrasonic-sensor-item {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    border: 2px solid #dee2e6;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ultrasonic-sensor-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sensor-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.sensor-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.2;
+}
+
+.sensor-unit {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+/* 传感器状态颜色 */
+.ultrasonic-sensor-item.sensor-near {
+    border-color: #dc3545;
+    background: linear-gradient(135deg, #ffe0e0 0%, #ffcccc 100%);
+}
+
+.ultrasonic-sensor-item.sensor-near .sensor-value {
+    color: #dc3545;
+}
+
+.ultrasonic-sensor-item.sensor-mid {
+    border-color: #ffc107;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+}
+
+.ultrasonic-sensor-item.sensor-mid .sensor-value {
+    color: #856404;
+}
+
+.ultrasonic-sensor-item.sensor-far {
+    border-color: #007bff;
+    background: linear-gradient(135deg, #cfe2ff 0%, #b3d7ff 100%);
+}
+
+.ultrasonic-sensor-item.sensor-far .sensor-value {
+    color: #004085;
+}
+
+.ultrasonic-sensor-item.sensor-invalid {
+    border-color: #6c757d;
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+    opacity: 0.6;
+}
+
+.ultrasonic-sensor-item.sensor-invalid .sensor-value {
+    color: #6c757d;
 }
 
 /* 视频显示 */
@@ -1242,6 +1410,30 @@ body {
     width: 100%;
     height: auto;
     display: block;
+}
+
+.depth-image-overlay {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.depth-image-overlay.depth-only {
+    position: static;
+    opacity: 1;
+    z-index: 1;
+}
+
+.depth-image-overlay.overlay-active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 2;
 }
 
 .video-overlay {

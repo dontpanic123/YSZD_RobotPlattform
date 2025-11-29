@@ -11,7 +11,7 @@ import time
 from sensor_msgs.msg import Image, CameraInfo
 from geometry_msgs.msg import Twist, PoseStamped
 from nav_msgs.msg import Odometry
-from std_msgs.msg import String, Bool
+from std_msgs.msg import String, Bool, Float32MultiArray
 from cv_bridge import CvBridge
 import cv2
 import base64
@@ -37,9 +37,18 @@ class ROS2WebSocketBridge(Node):
         self.goal_pose_pub = self.create_publisher(PoseStamped, '/goal_pose', 10)
         self.emergency_stop_pub = self.create_publisher(Bool, '/emergency_stop', 10)
         
-        # 订阅话题
-        self.image_sub = self.create_subscription(
-            Image, '/camera/image_raw', self.image_callback, 10
+        # 订阅话题 - 前置和后置摄像头
+        self.front_image_sub = self.create_subscription(
+            Image, '/camera_front/image_raw', lambda msg: self.image_callback(msg, 'front'), 10
+        )
+        self.front_depth_sub = self.create_subscription(
+            Image, '/camera_front/depth/image_raw', lambda msg: self.depth_image_callback(msg, 'front'), 10
+        )
+        self.back_image_sub = self.create_subscription(
+            Image, '/camera_back/image_raw', lambda msg: self.image_callback(msg, 'back'), 10
+        )
+        self.back_depth_sub = self.create_subscription(
+            Image, '/camera_back/depth/image_raw', lambda msg: self.depth_image_callback(msg, 'back'), 10
         )
         self.apriltag_detection_sub = self.create_subscription(
             Image, '/apriltag_detection', self.apriltag_detection_callback, 10
@@ -61,6 +70,9 @@ class ROS2WebSocketBridge(Node):
         )
         self.waypoint_status_sub = self.create_subscription(
             String, '/waypoint_following_status', self.waypoint_status_callback, 10
+        )
+        self.ultrasonic_sensors_sub = self.create_subscription(
+            Float32MultiArray, '/ultrasonic/all_sensors', self.ultrasonic_sensors_callback, 10
         )
         
         # OpenCV桥接
@@ -195,7 +207,7 @@ class ROS2WebSocketBridge(Node):
         except Exception as e:
             self.get_logger().error(f'处理消息时出错: {e}')
     
-    def image_callback(self, msg):
+    def image_callback(self, msg, camera='front'):
         """处理摄像头图像"""
         try:
             # 转换图像
@@ -208,6 +220,7 @@ class ROS2WebSocketBridge(Node):
             # 发送到WebSocket客户端
             data = {
                 'type': 'camera_image',
+                'camera': camera,
                 'data': img_base64,
                 'width': msg.width,
                 'height': msg.height,
@@ -218,6 +231,31 @@ class ROS2WebSocketBridge(Node):
             
         except Exception as e:
             self.get_logger().error(f'处理摄像头图像时出错: {e}')
+    
+    def depth_image_callback(self, msg, camera='front'):
+        """处理深度图像"""
+        try:
+            # 转换图像 (深度图像已经是BGR8格式，因为我们在realsense_camera_node中应用了colormap)
+            cv_image = self.bridge.imgmsg_to_cv2(msg, 'bgr8')
+            
+            # 压缩图像
+            _, buffer = cv2.imencode('.jpg', cv_image, [cv2.IMWRITE_JPEG_QUALITY, 80])
+            img_base64 = base64.b64encode(buffer).decode('utf-8')
+            
+            # 发送到WebSocket客户端
+            data = {
+                'type': 'depth_image',
+                'camera': camera,
+                'data': img_base64,
+                'width': msg.width,
+                'height': msg.height,
+                'encoding': 'jpeg'
+            }
+            
+            self.broadcast_to_clients(data)
+            
+        except Exception as e:
+            self.get_logger().error(f'处理深度图像时出错: {e}')
     
     def apriltag_detection_callback(self, msg):
         """处理AprilTag检测图像"""
@@ -395,6 +433,22 @@ class ROS2WebSocketBridge(Node):
             
         except Exception as e:
             self.get_logger().error(f'处理Waypoint状态时出错: {e}')
+    
+    def ultrasonic_sensors_callback(self, msg):
+        """处理超声波传感器数据"""
+        try:
+            # 将数据转换为列表，-1表示无效传感器
+            sensor_data = list(msg.data)
+            
+            data = {
+                'type': 'ultrasonic_sensors',
+                'sensors': sensor_data  # 8个传感器的距离值（米），-1表示无效
+            }
+            
+            self.broadcast_to_clients(data)
+            
+        except Exception as e:
+            self.get_logger().error(f'处理超声波传感器数据时出错: {e}')
     
     def broadcast_to_clients(self, data):
         """向所有客户端广播数据"""

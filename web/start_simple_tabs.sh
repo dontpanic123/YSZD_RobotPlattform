@@ -18,6 +18,26 @@ fi
 
 echo "✅ 检查ROS2环境..."
 
+# 检查UART权限（如果设备存在）
+if [ -e /dev/ttyTHS1 ]; then
+    if [ ! -r /dev/ttyTHS1 ] || [ ! -w /dev/ttyTHS1 ]; then
+        echo "⚠️  UART设备权限问题检测到"
+        echo "💡 运行以下命令设置权限（只需一次）:"
+        echo "   ./setup_uart_permissions.sh"
+        echo "   然后重新登录或运行: newgrp dialout"
+        echo ""
+        echo "🔄 尝试自动修复权限（可能需要sudo密码）..."
+        sudo chmod 664 /dev/ttyTHS1 2>/dev/null || true
+        sudo chgrp dialout /dev/ttyTHS1 2>/dev/null || true
+        if [ -r /dev/ttyTHS1 ] && [ -w /dev/ttyTHS1 ]; then
+            echo "✅ 权限已临时修复（建议运行setup_uart_permissions.sh永久设置）"
+        else
+            echo "⚠️  自动修复失败，请手动运行: ./setup_uart_permissions.sh"
+        fi
+        echo ""
+    fi
+fi
+
 # 检查gnome-terminal
 if ! command -v gnome-terminal &> /dev/null; then
     echo "❌ gnome-terminal 不可用"
@@ -39,7 +59,8 @@ gnome-terminal --title="ROS2机器人系统" -- bash -c "
     ros2 run nav2_map_server map_server --ros-args -p yaml_filename:="$WORKSPACE_ROOT/maps/map/test_map.yaml" &
     sleep 2
     # 启动机器人系统（包含修复版AprilTag检测）
-    ros2 launch mecanum_robot apriltag_robot_fixed.launch.py
+    # 注意：超声波传感器节点在Tab 8中单独启动
+    ros2 launch mecanum_robot apriltag_robot_fixed.launch.py use_ultrasonic:=false
     bash
 " &
 
@@ -111,6 +132,31 @@ gnome-terminal --title="Web控制台" -- bash -c "
     bash
 " &
 
+sleep 1
+
+echo "📱 启动Tab 8: 超声波传感器节点"
+# 预先修复权限（如果需要）
+if [ ! -r /dev/ttyTHS1 ] || [ ! -w /dev/ttyTHS1 ]; then
+    echo "🔧 修复UART设备权限..."
+    sudo chmod 664 /dev/ttyTHS1 2>/dev/null || true
+    sudo chgrp dialout /dev/ttyTHS1 2>/dev/null || true
+fi
+gnome-terminal --title="超声波传感器" -- bash -c "
+    source /opt/ros/humble/setup.bash
+    source install/setup.bash
+    echo '📡 启动超声波传感器节点...'
+    echo '🔌 串口: /dev/ttyTHS1 (Jetson UART1)'
+    echo '⚡ 波特率: 115200'
+    # 如果权限仍然有问题，尝试再次修复
+    if [ ! -r /dev/ttyTHS1 ] || [ ! -w /dev/ttyTHS1 ]; then
+        echo '⚠️  权限问题，尝试修复...'
+        sudo chmod 664 /dev/ttyTHS1 2>/dev/null || true
+        sudo chgrp dialout /dev/ttyTHS1 2>/dev/null || true
+    fi
+    ros2 run mecanum_robot ultrasonic_sensor_node.py --ros-args -p serial_port:=/dev/ttyTHS1 -p baudrate:=115200
+    bash
+" &
+
 # 等待服务启动
 echo "⏳ 等待服务启动..."
 sleep 1
@@ -130,14 +176,16 @@ echo "   - ROS2服务代理: 运行中 (独立窗口)"
 echo "   - Waypoint跟踪器: 运行中 (独立窗口)"
 echo "   - 机器人状态机: 运行中 (独立窗口)"
 echo "   - Web控制台: 运行中 (独立窗口)"
+echo "   - 超声波传感器节点: 运行中 (独立窗口)"
 echo ""
 echo "💡 使用说明:"
 echo "   1. 打开浏览器访问 http://localhost:8080"
 echo "   2. 使用WASD键或摇杆控制机器人"
 echo "   3. 切换到'Waypoint导航'Tab进行路径录制和跟踪"
 echo "   4. 观察摄像头画面和AprilTag检测"
-echo "   5. 查看机器人状态机显示当前运行状态"
-echo "   6. 所有服务都在独立的terminal窗口中运行"
+echo "   5. 查看超声波传感器数据（8个传感器，编号1-8）"
+echo "   6. 查看机器人状态机显示当前运行状态"
+echo "   7. 所有服务都在独立的terminal窗口中运行"
 echo ""
 echo "🎯 Waypoint功能:"
 echo "   - 录制: 手动控制机器人录制路径点"

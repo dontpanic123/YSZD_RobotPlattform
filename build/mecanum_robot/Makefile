@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/bd/Documents/Robot/YSZD_RobotPlattform
+CMAKE_SOURCE_DIR = /home/y1234/Documents/robot_ws/YSZD_RobotPlattform
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot
+CMAKE_BINARY_DIR = /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -223,6 +223,43 @@ ament_cmake_python_build_mecanum_robot_egg/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ament_cmake_python_build_mecanum_robot_egg.dir/build.make CMakeFiles/ament_cmake_python_build_mecanum_robot_egg.dir/build
 .PHONY : ament_cmake_python_build_mecanum_robot_egg/fast
 
+#=============================================================================
+# Target rules for targets named realsense_dual_camera_node
+
+# Build rule for target.
+realsense_dual_camera_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 realsense_dual_camera_node
+.PHONY : realsense_dual_camera_node
+
+# fast build rule for target.
+realsense_dual_camera_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/realsense_dual_camera_node.dir/build.make CMakeFiles/realsense_dual_camera_node.dir/build
+.PHONY : realsense_dual_camera_node/fast
+
+src/realsense_dual_camera_node.o: src/realsense_dual_camera_node.cpp.o
+.PHONY : src/realsense_dual_camera_node.o
+
+# target to build an object file
+src/realsense_dual_camera_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/realsense_dual_camera_node.dir/build.make CMakeFiles/realsense_dual_camera_node.dir/src/realsense_dual_camera_node.cpp.o
+.PHONY : src/realsense_dual_camera_node.cpp.o
+
+src/realsense_dual_camera_node.i: src/realsense_dual_camera_node.cpp.i
+.PHONY : src/realsense_dual_camera_node.i
+
+# target to preprocess a source file
+src/realsense_dual_camera_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/realsense_dual_camera_node.dir/build.make CMakeFiles/realsense_dual_camera_node.dir/src/realsense_dual_camera_node.cpp.i
+.PHONY : src/realsense_dual_camera_node.cpp.i
+
+src/realsense_dual_camera_node.s: src/realsense_dual_camera_node.cpp.s
+.PHONY : src/realsense_dual_camera_node.s
+
+# target to generate assembly for a file
+src/realsense_dual_camera_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/realsense_dual_camera_node.dir/build.make CMakeFiles/realsense_dual_camera_node.dir/src/realsense_dual_camera_node.cpp.s
+.PHONY : src/realsense_dual_camera_node.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -240,6 +277,10 @@ help:
 	@echo "... ament_cmake_python_copy_mecanum_robot"
 	@echo "... mecanum_robot_uninstall"
 	@echo "... uninstall"
+	@echo "... realsense_dual_camera_node"
+	@echo "... src/realsense_dual_camera_node.o"
+	@echo "... src/realsense_dual_camera_node.i"
+	@echo "... src/realsense_dual_camera_node.s"
 .PHONY : help
 
 

@@ -146,10 +146,15 @@ class ROS2Bridge {
             if (messageType === 'robot_state') {
                 console.log('🤖 收到机器人状态消息:', message);
                 this.handleRobotState(message);
+            } else if (messageType === 'depth_image') {
+                this.handleDepthImage(message);
             } else {
                 switch (messageType) {
                     case 'camera_image':
                         this.handleCameraImage(message);
+                        break;
+                    case 'depth_image':
+                        this.handleDepthImage(message);
                         break;
                     case 'apriltag_detection':
                         this.handleAprilTagDetection(message);
@@ -172,6 +177,9 @@ class ROS2Bridge {
                     case 'robot_location':
                         this.handleRobotLocation(message);
                         break;
+                    case 'ultrasonic_sensors':
+                        this.handleUltrasonicSensors(message);
+                        break;
                     case 'pong':
                         console.log('🏓 收到pong响应');
                         break;
@@ -191,22 +199,51 @@ class ROS2Bridge {
     }
     
     handleCameraImage(message) {
-        // 处理摄像头图像
-        if (this.callbacks['/camera/image_raw']) {
+        // 处理摄像头图像（支持前置和后置摄像头）
+        const camera = message.camera || 'front';
+        const topic = `/camera_${camera}/image_raw`;
+        
+        if (this.callbacks[topic]) {
             // 创建模拟的ROS图像消息
             const rosMessage = {
                 header: {
                     stamp: { sec: 0, nanosec: 0 },
-                    frame_id: 'camera_link'
+                    frame_id: `camera_${camera}_link`
                 },
                 height: message.height,
                 width: message.width,
                 encoding: message.encoding,
-                data: message.data
+                data: message.data,
+                camera: camera
             };
-            const callbacks = Array.isArray(this.callbacks['/camera/image_raw']) 
-                ? this.callbacks['/camera/image_raw'] 
-                : [this.callbacks['/camera/image_raw']];
+            const callbacks = Array.isArray(this.callbacks[topic]) 
+                ? this.callbacks[topic] 
+                : [this.callbacks[topic]];
+            callbacks.forEach(cb => cb(rosMessage));
+        }
+    }
+    
+    handleDepthImage(message) {
+        // 处理深度图像（支持前置和后置摄像头）
+        const camera = message.camera || 'front';
+        const topic = `/camera_${camera}/depth/image_raw`;
+        
+        if (this.callbacks[topic]) {
+            // 创建模拟的ROS图像消息
+            const rosMessage = {
+                header: {
+                    stamp: { sec: 0, nanosec: 0 },
+                    frame_id: `camera_${camera}_link`
+                },
+                height: message.height,
+                width: message.width,
+                encoding: message.encoding,
+                data: message.data,
+                camera: camera
+            };
+            const callbacks = Array.isArray(this.callbacks[topic]) 
+                ? this.callbacks[topic] 
+                : [this.callbacks[topic]];
             callbacks.forEach(cb => cb(rosMessage));
         }
     }
@@ -353,6 +390,19 @@ class ROS2Bridge {
             const callbacks = Array.isArray(this.callbacks['/waypoint_following_status']) 
                 ? this.callbacks['/waypoint_following_status'] 
                 : [this.callbacks['/waypoint_following_status']];
+            callbacks.forEach(cb => cb(rosMessage));
+        }
+    }
+    
+    handleUltrasonicSensors(message) {
+        // 处理超声波传感器数据
+        if (this.callbacks['/ultrasonic/all_sensors']) {
+            const rosMessage = {
+                data: message.sensors || []
+            };
+            const callbacks = Array.isArray(this.callbacks['/ultrasonic/all_sensors']) 
+                ? this.callbacks['/ultrasonic/all_sensors'] 
+                : [this.callbacks['/ultrasonic/all_sensors']];
             callbacks.forEach(cb => cb(rosMessage));
         }
     }

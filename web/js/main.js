@@ -21,6 +21,14 @@ class RobotWebApp {
         this.lastApriltagDetectionTime = 0;
         this.locationUpdateTimer = null;
         
+        // 摄像头视图模式: 'rgb', 'depth', 'overlay'
+        this.currentViewMode = 'rgb';
+        // 当前选择的摄像头: 'front' or 'back'
+        this.currentCamera = 'front';
+        // 分别存储前置和后置摄像头的图像数据
+        this.rgbImageData = { front: null, back: null };
+        this.depthImageData = { front: null, back: null };
+        
         this.init();
     }
     
@@ -102,6 +110,7 @@ class RobotWebApp {
         setTimeout(() => {
             this.setupAprilTagDisplay();
             this.setupRobotStatus();
+            this.setupUltrasonicDisplay();
         }, 2000);
         
         // 设置Waypoint系统模块
@@ -138,15 +147,162 @@ class RobotWebApp {
     setupCameraDisplay() {
         if (!this.ros2Bridge) return;
         
-        // 订阅摄像头图像
-        this.ros2Bridge.subscribe('/camera/image_raw', (message) => {
-            this.updateCameraImage(message);
+        // 订阅前置摄像头图像
+        this.ros2Bridge.subscribe('/camera_front/image_raw', (message) => {
+            this.updateCameraImage(message, 'front');
+        });
+        
+        // 订阅后置摄像头图像
+        this.ros2Bridge.subscribe('/camera_back/image_raw', (message) => {
+            this.updateCameraImage(message, 'back');
+        });
+        
+        // 订阅前置摄像头深度图像
+        this.ros2Bridge.subscribe('/camera_front/depth/image_raw', (message) => {
+            this.updateDepthImage(message, 'front');
+        });
+        
+        // 订阅后置摄像头深度图像
+        this.ros2Bridge.subscribe('/camera_back/depth/image_raw', (message) => {
+            this.updateDepthImage(message, 'back');
         });
         
         // 订阅AprilTag检测图像
         this.ros2Bridge.subscribe('/apriltag_detection', (message) => {
             this.updateAprilTagImage(message);
         });
+        
+        // 设置摄像头切换按钮
+        this.setupCameraToggle();
+        // 设置摄像头选择按钮
+        this.setupCameraSelection();
+        // 初始化按钮显示
+        this.updateCameraSelectButton();
+    }
+    
+    setupCameraToggle() {
+        const toggleBtn = document.getElementById('cameraToggleBtn');
+        if (!toggleBtn) return;
+        
+        toggleBtn.addEventListener('click', () => {
+            this.toggleCameraView();
+        });
+    }
+    
+    setupCameraSelection() {
+        const selectBtn = document.getElementById('cameraSelectBtn');
+        if (!selectBtn) return;
+        
+        selectBtn.addEventListener('click', () => {
+            this.switchCamera();
+        });
+    }
+    
+    switchCamera() {
+        // 切换前置和后置摄像头
+        this.currentCamera = this.currentCamera === 'front' ? 'back' : 'front';
+        this.updateCameraDisplay();
+        this.updateCameraSelectButton();
+    }
+    
+    updateCameraSelectButton() {
+        const selectBtn = document.getElementById('cameraSelectBtn');
+        const selectLabel = document.getElementById('cameraSelectLabel');
+        
+        if (!selectBtn || !selectLabel) return;
+        
+        const labels = {
+            'front': '前置',
+            'back': '后置'
+        };
+        
+        selectLabel.textContent = labels[this.currentCamera] || '前置';
+        
+        // 更新按钮样式
+        selectBtn.classList.remove('camera-front', 'camera-back');
+        selectBtn.classList.add(`camera-${this.currentCamera}`);
+    }
+    
+    toggleCameraView() {
+        // 循环切换: RGB -> Depth -> Overlay -> RGB
+        if (this.currentViewMode === 'rgb') {
+            this.currentViewMode = 'depth';
+        } else if (this.currentViewMode === 'depth') {
+            this.currentViewMode = 'overlay';
+        } else {
+            this.currentViewMode = 'rgb';
+        }
+        
+        this.updateCameraDisplay();
+        this.updateToggleButton();
+    }
+    
+    updateToggleButton() {
+        const toggleBtn = document.getElementById('cameraToggleBtn');
+        const toggleLabel = document.getElementById('cameraToggleLabel');
+        
+        if (!toggleBtn || !toggleLabel) return;
+        
+        const labels = {
+            'rgb': 'RGB',
+            'depth': '深度',
+            'overlay': '叠加'
+        };
+        
+        toggleLabel.textContent = labels[this.currentViewMode] || 'RGB';
+        
+        // 更新按钮样式
+        toggleBtn.classList.remove('mode-rgb', 'mode-depth', 'mode-overlay');
+        toggleBtn.classList.add(`mode-${this.currentViewMode}`);
+    }
+    
+    updateCameraDisplay() {
+        const cameraImage = document.getElementById('cameraImage');
+        const depthImage = document.getElementById('depthImage');
+        
+        if (!cameraImage || !depthImage) return;
+        
+        // 重置显示状态
+        cameraImage.style.display = 'none';
+        depthImage.style.display = 'none';
+        depthImage.style.opacity = '1';
+        depthImage.style.position = '';
+        depthImage.classList.remove('overlay-active', 'depth-only');
+        
+        // 获取当前选择摄像头的图像数据
+        const currentRgb = this.rgbImageData[this.currentCamera];
+        const currentDepth = this.depthImageData[this.currentCamera];
+        
+        switch (this.currentViewMode) {
+            case 'rgb':
+                if (currentRgb) {
+                    cameraImage.src = currentRgb;
+                    cameraImage.style.display = 'block';
+                }
+                break;
+            case 'depth':
+                if (currentDepth) {
+                    depthImage.src = currentDepth;
+                    depthImage.style.display = 'block';
+                    depthImage.style.position = 'static'; // Use static positioning for depth-only mode
+                    depthImage.style.opacity = '1';
+                    depthImage.classList.add('depth-only');
+                }
+                break;
+            case 'overlay':
+                if (currentRgb) {
+                    cameraImage.src = currentRgb;
+                    cameraImage.style.display = 'block';
+                }
+                if (currentDepth) {
+                    depthImage.src = currentDepth;
+                    depthImage.style.display = 'block';
+                    depthImage.style.position = 'absolute'; // Use absolute positioning for overlay
+                    depthImage.style.opacity = '0.5';
+                    depthImage.classList.add('overlay-active');
+                }
+                break;
+        }
     }
     
     setupAprilTagDisplay() {
@@ -200,6 +356,87 @@ class RobotWebApp {
         });
     }
     
+    setupUltrasonicDisplay() {
+        if (!this.ros2Bridge) {
+            console.warn('⚠️ ROS2桥接未初始化');
+            return;
+        }
+        
+        // 等待连接建立后再订阅
+        if (!this.ros2Bridge.connected) {
+            setTimeout(() => this.setupUltrasonicDisplay(), 1000);
+            return;
+        }
+        
+        // 初始化传感器显示网格
+        this.initUltrasonicGrid();
+        
+        // 订阅超声波传感器数据
+        this.ros2Bridge.subscribe('/ultrasonic/all_sensors', (message) => {
+            this.updateUltrasonicSensors(message);
+        });
+    }
+    
+    initUltrasonicGrid() {
+        const grid = document.getElementById('ultrasonicSensorsGrid');
+        if (!grid) return;
+        
+        // 清空现有内容
+        grid.innerHTML = '';
+        
+        // 创建8个传感器显示项（编号从1开始）
+        for (let i = 0; i < 8; i++) {
+            const displayIndex = i + 1; // 显示编号从1开始
+            const sensorItem = document.createElement('div');
+            sensorItem.className = 'ultrasonic-sensor-item';
+            sensorItem.id = `ultrasonicSensor${i}`;
+            sensorItem.innerHTML = `
+                <div class="sensor-label">传感器 ${displayIndex}</div>
+                <div class="sensor-value" id="sensorValue${i}">--</div>
+                <div class="sensor-unit">m</div>
+            `;
+            grid.appendChild(sensorItem);
+        }
+    }
+    
+    updateUltrasonicSensors(message) {
+        try {
+            const sensors = message.data || [];
+            
+            // 更新每个传感器的显示
+            for (let i = 0; i < 8; i++) {
+                const valueElement = document.getElementById(`sensorValue${i}`);
+                const sensorItem = document.getElementById(`ultrasonicSensor${i}`);
+                
+                if (!valueElement || !sensorItem) continue;
+                
+                if (i < sensors.length && sensors[i] >= 0) {
+                    // 有效数据：显示距离值（米）
+                    const distance = sensors[i].toFixed(2);
+                    valueElement.textContent = distance;
+                    
+                    // 根据距离设置颜色和状态
+                    sensorItem.classList.remove('sensor-invalid', 'sensor-near', 'sensor-mid', 'sensor-far');
+                    
+                    if (sensors[i] < 0.3) {
+                        sensorItem.classList.add('sensor-near'); // 红色：< 0.3m
+                    } else if (sensors[i] < 1.0) {
+                        sensorItem.classList.add('sensor-mid'); // 黄色：0.3-1m
+                    } else {
+                        sensorItem.classList.add('sensor-far'); // 蓝色：> 1m
+                    }
+                } else {
+                    // 无效数据
+                    valueElement.textContent = '--';
+                    sensorItem.classList.remove('sensor-near', 'sensor-mid', 'sensor-far');
+                    sensorItem.classList.add('sensor-invalid');
+                }
+            }
+        } catch (error) {
+            console.error('🚨 更新超声波传感器显示时出错:', error);
+        }
+    }
+    
     
     setupWaypointSystem() {
         if (!this.waypointSystem) {
@@ -210,18 +447,77 @@ class RobotWebApp {
         console.log('🎯 Waypoint系统模块已连接');
     }
     
-    updateCameraImage(message) {
+    updateCameraImage(message, camera) {
         try {
             // 将ROS图像消息转换为可显示的图像
             const imageData = this.convertImageMessage(message);
-            const cameraImage = document.getElementById('cameraImage');
             
-            if (cameraImage && imageData) {
-                cameraImage.src = imageData;
+            if (imageData) {
+                // 存储对应摄像头的图像数据
+                this.rgbImageData[camera] = imageData;
+                
+                // 如果这是当前选择的摄像头，更新显示
+                if (camera === this.currentCamera) {
+                    if (this.currentViewMode === 'rgb' || this.currentViewMode === 'overlay') {
+                        const cameraImage = document.getElementById('cameraImage');
+                        if (cameraImage) {
+                            cameraImage.src = imageData;
+                            if (this.currentViewMode === 'rgb') {
+                                cameraImage.style.display = 'block';
+                            }
+                        }
+                    }
+                }
+                
                 this.updateVideoInfo(message);
             }
         } catch (error) {
             console.error('🚨 更新摄像头图像时出错:', error);
+        }
+    }
+    
+    updateDepthImage(message, camera) {
+        try {
+            // 将ROS图像消息转换为可显示的图像
+            const imageData = this.convertImageMessage(message);
+            
+            if (imageData) {
+                // 存储对应摄像头的深度图像数据
+                this.depthImageData[camera] = imageData;
+                
+                // 如果这是当前选择的摄像头，更新显示
+                if (camera === this.currentCamera) {
+                    if (this.currentViewMode === 'depth' || this.currentViewMode === 'overlay') {
+                        const depthImage = document.getElementById('depthImage');
+                        const cameraImage = document.getElementById('cameraImage');
+                        
+                        if (depthImage) {
+                            depthImage.src = imageData;
+                            
+                            if (this.currentViewMode === 'depth') {
+                                // Depth-only mode: hide RGB, show depth with static positioning
+                                if (cameraImage) {
+                                    cameraImage.style.display = 'none';
+                                }
+                                depthImage.style.display = 'block';
+                                depthImage.style.position = 'static';
+                                depthImage.style.opacity = '1';
+                                depthImage.classList.remove('overlay-active');
+                                depthImage.classList.add('depth-only');
+                            } else if (this.currentViewMode === 'overlay') {
+                                // Overlay mode: show both with absolute positioning
+                                depthImage.style.display = 'block';
+                                depthImage.style.position = 'absolute';
+                                depthImage.style.opacity = '0.5';
+                                depthImage.classList.add('overlay-active');
+                                depthImage.classList.remove('depth-only');
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('🚨 更新深度图像时出错:', error);
         }
     }
     

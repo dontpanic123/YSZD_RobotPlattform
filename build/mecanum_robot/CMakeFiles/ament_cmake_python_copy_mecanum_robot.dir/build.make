@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/bd/Documents/Robot/YSZD_RobotPlattform
+CMAKE_SOURCE_DIR = /home/y1234/Documents/robot_ws/YSZD_RobotPlattform
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot
+CMAKE_BINARY_DIR = /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot
 
 # Utility rule file for ament_cmake_python_copy_mecanum_robot.
 
@@ -67,7 +67,7 @@ include CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/compiler_depend.mak
 include CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/progress.make
 
 CMakeFiles/ament_cmake_python_copy_mecanum_robot:
-	/usr/bin/cmake -E copy_directory /home/bd/Documents/Robot/YSZD_RobotPlattform/mecanum_robot /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_python/mecanum_robot/mecanum_robot
+	/usr/bin/cmake -E copy_directory /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/mecanum_robot /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot/ament_cmake_python/mecanum_robot/mecanum_robot
 
 ament_cmake_python_copy_mecanum_robot: CMakeFiles/ament_cmake_python_copy_mecanum_robot
 ament_cmake_python_copy_mecanum_robot: CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/clean:
 .PHONY : CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/clean
 
 CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/depend:
-	cd /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/bd/Documents/Robot/YSZD_RobotPlattform /home/bd/Documents/Robot/YSZD_RobotPlattform /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot /home/bd/Documents/Robot/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/y1234/Documents/robot_ws/YSZD_RobotPlattform /home/y1234/Documents/robot_ws/YSZD_RobotPlattform /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot/CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ament_cmake_python_copy_mecanum_robot.dir/depend
 
