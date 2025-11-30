@@ -101,37 +101,37 @@
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 46,
+				"line" : 47,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 52,
+				"line" : 53,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 58,
+				"line" : 59,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 64,
+				"line" : 65,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 3,
-				"line" : 88,
+				"line" : 89,
 				"parent" : 0
 			},
 			{
 				"command" : 9,
 				"file" : 3,
-				"line" : 98,
+				"line" : 99,
 				"parent" : 0
 			},
 			{
@@ -381,7 +381,8 @@
 				"scripts/waypoint_follower.py",
 				"scripts/waypoint_recorder.py",
 				"scripts/ros2_websocket_bridge.py",
-				"scripts/ultrasonic_sensor_node.py"
+				"scripts/ultrasonic_sensor_node.py",
+				"scripts/robot_base_websocket_bridge.py"
 			],
 			"type" : "file"
 		},

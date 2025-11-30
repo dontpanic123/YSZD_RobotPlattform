@@ -3,7 +3,7 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 from launch.conditions import IfCondition
 import os
@@ -13,6 +13,18 @@ def generate_launch_description():
     pkg_share = FindPackageShare(package='mecanum_robot').find('mecanum_robot')
     urdf_file = os.path.join(pkg_share, 'urdf', 'mecanum_robot.urdf')
     rviz_config_file = os.path.join(pkg_share, 'rviz', 'mecanum_robot_path.rviz')
+    
+    # 获取序列号参数 - 使用Python函数确保始终为字符串
+    # 创建一个lambda函数来转换参数值为字符串
+    def ensure_string(param_name):
+        """确保参数值始终是字符串类型"""
+        from launch.substitutions import PythonExpression
+        return PythonExpression([
+            "str(", LaunchConfiguration(param_name), ")"
+        ])
+    
+    front_serial_config = ensure_string('front_camera_serial')
+    back_serial_config = ensure_string('back_camera_serial')
     
     return LaunchDescription([
         # 声明启动参数
@@ -58,13 +70,13 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'front_camera_serial',
-            default_value='',
-            description='前置摄像头序列号（留空则自动选择第一个）'
+            default_value='836612073137',
+            description='前置摄像头序列号（D435: 836612071760, D435i: 836612073137）'
         ),
         DeclareLaunchArgument(
             'back_camera_serial',
-            default_value='',
-            description='后置摄像头序列号（留空则自动选择第二个）'
+            default_value='836612071760',
+            description='后置摄像头序列号（D435: 836612071760, D435i: 836612073137）'
         ),
         DeclareLaunchArgument(
             'use_ultrasonic',
@@ -140,6 +152,7 @@ def generate_launch_description():
         ),
         
         # RealSense双摄像头节点（C++多线程版本）
+        # C++代码会自动处理字符串和整数类型的序列号参数
         Node(
             package='mecanum_robot',
             executable='realsense_dual_camera_node',
@@ -147,9 +160,9 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'use_sim_time': LaunchConfiguration('use_sim_time'),
-                'front_camera_serial': LaunchConfiguration('front_camera_serial'),
-                'back_camera_serial': LaunchConfiguration('back_camera_serial'),
-                'width': 640,  # 标准分辨率（RealSense D435支持，如果失败会自动尝试其他分辨率）
+                'front_camera_serial': front_serial_config,
+                'back_camera_serial': back_serial_config,
+                'width': 640,  # 标准分辨率（RealSense D435/D435i支持，如果失败会自动尝试其他分辨率）
                 'height': 480,
                 'fps': 30  # 标准帧率（如果内存不足会自动降级）
             }],

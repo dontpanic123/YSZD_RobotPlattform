@@ -18,6 +18,7 @@
 /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/waypoint_recorder.py
 /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ros2_websocket_bridge.py
 /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ultrasonic_sensor_node.py
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/robot_base_websocket_bridge.py
 /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/nav2_with_obstacles.launch.py
 /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot.launch.py
 /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot.launch.py

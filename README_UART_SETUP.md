@@ -97,3 +97,5 @@ ls -l /dev/ttyTHS*
 如果不存在，可能需要启用UART1在Jetson配置中。
 
 
+
+

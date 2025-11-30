@@ -1,0 +1,481 @@
+[0.000000] (-) TimerEvent: {}
+[0.000226] (mecanum_robot) JobQueued: {'identifier': 'mecanum_robot', 'dependencies': OrderedDict()}
+[0.000334] (mecanum_robot) JobStarted: {'identifier': 'mecanum_robot'}
+[0.039509] (mecanum_robot) JobProgress: {'identifier': 'mecanum_robot', 'progress': 'cmake'}
+[0.040030] (mecanum_robot) JobProgress: {'identifier': 'mecanum_robot', 'progress': 'build'}
+[0.051737] (mecanum_robot) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot', '--', '-j6', '-l6'], 'cwd': '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/y1234'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'y1234'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/y1234'), ('CHROME_DESKTOP', 'cursor.desktop'), ('OLDPWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-9bde45c7-2.1.-main.sock'), ('JETSON_L4T', '36.4.7'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super'), ('MANAGERPID', '2508'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2653'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6220'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('COLCON_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'y1234'), ('FORCE_COLOR', '0'), ('JETSON_MODULE', 'NVIDIA Jetson Orin Nano (Developer kit)'), ('JETSON_SERIAL_NUMBER', '1423325070422'), ('JOURNAL_STREAM', '8:47217'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'y1234'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('COMPOSER_NO_INTERACTION', '1'), ('WINDOWPATH', '2'), ('PATH', '/home/y1234/.local/bin:/home/y1234/.local/bin:/opt/ros/humble/bin:/home/y1234/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/y1234-desktop:@/tmp/.ICE-unix/2653,unix/y1234-desktop:/tmp/.ICE-unix/2653'), ('INVOCATION_ID', '4b949f2179274e0fb2b3f5b4fddf8230'), ('XDG_MENU_PREFIX', 'gnome-'), ('VSCODE_PROCESS_TITLE', 'extension-host  [1-1]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CURSOR_AGENT', '1'), ('DISPLAY', ':1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', ''), ('JETSON_SOC', 'tegra234'), ('CURSOR_TRACE_ID', 'd4368823bcf34ebbb4f964e442f27956'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('JETSON_CUDA_ARCH_BIN', '8.7'), ('PWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/y1234/.config/Cursor/CachedData/7584ea888f7eb7bf76c9873a8f71b28f034a9820'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages:/home/y1234/.local/lib/python3.10/site-packages:/home/y1234/.local/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('_ZO_DOCTOR', '0'), ('JETSON_JETPACK', ''), ('CMAKE_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('VSCODE_PID', '6220'), ('JETSON_P_NUMBER', 'p3767-0005')]), 'shell': False}
+[0.098104] (-) TimerEvent: {}
+[0.198513] (-) TimerEvent: {}
+[0.298967] (-) TimerEvent: {}
+[0.344973] (mecanum_robot) StdoutLine: {'line': b'[  0%] Built target ament_cmake_python_copy_mecanum_robot\n'}
+[0.399157] (-) TimerEvent: {}
+[0.444944] (mecanum_robot) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target realsense_dual_camera_node\n'}
+[0.499293] (-) TimerEvent: {}
+[0.553622] (mecanum_robot) StdoutLine: {'line': b'[ 50%] Building CXX object CMakeFiles/realsense_dual_camera_node.dir/src/realsense_dual_camera_node.cpp.o\n'}
+[0.599475] (-) TimerEvent: {}
+[0.699936] (-) TimerEvent: {}
+[0.800325] (-) TimerEvent: {}
+[0.900717] (-) TimerEvent: {}
+[1.001138] (-) TimerEvent: {}
+[1.101587] (-) TimerEvent: {}
+[1.202004] (-) TimerEvent: {}
+[1.302387] (-) TimerEvent: {}
+[1.402822] (-) TimerEvent: {}
+[1.503240] (-) TimerEvent: {}
+[1.603942] (-) TimerEvent: {}
+[1.704693] (-) TimerEvent: {}
+[1.805121] (-) TimerEvent: {}
+[1.908129] (-) TimerEvent: {}
+[2.008606] (-) TimerEvent: {}
+[2.108998] (-) TimerEvent: {}
+[2.209403] (-) TimerEvent: {}
+[2.309831] (-) TimerEvent: {}
+[2.410280] (-) TimerEvent: {}
+[2.510732] (-) TimerEvent: {}
+[2.611206] (-) TimerEvent: {}
+[2.712150] (-) TimerEvent: {}
+[2.813391] (-) TimerEvent: {}
+[2.916630] (-) TimerEvent: {}
+[3.017058] (-) TimerEvent: {}
+[3.117474] (-) TimerEvent: {}
+[3.217854] (-) TimerEvent: {}
+[3.318268] (-) TimerEvent: {}
+[3.418816] (-) TimerEvent: {}
+[3.519202] (-) TimerEvent: {}
+[3.619626] (-) TimerEvent: {}
+[3.720158] (-) TimerEvent: {}
+[3.821120] (-) TimerEvent: {}
+[3.922055] (-) TimerEvent: {}
+[4.022801] (-) TimerEvent: {}
+[4.123696] (-) TimerEvent: {}
+[4.224132] (-) TimerEvent: {}
+[4.324563] (-) TimerEvent: {}
+[4.424993] (-) TimerEvent: {}
+[4.525422] (-) TimerEvent: {}
+[4.625861] (-) TimerEvent: {}
+[4.726352] (-) TimerEvent: {}
+[4.828250] (-) TimerEvent: {}
+[4.928659] (-) TimerEvent: {}
+[5.029042] (-) TimerEvent: {}
+[5.129432] (-) TimerEvent: {}
+[5.230041] (-) TimerEvent: {}
+[5.331317] (-) TimerEvent: {}
+[5.431785] (-) TimerEvent: {}
+[5.532258] (-) TimerEvent: {}
+[5.632696] (-) TimerEvent: {}
+[5.733113] (-) TimerEvent: {}
+[5.833588] (-) TimerEvent: {}
+[5.934094] (-) TimerEvent: {}
+[6.035947] (-) TimerEvent: {}
+[6.136580] (-) TimerEvent: {}
+[6.237134] (-) TimerEvent: {}
+[6.338011] (-) TimerEvent: {}
+[6.438872] (-) TimerEvent: {}
+[6.539300] (-) TimerEvent: {}
+[6.639818] (-) TimerEvent: {}
+[6.740426] (-) TimerEvent: {}
+[6.841571] (-) TimerEvent: {}
+[6.943412] (-) TimerEvent: {}
+[7.043908] (-) TimerEvent: {}
+[7.144325] (-) TimerEvent: {}
+[7.244706] (-) TimerEvent: {}
+[7.345106] (-) TimerEvent: {}
+[7.445532] (-) TimerEvent: {}
+[7.546661] (-) TimerEvent: {}
+[7.647662] (-) TimerEvent: {}
+[7.749071] (-) TimerEvent: {}
+[7.849771] (-) TimerEvent: {}
+[7.950248] (-) TimerEvent: {}
+[8.050744] (-) TimerEvent: {}
+[8.151163] (-) TimerEvent: {}
+[8.251706] (-) TimerEvent: {}
+[8.352112] (-) TimerEvent: {}
+[8.452480] (-) TimerEvent: {}
+[8.554856] (-) TimerEvent: {}
+[8.655262] (-) TimerEvent: {}
+[8.755693] (-) TimerEvent: {}
+[8.856092] (-) TimerEvent: {}
+[8.956495] (-) TimerEvent: {}
+[9.056933] (-) TimerEvent: {}
+[9.157379] (-) TimerEvent: {}
+[9.257788] (-) TimerEvent: {}
+[9.358206] (-) TimerEvent: {}
+[9.458599] (-) TimerEvent: {}
+[9.559036] (-) TimerEvent: {}
+[9.659449] (-) TimerEvent: {}
+[9.760966] (-) TimerEvent: {}
+[9.862270] (-) TimerEvent: {}
+[9.962639] (-) TimerEvent: {}
+[10.063049] (-) TimerEvent: {}
+[10.164483] (-) TimerEvent: {}
+[10.264900] (-) TimerEvent: {}
+[10.366097] (-) TimerEvent: {}
+[10.466508] (-) TimerEvent: {}
+[10.566932] (-) TimerEvent: {}
+[10.667336] (-) TimerEvent: {}
+[10.770339] (-) TimerEvent: {}
+[10.870797] (-) TimerEvent: {}
+[10.971194] (-) TimerEvent: {}
+[11.071571] (-) TimerEvent: {}
+[11.171976] (-) TimerEvent: {}
+[11.272352] (-) TimerEvent: {}
+[11.372748] (-) TimerEvent: {}
+[11.474262] (-) TimerEvent: {}
+[11.574642] (-) TimerEvent: {}
+[11.675522] (-) TimerEvent: {}
+[11.775932] (-) TimerEvent: {}
+[11.876357] (-) TimerEvent: {}
+[11.976745] (-) TimerEvent: {}
+[12.077130] (-) TimerEvent: {}
+[12.177707] (-) TimerEvent: {}
+[12.278130] (-) TimerEvent: {}
+[12.378579] (-) TimerEvent: {}
+[12.480615] (-) TimerEvent: {}
+[12.581006] (-) TimerEvent: {}
+[12.681404] (-) TimerEvent: {}
+[12.781807] (-) TimerEvent: {}
+[12.882251] (-) TimerEvent: {}
+[12.982658] (-) TimerEvent: {}
+[13.083116] (-) TimerEvent: {}
+[13.187268] (-) TimerEvent: {}
+[13.287733] (-) TimerEvent: {}
+[13.388141] (-) TimerEvent: {}
+[13.488582] (-) TimerEvent: {}
+[13.589034] (-) TimerEvent: {}
+[13.689459] (-) TimerEvent: {}
+[13.789907] (-) TimerEvent: {}
+[13.890387] (-) TimerEvent: {}
+[13.993285] (-) TimerEvent: {}
+[14.093683] (-) TimerEvent: {}
+[14.196514] (-) TimerEvent: {}
+[14.297456] (-) TimerEvent: {}
+[14.397840] (-) TimerEvent: {}
+[14.498999] (-) TimerEvent: {}
+[14.599421] (-) TimerEvent: {}
+[14.699827] (-) TimerEvent: {}
+[14.800986] (-) TimerEvent: {}
+[14.901443] (-) TimerEvent: {}
+[15.001894] (-) TimerEvent: {}
+[15.102316] (-) TimerEvent: {}
+[15.204548] (-) TimerEvent: {}
+[15.304986] (-) TimerEvent: {}
+[15.406551] (-) TimerEvent: {}
+[15.507037] (-) TimerEvent: {}
+[15.608244] (-) TimerEvent: {}
+[15.708749] (-) TimerEvent: {}
+[15.809144] (-) TimerEvent: {}
+[15.909540] (-) TimerEvent: {}
+[16.009941] (-) TimerEvent: {}
+[16.110428] (-) TimerEvent: {}
+[16.210888] (-) TimerEvent: {}
+[16.311282] (-) TimerEvent: {}
+[16.411702] (-) TimerEvent: {}
+[16.512156] (-) TimerEvent: {}
+[16.612588] (-) TimerEvent: {}
+[16.713008] (-) TimerEvent: {}
+[16.813432] (-) TimerEvent: {}
+[16.918618] (-) TimerEvent: {}
+[17.019207] (-) TimerEvent: {}
+[17.119641] (-) TimerEvent: {}
+[17.220084] (-) TimerEvent: {}
+[17.320516] (-) TimerEvent: {}
+[17.421014] (-) TimerEvent: {}
+[17.521471] (-) TimerEvent: {}
+[17.621923] (-) TimerEvent: {}
+[17.723235] (-) TimerEvent: {}
+[17.823638] (-) TimerEvent: {}
+[17.926981] (-) TimerEvent: {}
+[18.027376] (-) TimerEvent: {}
+[18.130108] (-) TimerEvent: {}
+[18.230493] (-) TimerEvent: {}
+[18.330890] (-) TimerEvent: {}
+[18.431656] (-) TimerEvent: {}
+[18.532029] (-) TimerEvent: {}
+[18.632438] (-) TimerEvent: {}
+[18.732957] (-) TimerEvent: {}
+[18.833383] (-) TimerEvent: {}
+[18.933776] (-) TimerEvent: {}
+[19.034204] (-) TimerEvent: {}
+[19.134632] (-) TimerEvent: {}
+[19.235055] (-) TimerEvent: {}
+[19.335676] (-) TimerEvent: {}
+[19.436086] (-) TimerEvent: {}
+[19.538889] (-) TimerEvent: {}
+[19.639322] (-) TimerEvent: {}
+[19.739792] (-) TimerEvent: {}
+[19.840224] (-) TimerEvent: {}
+[19.940629] (-) TimerEvent: {}
+[20.041044] (-) TimerEvent: {}
+[20.141508] (-) TimerEvent: {}
+[20.241942] (-) TimerEvent: {}
+[20.342409] (-) TimerEvent: {}
+[20.442829] (-) TimerEvent: {}
+[20.543256] (-) TimerEvent: {}
+[20.643703] (-) TimerEvent: {}
+[20.744212] (-) TimerEvent: {}
+[20.844628] (-) TimerEvent: {}
+[20.945032] (-) TimerEvent: {}
+[21.045505] (-) TimerEvent: {}
+[21.145942] (-) TimerEvent: {}
+[21.246394] (-) TimerEvent: {}
+[21.347309] (-) TimerEvent: {}
+[21.447867] (-) TimerEvent: {}
+[21.548276] (-) TimerEvent: {}
+[21.648660] (-) TimerEvent: {}
+[21.749088] (-) TimerEvent: {}
+[21.851776] (-) TimerEvent: {}
+[21.952199] (-) TimerEvent: {}
+[22.052633] (-) TimerEvent: {}
+[22.154066] (-) TimerEvent: {}
+[22.254595] (-) TimerEvent: {}
+[22.355359] (-) TimerEvent: {}
+[22.455748] (-) TimerEvent: {}
+[22.558257] (-) TimerEvent: {}
+[22.658713] (-) TimerEvent: {}
+[22.763254] (-) TimerEvent: {}
+[22.863684] (-) TimerEvent: {}
+[22.969677] (-) TimerEvent: {}
+[23.070125] (-) TimerEvent: {}
+[23.170553] (-) TimerEvent: {}
+[23.272148] (-) TimerEvent: {}
+[23.372710] (-) TimerEvent: {}
+[23.473085] (-) TimerEvent: {}
+[23.575825] (-) TimerEvent: {}
+[23.677358] (-) TimerEvent: {}
+[23.778214] (-) TimerEvent: {}
+[23.878608] (-) TimerEvent: {}
+[23.979015] (-) TimerEvent: {}
+[24.079421] (-) TimerEvent: {}
+[24.182069] (-) TimerEvent: {}
+[24.282465] (-) TimerEvent: {}
+[24.382832] (-) TimerEvent: {}
+[24.483344] (-) TimerEvent: {}
+[24.583790] (-) TimerEvent: {}
+[24.684181] (-) TimerEvent: {}
+[24.784642] (-) TimerEvent: {}
+[24.885185] (-) TimerEvent: {}
+[24.985578] (-) TimerEvent: {}
+[25.086003] (-) TimerEvent: {}
+[25.186483] (-) TimerEvent: {}
+[25.287257] (-) TimerEvent: {}
+[25.387777] (-) TimerEvent: {}
+[25.488382] (-) TimerEvent: {}
+[25.588776] (-) TimerEvent: {}
+[25.689213] (-) TimerEvent: {}
+[25.792509] (-) TimerEvent: {}
+[25.892929] (-) TimerEvent: {}
+[25.993339] (-) TimerEvent: {}
+[26.093769] (-) TimerEvent: {}
+[26.194235] (-) TimerEvent: {}
+[26.294873] (-) TimerEvent: {}
+[26.395586] (-) TimerEvent: {}
+[26.496111] (-) TimerEvent: {}
+[26.596526] (-) TimerEvent: {}
+[26.696951] (-) TimerEvent: {}
+[26.799552] (-) TimerEvent: {}
+[26.900441] (-) TimerEvent: {}
+[27.001374] (-) TimerEvent: {}
+[27.101746] (-) TimerEvent: {}
+[27.202389] (-) TimerEvent: {}
+[27.302934] (-) TimerEvent: {}
+[27.403393] (-) TimerEvent: {}
+[27.506373] (-) TimerEvent: {}
+[27.606813] (-) TimerEvent: {}
+[27.707269] (-) TimerEvent: {}
+[27.807623] (-) TimerEvent: {}
+[27.908002] (-) TimerEvent: {}
+[28.008390] (-) TimerEvent: {}
+[28.109443] (-) TimerEvent: {}
+[28.210045] (-) TimerEvent: {}
+[28.310840] (-) TimerEvent: {}
+[28.411245] (-) TimerEvent: {}
+[28.512865] (-) TimerEvent: {}
+[28.613356] (-) TimerEvent: {}
+[28.713791] (-) TimerEvent: {}
+[28.814240] (-) TimerEvent: {}
+[28.914669] (-) TimerEvent: {}
+[29.015075] (-) TimerEvent: {}
+[29.115470] (-) TimerEvent: {}
+[29.215853] (-) TimerEvent: {}
+[29.316198] (-) TimerEvent: {}
+[29.416579] (-) TimerEvent: {}
+[29.518168] (-) TimerEvent: {}
+[29.618594] (-) TimerEvent: {}
+[29.719004] (-) TimerEvent: {}
+[29.819660] (-) TimerEvent: {}
+[29.920093] (-) TimerEvent: {}
+[30.020531] (-) TimerEvent: {}
+[30.124397] (-) TimerEvent: {}
+[30.224842] (-) TimerEvent: {}
+[30.327493] (-) TimerEvent: {}
+[30.427904] (-) TimerEvent: {}
+[30.528298] (-) TimerEvent: {}
+[30.628698] (-) TimerEvent: {}
+[30.729090] (-) TimerEvent: {}
+[30.829492] (-) TimerEvent: {}
+[30.929958] (-) TimerEvent: {}
+[31.030415] (-) TimerEvent: {}
+[31.130873] (-) TimerEvent: {}
+[31.231317] (-) TimerEvent: {}
+[31.331984] (-) TimerEvent: {}
+[31.432438] (-) TimerEvent: {}
+[31.533212] (-) TimerEvent: {}
+[31.633640] (-) TimerEvent: {}
+[31.734074] (-) TimerEvent: {}
+[31.839247] (-) TimerEvent: {}
+[31.940327] (-) TimerEvent: {}
+[32.040731] (-) TimerEvent: {}
+[32.141194] (-) TimerEvent: {}
+[32.242446] (-) TimerEvent: {}
+[32.342858] (-) TimerEvent: {}
+[32.443247] (-) TimerEvent: {}
+[32.546859] (-) TimerEvent: {}
+[32.647275] (-) TimerEvent: {}
+[32.747740] (-) TimerEvent: {}
+[32.848427] (-) TimerEvent: {}
+[32.948866] (-) TimerEvent: {}
+[33.049301] (-) TimerEvent: {}
+[33.149775] (-) TimerEvent: {}
+[33.254855] (-) TimerEvent: {}
+[33.355680] (-) TimerEvent: {}
+[33.456096] (-) TimerEvent: {}
+[33.557217] (-) TimerEvent: {}
+[33.660227] (-) TimerEvent: {}
+[33.760699] (-) TimerEvent: {}
+[33.861223] (-) TimerEvent: {}
+[33.961918] (-) TimerEvent: {}
+[34.063331] (-) TimerEvent: {}
+[34.122400] (mecanum_robot) StdoutLine: {'line': b'[100%] Linking CXX executable realsense_dual_camera_node\n'}
+[34.163917] (-) TimerEvent: {}
+[34.264284] (-) TimerEvent: {}
+[34.364854] (-) TimerEvent: {}
+[34.465939] (-) TimerEvent: {}
+[34.566362] (-) TimerEvent: {}
+[34.666807] (-) TimerEvent: {}
+[34.767231] (-) TimerEvent: {}
+[34.867737] (-) TimerEvent: {}
+[34.968325] (-) TimerEvent: {}
+[35.068797] (-) TimerEvent: {}
+[35.169296] (-) TimerEvent: {}
+[35.272311] (-) TimerEvent: {}
+[35.372739] (-) TimerEvent: {}
+[35.473231] (-) TimerEvent: {}
+[35.573994] (-) TimerEvent: {}
+[35.676139] (-) TimerEvent: {}
+[35.776609] (-) TimerEvent: {}
+[35.876983] (-) TimerEvent: {}
+[35.977379] (-) TimerEvent: {}
+[36.077748] (-) TimerEvent: {}
+[36.178143] (-) TimerEvent: {}
+[36.278523] (-) TimerEvent: {}
+[36.378926] (-) TimerEvent: {}
+[36.480066] (-) TimerEvent: {}
+[36.580454] (-) TimerEvent: {}
+[36.680888] (-) TimerEvent: {}
+[36.781323] (-) TimerEvent: {}
+[36.881813] (-) TimerEvent: {}
+[36.983831] (-) TimerEvent: {}
+[37.084227] (-) TimerEvent: {}
+[37.099720] (mecanum_robot) StdoutLine: {'line': b'[100%] Built target realsense_dual_camera_node\n'}
+[37.184466] (-) TimerEvent: {}
+[37.284891] (-) TimerEvent: {}
+[37.385252] (-) TimerEvent: {}
+[37.485648] (-) TimerEvent: {}
+[37.586047] (-) TimerEvent: {}
+[37.686452] (-) TimerEvent: {}
+[37.786828] (-) TimerEvent: {}
+[37.887202] (-) TimerEvent: {}
+[37.987584] (-) TimerEvent: {}
+[38.087989] (-) TimerEvent: {}
+[38.188389] (-) TimerEvent: {}
+[38.289335] (-) TimerEvent: {}
+[38.390876] (-) TimerEvent: {}
+[38.421244] (mecanum_robot) StdoutLine: {'line': b'running egg_info\n'}
+[38.491615] (-) TimerEvent: {}
+[38.592034] (-) TimerEvent: {}
+[38.607911] (mecanum_robot) StdoutLine: {'line': b'writing mecanum_robot.egg-info/PKG-INFO\n'}
+[38.613021] (mecanum_robot) StdoutLine: {'line': b'writing dependency_links to mecanum_robot.egg-info/dependency_links.txt\n'}
+[38.614132] (mecanum_robot) StdoutLine: {'line': b'writing top-level names to mecanum_robot.egg-info/top_level.txt\n'}
+[38.692177] (-) TimerEvent: {}
+[38.792552] (-) TimerEvent: {}
+[38.893024] (-) TimerEvent: {}
+[38.947098] (mecanum_robot) StdoutLine: {'line': b"reading manifest file 'mecanum_robot.egg-info/SOURCES.txt'\n"}
+[38.953440] (mecanum_robot) StdoutLine: {'line': b"writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'\n"}
+[38.993177] (-) TimerEvent: {}
+[39.094523] (-) TimerEvent: {}
+[39.194932] (-) TimerEvent: {}
+[39.207902] (mecanum_robot) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_mecanum_robot_egg\n'}
+[39.246075] (mecanum_robot) CommandEnded: {'returncode': 0}
+[39.254668] (mecanum_robot) JobProgress: {'identifier': 'mecanum_robot', 'progress': 'install'}
+[39.279339] (mecanum_robot) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot'], 'cwd': '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/y1234'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'y1234'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/y1234'), ('CHROME_DESKTOP', 'cursor.desktop'), ('OLDPWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-9bde45c7-2.1.-main.sock'), ('JETSON_L4T', '36.4.7'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super'), ('MANAGERPID', '2508'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2653'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6220'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('COLCON_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'y1234'), ('FORCE_COLOR', '0'), ('JETSON_MODULE', 'NVIDIA Jetson Orin Nano (Developer kit)'), ('JETSON_SERIAL_NUMBER', '1423325070422'), ('JOURNAL_STREAM', '8:47217'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'y1234'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('COMPOSER_NO_INTERACTION', '1'), ('WINDOWPATH', '2'), ('PATH', '/home/y1234/.local/bin:/home/y1234/.local/bin:/opt/ros/humble/bin:/home/y1234/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/y1234-desktop:@/tmp/.ICE-unix/2653,unix/y1234-desktop:/tmp/.ICE-unix/2653'), ('INVOCATION_ID', '4b949f2179274e0fb2b3f5b4fddf8230'), ('XDG_MENU_PREFIX', 'gnome-'), ('VSCODE_PROCESS_TITLE', 'extension-host  [1-1]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CURSOR_AGENT', '1'), ('DISPLAY', ':1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', ''), ('JETSON_SOC', 'tegra234'), ('CURSOR_TRACE_ID', 'd4368823bcf34ebbb4f964e442f27956'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('JETSON_CUDA_ARCH_BIN', '8.7'), ('PWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/y1234/.config/Cursor/CachedData/7584ea888f7eb7bf76c9873a8f71b28f034a9820'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages:/home/y1234/.local/lib/python3.10/site-packages:/home/y1234/.local/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('_ZO_DOCTOR', '0'), ('JETSON_JETPACK', ''), ('CMAKE_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('VSCODE_PID', '6220'), ('JETSON_P_NUMBER', 'p3767-0005')]), 'shell': False}
+[39.295009] (-) TimerEvent: {}
+[39.299727] (mecanum_robot) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[39.301015] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.sh\n'}
+[39.301691] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.dsv\n'}
+[39.301858] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info\n'}
+[39.302656] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[39.303404] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/top_level.txt\n'}
+[39.304221] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[39.304789] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/PKG-INFO\n'}
+[39.306364] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot\n'}
+[39.306887] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot/__init__.py\n'}
+[39.392060] (mecanum_robot) StdoutLine: {'line': b"Listing '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot'...\n"}
+[39.395276] (-) TimerEvent: {}
+[39.406609] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/robot_node.py\n'}
+[39.408915] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/remote_control.py\n'}
+[39.409398] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/path_publisher.py\n'}
+[39.409578] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/camera_node_fixed.py\n'}
+[39.409717] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_camera_node.py\n'}
+[39.409844] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_enhanced.py\n'}
+[39.410020] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_opencv4.py\n'}
+[39.413889] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/position_calculator.py\n'}
+[39.414283] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/image_viewer.py\n'}
+[39.414417] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/waypoint_follower.py\n'}
+[39.414536] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/waypoint_recorder.py\n'}
+[39.414651] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ros2_websocket_bridge.py\n'}
+[39.414807] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ultrasonic_sensor_node.py\n'}
+[39.414925] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/robot_base_websocket_bridge.py\n'}
+[39.415037] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch\n'}
+[39.419007] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/nav2_with_obstacles.launch.py\n'}
+[39.419380] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot.launch.py\n'}
+[39.419504] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot.launch.py\n'}
+[39.419643] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/simple_nav2.launch.py\n'}
+[39.419754] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot_clean.launch.py\n'}
+[39.419863] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__\n'}
+[39.423885] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/mecanum_robot_clean.launch.cpython-310.pyc\n'}
+[39.424302] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/apriltag_robot.launch.cpython-310.pyc\n'}
+[39.424437] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/mecanum_robot.launch.cpython-310.pyc\n'}
+[39.424554] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/apriltag_robot_fixed.launch.cpython-310.pyc\n'}
+[39.424668] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/robot_state_machine.launch.py\n'}
+[39.424781] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot_fixed.launch.py\n'}
+[39.424889] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//urdf\n'}
+[39.425891] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//urdf/mecanum_robot.urdf\n'}
+[39.426121] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz\n'}
+[39.427379] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/map_display.rviz\n'}
+[39.427572] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot.rviz\n'}
+[39.427694] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot_path.rviz\n'}
+[39.427809] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/simple_path.rviz\n'}
+[39.427941] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/nav2_with_obstacles.rviz\n'}
+[39.428056] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//config\n'}
+[39.429034] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//config/nav2_params.yaml\n'}
+[39.434195] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_dual_camera_node\n'}
+[39.435279] (mecanum_robot) StdoutLine: {'line': b'-- Set runtime path of "/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_dual_camera_node" to ""\n'}
+[39.446966] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/package_run_dependencies/mecanum_robot\n'}
+[39.448646] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/parent_prefix_path/mecanum_robot\n'}
+[39.450942] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.sh\n'}
+[39.452066] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.dsv\n'}
+[39.452957] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/path.sh\n'}
+[39.453878] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/path.dsv\n'}
+[39.454813] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.bash\n'}
+[39.455687] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.sh\n'}
+[39.456551] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.zsh\n'}
+[39.457404] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.dsv\n'}
+[39.458284] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/package.dsv\n'}
+[39.460948] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/packages/mecanum_robot\n'}
+[39.462331] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig.cmake\n'}
+[39.465177] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig-version.cmake\n'}
+[39.466426] (mecanum_robot) StdoutLine: {'line': b'-- Up-to-date: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/package.xml\n'}
+[39.476030] (mecanum_robot) CommandEnded: {'returncode': 0}
+[39.495876] (-) TimerEvent: {}
+[39.583539] (mecanum_robot) JobEnded: {'identifier': 'mecanum_robot', 'rc': 0}
+[39.586798] (-) EventReactorShutdown: {}

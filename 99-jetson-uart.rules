@@ -15,3 +15,5 @@ KERNEL=="ttyTHS2", MODE="0664", GROUP="dialout"
 KERNEL=="ttyTHS3", MODE="0664", GROUP="dialout"
 
 
+
+

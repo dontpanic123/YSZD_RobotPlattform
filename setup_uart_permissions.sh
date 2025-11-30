@@ -72,3 +72,5 @@ echo "   ls -l /dev/ttyTHS1  # 应该显示 dialout 组"
 echo ""
 
 
+
+

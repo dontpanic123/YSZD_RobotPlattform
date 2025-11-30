@@ -1,0 +1,434 @@
+[0.000000] (-) TimerEvent: {}
+[0.000161] (mecanum_robot) JobQueued: {'identifier': 'mecanum_robot', 'dependencies': OrderedDict()}
+[0.000222] (mecanum_robot) JobStarted: {'identifier': 'mecanum_robot'}
+[0.020260] (mecanum_robot) JobProgress: {'identifier': 'mecanum_robot', 'progress': 'cmake'}
+[0.021573] (mecanum_robot) Command: {'cmd': ['/usr/bin/cmake', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform', '-DCMAKE_INSTALL_PREFIX=/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot'], 'cwd': '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/y1234'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'y1234'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/y1234'), ('CHROME_DESKTOP', 'cursor.desktop'), ('OLDPWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-9bde45c7-2.1.-main.sock'), ('JETSON_L4T', '36.4.7'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super'), ('MANAGERPID', '2508'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2653'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6220'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'y1234'), ('FORCE_COLOR', '0'), ('JETSON_MODULE', 'NVIDIA Jetson Orin Nano (Developer kit)'), ('JETSON_SERIAL_NUMBER', '1423325070422'), ('JOURNAL_STREAM', '8:47217'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'y1234'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('COMPOSER_NO_INTERACTION', '1'), ('WINDOWPATH', '2'), ('PATH', '/home/y1234/.local/bin:/home/y1234/.local/bin:/opt/ros/humble/bin:/home/y1234/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/y1234-desktop:@/tmp/.ICE-unix/2653,unix/y1234-desktop:/tmp/.ICE-unix/2653'), ('INVOCATION_ID', '4b949f2179274e0fb2b3f5b4fddf8230'), ('XDG_MENU_PREFIX', 'gnome-'), ('VSCODE_PROCESS_TITLE', 'extension-host  [1-1]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CURSOR_AGENT', '1'), ('DISPLAY', ':1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', ''), ('JETSON_SOC', 'tegra234'), ('CURSOR_TRACE_ID', 'd4368823bcf34ebbb4f964e442f27956'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('JETSON_CUDA_ARCH_BIN', '8.7'), ('PWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/y1234/.config/Cursor/CachedData/7584ea888f7eb7bf76c9873a8f71b28f034a9820'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages:/home/y1234/.local/lib/python3.10/site-packages:/home/y1234/.local/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('_ZO_DOCTOR', '0'), ('JETSON_JETPACK', ''), ('CMAKE_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('VSCODE_PID', '6220'), ('JETSON_P_NUMBER', 'p3767-0005')]), 'shell': False}
+[0.098139] (-) TimerEvent: {}
+[0.173091] (mecanum_robot) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.198288] (-) TimerEvent: {}
+[0.298671] (-) TimerEvent: {}
+[0.329349] (mecanum_robot) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.347742] (mecanum_robot) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.398866] (-) TimerEvent: {}
+[0.499287] (-) TimerEvent: {}
+[0.507173] (mecanum_robot) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.521179] (mecanum_robot) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.522564] (mecanum_robot) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.523318] (mecanum_robot) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.530432] (mecanum_robot) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.601617] (-) TimerEvent: {}
+[0.705626] (-) TimerEvent: {}
+[0.754898] (mecanum_robot) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.775866] (mecanum_robot) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.776464] (mecanum_robot) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.777336] (mecanum_robot) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.783862] (mecanum_robot) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.805948] (-) TimerEvent: {}
+[0.906350] (-) TimerEvent: {}
+[1.006751] (-) TimerEvent: {}
+[1.107138] (-) TimerEvent: {}
+[1.208564] (-) TimerEvent: {}
+[1.308935] (-) TimerEvent: {}
+[1.409307] (-) TimerEvent: {}
+[1.509702] (-) TimerEvent: {}
+[1.610843] (-) TimerEvent: {}
+[1.713611] (-) TimerEvent: {}
+[1.816393] (-) TimerEvent: {}
+[1.893105] (mecanum_robot) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[1.916555] (-) TimerEvent: {}
+[2.016923] (-) TimerEvent: {}
+[2.117325] (-) TimerEvent: {}
+[2.191289] (mecanum_robot) StdoutLine: {'line': b'-- Found rclpy: 3.3.17 (/opt/ros/humble/share/rclpy/cmake)\n'}
+[2.193754] (mecanum_robot) StdoutLine: {'line': b'-- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[2.217513] (-) TimerEvent: {}
+[2.296264] (mecanum_robot) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[2.304721] (mecanum_robot) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[2.317688] (-) TimerEvent: {}
+[2.319802] (mecanum_robot) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[2.340760] (mecanum_robot) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[2.369415] (mecanum_robot) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[2.417876] (-) TimerEvent: {}
+[2.447020] (mecanum_robot) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[2.451181] (mecanum_robot) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[2.518036] (-) TimerEvent: {}
+[2.618414] (-) TimerEvent: {}
+[2.659682] (mecanum_robot) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[2.718567] (-) TimerEvent: {}
+[2.736090] (mecanum_robot) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[2.818729] (-) TimerEvent: {}
+[2.851367] (mecanum_robot) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[2.867332] (mecanum_robot) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[2.918901] (-) TimerEvent: {}
+[3.020093] (-) TimerEvent: {}
+[3.058661] (mecanum_robot) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[3.059361] (mecanum_robot) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[3.120240] (-) TimerEvent: {}
+[3.222900] (-) TimerEvent: {}
+[3.230907] (mecanum_robot) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[3.234980] (mecanum_robot) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[3.323079] (-) TimerEvent: {}
+[3.338572] (mecanum_robot) StdoutLine: {'line': b'-- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[3.367270] (mecanum_robot) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[3.402875] (mecanum_robot) StdoutLine: {'line': b'-- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[3.423271] (-) TimerEvent: {}
+[3.449669] (mecanum_robot) StdoutLine: {'line': b'-- Found tf2_ros: 0.25.17 (/opt/ros/humble/share/tf2_ros/cmake)\n'}
+[3.523478] (-) TimerEvent: {}
+[3.624125] (-) TimerEvent: {}
+[3.644530] (mecanum_robot) StdoutLine: {'line': b'-- Found tf2_geometry_msgs: 0.25.17 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)\n'}
+[3.674514] (mecanum_robot) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[3.683002] (mecanum_robot) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[3.683516] (mecanum_robot) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[3.683675] (mecanum_robot) StdoutLine: {'line': b'-- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)\n'}
+[3.707321] (mecanum_robot) StdoutLine: {'line': b'-- Found image_transport: 3.1.12 (/opt/ros/humble/share/image_transport/cmake)\n'}
+[3.724459] (-) TimerEvent: {}
+[3.760399] (mecanum_robot) StdoutLine: {'line': b'-- Found OpenCV: /usr (found version "4.5.4") \n'}
+[3.824659] (-) TimerEvent: {}
+[3.925935] (-) TimerEvent: {}
+[4.006702] (mecanum_robot) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[4.026089] (-) TimerEvent: {}
+[4.126583] (-) TimerEvent: {}
+[4.200789] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[4.226824] (-) TimerEvent: {}
+[4.313074] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[4.315055] (mecanum_robot) StdoutLine: {'line': b'-- Configured cppcheck include dirs: \n'}
+[4.315396] (mecanum_robot) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[4.327131] (-) TimerEvent: {}
+[4.417931] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[4.418510] (mecanum_robot) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[4.428773] (-) TimerEvent: {}
+[4.432847] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[4.456856] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[4.475906] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[4.529033] (-) TimerEvent: {}
+[4.603398] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[4.603901] (mecanum_robot) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[4.625287] (mecanum_robot) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[4.628668] (mecanum_robot) StdoutLine: {'line': b'-- Configuring done\n'}
+[4.629299] (-) TimerEvent: {}
+[4.667190] (mecanum_robot) StdoutLine: {'line': b'-- Generating done\n'}
+[4.679784] (mecanum_robot) StdoutLine: {'line': b'-- Build files have been written to: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot\n'}
+[4.728616] (mecanum_robot) CommandEnded: {'returncode': 0}
+[4.730500] (-) TimerEvent: {}
+[4.730577] (mecanum_robot) JobProgress: {'identifier': 'mecanum_robot', 'progress': 'build'}
+[4.730628] (mecanum_robot) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot', '--', '-j6', '-l6'], 'cwd': '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/y1234'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'y1234'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/y1234'), ('CHROME_DESKTOP', 'cursor.desktop'), ('OLDPWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-9bde45c7-2.1.-main.sock'), ('JETSON_L4T', '36.4.7'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super'), ('MANAGERPID', '2508'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2653'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6220'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'y1234'), ('FORCE_COLOR', '0'), ('JETSON_MODULE', 'NVIDIA Jetson Orin Nano (Developer kit)'), ('JETSON_SERIAL_NUMBER', '1423325070422'), ('JOURNAL_STREAM', '8:47217'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'y1234'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('COMPOSER_NO_INTERACTION', '1'), ('WINDOWPATH', '2'), ('PATH', '/home/y1234/.local/bin:/home/y1234/.local/bin:/opt/ros/humble/bin:/home/y1234/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/y1234-desktop:@/tmp/.ICE-unix/2653,unix/y1234-desktop:/tmp/.ICE-unix/2653'), ('INVOCATION_ID', '4b949f2179274e0fb2b3f5b4fddf8230'), ('XDG_MENU_PREFIX', 'gnome-'), ('VSCODE_PROCESS_TITLE', 'extension-host  [1-1]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CURSOR_AGENT', '1'), ('DISPLAY', ':1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', ''), ('JETSON_SOC', 'tegra234'), ('CURSOR_TRACE_ID', 'd4368823bcf34ebbb4f964e442f27956'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('JETSON_CUDA_ARCH_BIN', '8.7'), ('PWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/y1234/.config/Cursor/CachedData/7584ea888f7eb7bf76c9873a8f71b28f034a9820'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages:/home/y1234/.local/lib/python3.10/site-packages:/home/y1234/.local/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('_ZO_DOCTOR', '0'), ('JETSON_JETPACK', ''), ('CMAKE_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('VSCODE_PID', '6220'), ('JETSON_P_NUMBER', 'p3767-0005')]), 'shell': False}
+[4.830710] (-) TimerEvent: {}
+[4.872498] (mecanum_robot) StdoutLine: {'line': b'[ 50%] Building CXX object CMakeFiles/realsense_dual_camera_node.dir/src/realsense_dual_camera_node.cpp.o\n'}
+[4.885606] (mecanum_robot) StdoutLine: {'line': b'[ 50%] Built target ament_cmake_python_copy_mecanum_robot\n'}
+[4.930887] (-) TimerEvent: {}
+[5.031379] (-) TimerEvent: {}
+[5.131785] (-) TimerEvent: {}
+[5.233409] (-) TimerEvent: {}
+[5.333806] (-) TimerEvent: {}
+[5.400739] (mecanum_robot) StdoutLine: {'line': b'running egg_info\n'}
+[5.402781] (mecanum_robot) StdoutLine: {'line': b'creating mecanum_robot.egg-info\n'}
+[5.433975] (-) TimerEvent: {}
+[5.443842] (mecanum_robot) StdoutLine: {'line': b'writing mecanum_robot.egg-info/PKG-INFO\n'}
+[5.444858] (mecanum_robot) StdoutLine: {'line': b'writing dependency_links to mecanum_robot.egg-info/dependency_links.txt\n'}
+[5.445624] (mecanum_robot) StdoutLine: {'line': b'writing top-level names to mecanum_robot.egg-info/top_level.txt\n'}
+[5.445803] (mecanum_robot) StdoutLine: {'line': b"writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'\n"}
+[5.534105] (-) TimerEvent: {}
+[5.569028] (mecanum_robot) StdoutLine: {'line': b"reading manifest file 'mecanum_robot.egg-info/SOURCES.txt'\n"}
+[5.572390] (mecanum_robot) StdoutLine: {'line': b"writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'\n"}
+[5.634278] (-) TimerEvent: {}
+[5.734744] (-) TimerEvent: {}
+[5.746764] (mecanum_robot) StdoutLine: {'line': b'[ 50%] Built target ament_cmake_python_build_mecanum_robot_egg\n'}
+[5.834929] (-) TimerEvent: {}
+[5.935813] (-) TimerEvent: {}
+[6.036319] (-) TimerEvent: {}
+[6.137048] (-) TimerEvent: {}
+[6.238229] (-) TimerEvent: {}
+[6.338941] (-) TimerEvent: {}
+[6.439478] (-) TimerEvent: {}
+[6.539938] (-) TimerEvent: {}
+[6.640321] (-) TimerEvent: {}
+[6.740717] (-) TimerEvent: {}
+[6.841670] (-) TimerEvent: {}
+[6.942053] (-) TimerEvent: {}
+[7.042474] (-) TimerEvent: {}
+[7.142902] (-) TimerEvent: {}
+[7.243512] (-) TimerEvent: {}
+[7.344014] (-) TimerEvent: {}
+[7.444423] (-) TimerEvent: {}
+[7.545331] (-) TimerEvent: {}
+[7.645730] (-) TimerEvent: {}
+[7.747701] (-) TimerEvent: {}
+[7.848137] (-) TimerEvent: {}
+[7.948572] (-) TimerEvent: {}
+[8.051129] (-) TimerEvent: {}
+[8.151662] (-) TimerEvent: {}
+[8.252098] (-) TimerEvent: {}
+[8.352553] (-) TimerEvent: {}
+[8.453649] (-) TimerEvent: {}
+[8.554098] (-) TimerEvent: {}
+[8.654579] (-) TimerEvent: {}
+[8.755014] (-) TimerEvent: {}
+[8.855466] (-) TimerEvent: {}
+[8.955954] (-) TimerEvent: {}
+[9.056397] (-) TimerEvent: {}
+[9.156834] (-) TimerEvent: {}
+[9.257281] (-) TimerEvent: {}
+[9.358366] (-) TimerEvent: {}
+[9.458846] (-) TimerEvent: {}
+[9.559671] (-) TimerEvent: {}
+[9.660362] (-) TimerEvent: {}
+[9.760770] (-) TimerEvent: {}
+[9.861152] (-) TimerEvent: {}
+[9.961721] (-) TimerEvent: {}
+[10.064725] (-) TimerEvent: {}
+[10.165160] (-) TimerEvent: {}
+[10.265576] (-) TimerEvent: {}
+[10.366008] (-) TimerEvent: {}
+[10.466435] (-) TimerEvent: {}
+[10.566959] (-) TimerEvent: {}
+[10.667689] (-) TimerEvent: {}
+[10.768628] (-) TimerEvent: {}
+[10.869734] (-) TimerEvent: {}
+[10.970226] (-) TimerEvent: {}
+[11.070695] (-) TimerEvent: {}
+[11.171180] (-) TimerEvent: {}
+[11.271601] (-) TimerEvent: {}
+[11.372090] (-) TimerEvent: {}
+[11.472493] (-) TimerEvent: {}
+[11.574675] (-) TimerEvent: {}
+[11.675288] (-) TimerEvent: {}
+[11.775736] (-) TimerEvent: {}
+[11.876161] (-) TimerEvent: {}
+[11.978056] (-) TimerEvent: {}
+[12.078608] (-) TimerEvent: {}
+[12.179131] (-) TimerEvent: {}
+[12.279619] (-) TimerEvent: {}
+[12.383109] (-) TimerEvent: {}
+[12.483579] (-) TimerEvent: {}
+[12.584009] (-) TimerEvent: {}
+[12.685769] (-) TimerEvent: {}
+[12.786182] (-) TimerEvent: {}
+[12.887152] (-) TimerEvent: {}
+[12.987563] (-) TimerEvent: {}
+[13.087982] (-) TimerEvent: {}
+[13.188407] (-) TimerEvent: {}
+[13.288814] (-) TimerEvent: {}
+[13.389217] (-) TimerEvent: {}
+[13.489646] (-) TimerEvent: {}
+[13.590105] (-) TimerEvent: {}
+[13.690582] (-) TimerEvent: {}
+[13.791015] (-) TimerEvent: {}
+[13.891461] (-) TimerEvent: {}
+[13.991868] (-) TimerEvent: {}
+[14.092304] (-) TimerEvent: {}
+[14.192745] (-) TimerEvent: {}
+[14.293203] (-) TimerEvent: {}
+[14.393918] (-) TimerEvent: {}
+[14.494336] (-) TimerEvent: {}
+[14.594895] (-) TimerEvent: {}
+[14.696909] (-) TimerEvent: {}
+[14.797648] (-) TimerEvent: {}
+[14.898134] (-) TimerEvent: {}
+[14.998611] (-) TimerEvent: {}
+[15.099143] (-) TimerEvent: {}
+[15.199583] (-) TimerEvent: {}
+[15.299998] (-) TimerEvent: {}
+[15.400439] (-) TimerEvent: {}
+[15.500878] (-) TimerEvent: {}
+[15.601341] (-) TimerEvent: {}
+[15.701790] (-) TimerEvent: {}
+[15.802221] (-) TimerEvent: {}
+[15.902670] (-) TimerEvent: {}
+[16.003306] (-) TimerEvent: {}
+[16.103734] (-) TimerEvent: {}
+[16.204150] (-) TimerEvent: {}
+[16.304583] (-) TimerEvent: {}
+[16.405080] (-) TimerEvent: {}
+[16.505474] (-) TimerEvent: {}
+[16.606216] (-) TimerEvent: {}
+[16.706564] (-) TimerEvent: {}
+[16.806973] (-) TimerEvent: {}
+[16.907398] (-) TimerEvent: {}
+[17.009143] (-) TimerEvent: {}
+[17.109617] (-) TimerEvent: {}
+[17.210136] (-) TimerEvent: {}
+[17.311282] (-) TimerEvent: {}
+[17.412547] (-) TimerEvent: {}
+[17.513075] (-) TimerEvent: {}
+[17.618562] (-) TimerEvent: {}
+[17.719982] (-) TimerEvent: {}
+[17.821159] (-) TimerEvent: {}
+[17.921884] (-) TimerEvent: {}
+[18.022972] (-) TimerEvent: {}
+[18.123470] (-) TimerEvent: {}
+[18.224468] (-) TimerEvent: {}
+[18.324856] (-) TimerEvent: {}
+[18.425781] (-) TimerEvent: {}
+[18.526671] (-) TimerEvent: {}
+[18.627106] (-) TimerEvent: {}
+[18.727795] (-) TimerEvent: {}
+[18.828351] (-) TimerEvent: {}
+[18.929307] (-) TimerEvent: {}
+[19.029769] (-) TimerEvent: {}
+[19.130225] (-) TimerEvent: {}
+[19.232043] (-) TimerEvent: {}
+[19.332975] (-) TimerEvent: {}
+[19.433375] (-) TimerEvent: {}
+[19.533772] (-) TimerEvent: {}
+[19.634168] (-) TimerEvent: {}
+[19.734574] (-) TimerEvent: {}
+[19.834977] (-) TimerEvent: {}
+[19.935373] (-) TimerEvent: {}
+[20.035832] (-) TimerEvent: {}
+[20.136278] (-) TimerEvent: {}
+[20.236783] (-) TimerEvent: {}
+[20.337184] (-) TimerEvent: {}
+[20.437622] (-) TimerEvent: {}
+[20.538164] (-) TimerEvent: {}
+[20.638666] (-) TimerEvent: {}
+[20.739585] (-) TimerEvent: {}
+[20.839952] (-) TimerEvent: {}
+[20.940311] (-) TimerEvent: {}
+[21.040747] (-) TimerEvent: {}
+[21.141331] (-) TimerEvent: {}
+[21.241717] (-) TimerEvent: {}
+[21.342119] (-) TimerEvent: {}
+[21.442505] (-) TimerEvent: {}
+[21.542920] (-) TimerEvent: {}
+[21.643334] (-) TimerEvent: {}
+[21.744972] (-) TimerEvent: {}
+[21.845366] (-) TimerEvent: {}
+[21.947683] (-) TimerEvent: {}
+[22.048090] (-) TimerEvent: {}
+[22.149979] (-) TimerEvent: {}
+[22.250374] (-) TimerEvent: {}
+[22.350773] (-) TimerEvent: {}
+[22.451172] (-) TimerEvent: {}
+[22.551572] (-) TimerEvent: {}
+[22.651959] (-) TimerEvent: {}
+[22.752451] (-) TimerEvent: {}
+[22.852862] (-) TimerEvent: {}
+[22.953248] (-) TimerEvent: {}
+[23.053630] (-) TimerEvent: {}
+[23.154042] (-) TimerEvent: {}
+[23.254467] (-) TimerEvent: {}
+[23.354867] (-) TimerEvent: {}
+[23.455262] (-) TimerEvent: {}
+[23.555715] (-) TimerEvent: {}
+[23.656168] (-) TimerEvent: {}
+[23.756566] (-) TimerEvent: {}
+[23.856982] (-) TimerEvent: {}
+[23.957399] (-) TimerEvent: {}
+[24.057927] (-) TimerEvent: {}
+[24.158554] (-) TimerEvent: {}
+[24.259008] (-) TimerEvent: {}
+[24.359476] (-) TimerEvent: {}
+[24.459879] (-) TimerEvent: {}
+[24.560288] (-) TimerEvent: {}
+[24.662543] (-) TimerEvent: {}
+[24.762952] (-) TimerEvent: {}
+[24.863366] (-) TimerEvent: {}
+[24.963836] (-) TimerEvent: {}
+[25.064262] (-) TimerEvent: {}
+[25.164666] (-) TimerEvent: {}
+[25.265971] (-) TimerEvent: {}
+[25.366576] (-) TimerEvent: {}
+[25.466991] (-) TimerEvent: {}
+[25.567457] (-) TimerEvent: {}
+[25.667884] (-) TimerEvent: {}
+[25.768293] (-) TimerEvent: {}
+[25.868705] (-) TimerEvent: {}
+[25.969088] (-) TimerEvent: {}
+[26.069497] (-) TimerEvent: {}
+[26.169901] (-) TimerEvent: {}
+[26.226902] (mecanum_robot) StdoutLine: {'line': b'[100%] Linking CXX executable realsense_dual_camera_node\n'}
+[26.270068] (-) TimerEvent: {}
+[26.370489] (-) TimerEvent: {}
+[26.470931] (-) TimerEvent: {}
+[26.571362] (-) TimerEvent: {}
+[26.672089] (-) TimerEvent: {}
+[26.772532] (-) TimerEvent: {}
+[26.872965] (-) TimerEvent: {}
+[26.973916] (-) TimerEvent: {}
+[27.074360] (-) TimerEvent: {}
+[27.174921] (-) TimerEvent: {}
+[27.277318] (-) TimerEvent: {}
+[27.377716] (-) TimerEvent: {}
+[27.478100] (-) TimerEvent: {}
+[27.578495] (-) TimerEvent: {}
+[27.678923] (-) TimerEvent: {}
+[27.779353] (-) TimerEvent: {}
+[27.879768] (-) TimerEvent: {}
+[27.980166] (-) TimerEvent: {}
+[28.080652] (-) TimerEvent: {}
+[28.181159] (-) TimerEvent: {}
+[28.281612] (-) TimerEvent: {}
+[28.371094] (mecanum_robot) StdoutLine: {'line': b'[100%] Built target realsense_dual_camera_node\n'}
+[28.381804] (-) TimerEvent: {}
+[28.394826] (mecanum_robot) CommandEnded: {'returncode': 0}
+[28.397095] (mecanum_robot) JobProgress: {'identifier': 'mecanum_robot', 'progress': 'install'}
+[28.419473] (mecanum_robot) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot'], 'cwd': '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/y1234'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'y1234'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/y1234'), ('CHROME_DESKTOP', 'cursor.desktop'), ('OLDPWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-9bde45c7-2.1.-main.sock'), ('JETSON_L4T', '36.4.7'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super'), ('MANAGERPID', '2508'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2653'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6220'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'y1234'), ('FORCE_COLOR', '0'), ('JETSON_MODULE', 'NVIDIA Jetson Orin Nano (Developer kit)'), ('JETSON_SERIAL_NUMBER', '1423325070422'), ('JOURNAL_STREAM', '8:47217'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'y1234'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('COMPOSER_NO_INTERACTION', '1'), ('WINDOWPATH', '2'), ('PATH', '/home/y1234/.local/bin:/home/y1234/.local/bin:/opt/ros/humble/bin:/home/y1234/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/y1234-desktop:@/tmp/.ICE-unix/2653,unix/y1234-desktop:/tmp/.ICE-unix/2653'), ('INVOCATION_ID', '4b949f2179274e0fb2b3f5b4fddf8230'), ('XDG_MENU_PREFIX', 'gnome-'), ('VSCODE_PROCESS_TITLE', 'extension-host  [1-1]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CURSOR_AGENT', '1'), ('DISPLAY', ':1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', ''), ('JETSON_SOC', 'tegra234'), ('CURSOR_TRACE_ID', 'd4368823bcf34ebbb4f964e442f27956'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('JETSON_CUDA_ARCH_BIN', '8.7'), ('PWD', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/y1234/.config/Cursor/CachedData/7584ea888f7eb7bf76c9873a8f71b28f034a9820'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=949a50e6bbe6e0f8ed7e56de692c20a1'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages:/home/y1234/.local/lib/python3.10/site-packages:/home/y1234/.local/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('_ZO_DOCTOR', '0'), ('JETSON_JETPACK', ''), ('CMAKE_PREFIX_PATH', '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot:/opt/ros/humble'), ('VSCODE_PID', '6220'), ('JETSON_P_NUMBER', 'p3767-0005')]), 'shell': False}
+[28.441699] (mecanum_robot) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[28.443007] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.sh\n'}
+[28.444346] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.dsv\n'}
+[28.447580] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info\n'}
+[28.448723] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[28.450737] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/top_level.txt\n'}
+[28.450980] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[28.451136] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/PKG-INFO\n'}
+[28.451308] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot\n'}
+[28.451464] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot/__init__.py\n'}
+[28.481964] (-) TimerEvent: {}
+[28.530150] (mecanum_robot) StdoutLine: {'line': b"Listing '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot'...\n"}
+[28.530622] (mecanum_robot) StdoutLine: {'line': b"Compiling '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot/__init__.py'...\n"}
+[28.552863] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/robot_node.py\n'}
+[28.553683] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/remote_control.py\n'}
+[28.553861] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/path_publisher.py\n'}
+[28.553992] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/camera_node_fixed.py\n'}
+[28.554116] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_camera_node.py\n'}
+[28.554245] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_enhanced.py\n'}
+[28.554363] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_opencv4.py\n'}
+[28.554473] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/position_calculator.py\n'}
+[28.554580] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/image_viewer.py\n'}
+[28.554683] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/waypoint_follower.py\n'}
+[28.554784] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/waypoint_recorder.py\n'}
+[28.554884] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ros2_websocket_bridge.py\n'}
+[28.554986] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ultrasonic_sensor_node.py\n'}
+[28.555088] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch\n'}
+[28.555193] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/nav2_with_obstacles.launch.py\n'}
+[28.557896] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot.launch.py\n'}
+[28.559488] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot.launch.py\n'}
+[28.559714] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/simple_nav2.launch.py\n'}
+[28.560872] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot_clean.launch.py\n'}
+[28.561106] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__\n'}
+[28.561242] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/mecanum_robot_clean.launch.cpython-310.pyc\n'}
+[28.561362] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/apriltag_robot.launch.cpython-310.pyc\n'}
+[28.568745] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/mecanum_robot.launch.cpython-310.pyc\n'}
+[28.569586] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/apriltag_robot_fixed.launch.cpython-310.pyc\n'}
+[28.569971] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/robot_state_machine.launch.py\n'}
+[28.571284] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot_fixed.launch.py\n'}
+[28.571530] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//urdf\n'}
+[28.572408] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//urdf/mecanum_robot.urdf\n'}
+[28.572593] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz\n'}
+[28.572719] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/map_display.rviz\n'}
+[28.572836] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot.rviz\n'}
+[28.572945] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot_path.rviz\n'}
+[28.573226] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/simple_path.rviz\n'}
+[28.573374] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/nav2_with_obstacles.rviz\n'}
+[28.573680] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//config\n'}
+[28.573825] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//config/nav2_params.yaml\n'}
+[28.573949] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_dual_camera_node\n'}
+[28.578732] (mecanum_robot) StdoutLine: {'line': b'-- Set runtime path of "/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_dual_camera_node" to ""\n'}
+[28.579806] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/package_run_dependencies/mecanum_robot\n'}
+[28.580665] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/parent_prefix_path/mecanum_robot\n'}
+[28.581383] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.sh\n'}
+[28.582028] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.dsv\n'}
+[28.582204] (-) TimerEvent: {}
+[28.582778] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/path.sh\n'}
+[28.583660] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/path.dsv\n'}
+[28.584410] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.bash\n'}
+[28.585490] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.sh\n'}
+[28.586250] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.zsh\n'}
+[28.586976] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.dsv\n'}
+[28.587688] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/package.dsv\n'}
+[28.588329] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/packages/mecanum_robot\n'}
+[28.588962] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig.cmake\n'}
+[28.589857] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig-version.cmake\n'}
+[28.590404] (mecanum_robot) StdoutLine: {'line': b'-- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/package.xml\n'}
+[28.600436] (mecanum_robot) CommandEnded: {'returncode': 0}
+[28.654113] (mecanum_robot) JobEnded: {'identifier': 'mecanum_robot', 'rc': 0}
+[28.655547] (-) EventReactorShutdown: {}

@@ -1,0 +1,78 @@
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp: In constructor ‘RealSenseDualCameraNode::RealSenseDualCameraNode()’:
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:322:32: error: no matching function for call to ‘RealSenseDualCameraNode::declare_parameter(const char [20])’
+  322 |         this->declare_parameter("front_camera_serial");
+      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/humble/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:28,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:22,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155,
+                 from /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:1:
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:421:3: note: candidate: ‘template<class ParameterT> auto rclcpp::Node::declare_parameter(const string&, const ParameterT&, const ParameterDescriptor&, bool)’
+  421 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:421:3: note:   template argument deduction/substitution failed:
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:322:32: note:   candidate expects 4 arguments, 1 provided
+  322 |         this->declare_parameter("front_camera_serial");
+      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/humble/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:28,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:22,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155,
+                 from /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:1:
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:434:3: note: candidate: ‘template<class ParameterT> auto rclcpp::Node::declare_parameter(const string&, const ParameterDescriptor&, bool)’
+  434 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:434:3: note:   template argument deduction/substitution failed:
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:322:32: note:   couldn’t deduce template parameter ‘ParameterT’
+  322 |         this->declare_parameter("front_camera_serial");
+      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/humble/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:28,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:22,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155,
+                 from /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:1:
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:366:3: note: candidate: ‘const rclcpp::ParameterValue& rclcpp::Node::declare_parameter(const string&, const rclcpp::ParameterValue&, const ParameterDescriptor&, bool)’
+  366 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:366:3: note:   candidate expects 4 arguments, 1 provided
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:391:3: note: candidate: ‘const rclcpp::ParameterValue& rclcpp::Node::declare_parameter(const string&, rclcpp::ParameterType, const ParameterDescriptor&, bool)’
+  391 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:391:3: note:   candidate expects 4 arguments, 1 provided
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:323:32: error: no matching function for call to ‘RealSenseDualCameraNode::declare_parameter(const char [19])’
+  323 |         this->declare_parameter("back_camera_serial");
+      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/humble/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:28,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:22,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155,
+                 from /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:1:
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:421:3: note: candidate: ‘template<class ParameterT> auto rclcpp::Node::declare_parameter(const string&, const ParameterT&, const ParameterDescriptor&, bool)’
+  421 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:421:3: note:   template argument deduction/substitution failed:
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:323:32: note:   candidate expects 4 arguments, 1 provided
+  323 |         this->declare_parameter("back_camera_serial");
+      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/humble/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:28,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:22,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155,
+                 from /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:1:
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:434:3: note: candidate: ‘template<class ParameterT> auto rclcpp::Node::declare_parameter(const string&, const ParameterDescriptor&, bool)’
+  434 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:434:3: note:   template argument deduction/substitution failed:
+/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:323:32: note:   couldn’t deduce template parameter ‘ParameterT’
+  323 |         this->declare_parameter("back_camera_serial");
+      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/humble/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:28,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:22,
+                 from /opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155,
+                 from /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/src/realsense_dual_camera_node.cpp:1:
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:366:3: note: candidate: ‘const rclcpp::ParameterValue& rclcpp::Node::declare_parameter(const string&, const rclcpp::ParameterValue&, const ParameterDescriptor&, bool)’
+  366 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:366:3: note:   candidate expects 4 arguments, 1 provided
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:391:3: note: candidate: ‘const rclcpp::ParameterValue& rclcpp::Node::declare_parameter(const string&, rclcpp::ParameterType, const ParameterDescriptor&, bool)’
+  391 |   declare_parameter(
+      |   ^~~~~~~~~~~~~~~~~
+/opt/ros/humble/include/rclcpp/rclcpp/node.hpp:391:3: note:   candidate expects 4 arguments, 1 provided
+gmake[2]: *** [CMakeFiles/realsense_dual_camera_node.dir/build.make:76: CMakeFiles/realsense_dual_camera_node.dir/src/realsense_dual_camera_node.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:192: CMakeFiles/realsense_dual_camera_node.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

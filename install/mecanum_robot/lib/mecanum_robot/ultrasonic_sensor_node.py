@@ -176,7 +176,8 @@ class UltrasonicSensorNode(Node):
         """解析传感器反馈消息
         
         格式: $udm1;[n];[传感器信息1];[传感器信息2];[传感器信息n]*XX
-        传感器信息: 5个字符，第1位是索引(0-7)，后4位是距离(毫米)
+        传感器信息: 5个字符，第1位是索引(1-8，协议格式)，后4位是距离(毫米)
+        注意: 协议使用1-8索引，内部转换为0-7数组索引
         """
         try:
             # 移除$和*XX\r\n
@@ -217,8 +218,10 @@ class UltrasonicSensorNode(Node):
                     continue
                 
                 try:
-                    # 第1位是传感器索引
-                    sensor_index = int(sensor_info[0])
+                    # 第1位是传感器索引（协议使用1-8，需要转换为0-7用于数组存储）
+                    protocol_index = int(sensor_info[0])
+                    # 转换为数组索引（1-8 -> 0-7）
+                    sensor_index = protocol_index - 1
                     # 后4位是距离（毫米）
                     distance_mm = int(sensor_info[1:5])
                     
@@ -227,7 +230,7 @@ class UltrasonicSensorNode(Node):
                         self.last_update_time[sensor_index] = current_time
                         updated_sensors.append(sensor_index)
                     else:
-                        self.get_logger().warn(f'传感器索引超出范围: {sensor_index}')
+                        self.get_logger().warn(f'传感器索引超出范围: protocol_index={protocol_index}, array_index={sensor_index}')
                 except ValueError as e:
                     self.get_logger().warn(f'解析传感器数据失败: {sensor_info}, 错误: {e}')
                     continue

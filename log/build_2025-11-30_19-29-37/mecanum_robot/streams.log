@@ -1,0 +1,142 @@
+[0.022s] Invoking command in '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/y1234/Documents/robot_ws/YSZD_RobotPlattform -DCMAKE_INSTALL_PREFIX=/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot
+[0.224s] -- The C compiler identification is GNU 11.4.0
+[0.385s] -- The CXX compiler identification is GNU 11.4.0
+[0.408s] -- Detecting C compiler ABI info
+[0.578s] -- Detecting C compiler ABI info - done
+[0.594s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.594s] -- Detecting C compile features
+[0.595s] -- Detecting C compile features - done
+[0.605s] -- Detecting CXX compiler ABI info
+[0.762s] -- Detecting CXX compiler ABI info - done
+[0.776s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.776s] -- Detecting CXX compile features
+[0.777s] -- Detecting CXX compile features - done
+[0.786s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.610s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.813s] -- Found rclpy: 3.3.17 (/opt/ros/humble/share/rclpy/cmake)
+[1.816s] -- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)
+[1.900s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.910s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.928s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.956s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.988s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.076s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[2.081s] -- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[2.252s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[2.309s] -- Found FastRTPS: /opt/ros/humble/include  
+[2.381s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.399s] -- Looking for pthread.h
+[2.553s] -- Looking for pthread.h - found
+[2.553s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[2.697s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[2.702s] -- Found Threads: TRUE  
+[2.829s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[2.858s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[2.894s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[2.928s] -- Found tf2_ros: 0.25.17 (/opt/ros/humble/share/tf2_ros/cmake)
+[3.129s] -- Found tf2_geometry_msgs: 0.25.17 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[3.159s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[3.161s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[3.162s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[3.172s] -- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+[3.195s] -- Found image_transport: 3.1.12 (/opt/ros/humble/share/image_transport/cmake)
+[3.242s] -- Found OpenCV: /usr (found version "4.5.4") 
+[3.454s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[3.648s] -- Added test 'copyright' to check source files copyright and LICENSE
+[3.736s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.736s] -- Configured cppcheck include dirs: 
+[3.736s] -- Configured cppcheck exclude dirs and/or files: 
+[3.821s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[3.821s] -- Configured cpplint exclude dirs and/or files: 
+[3.832s] -- Added test 'flake8' to check Python code syntax and style conventions
+[3.855s] -- Added test 'lint_cmake' to check CMake code style
+[3.866s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[3.950s] -- Added test 'uncrustify' to check C / C++ code style
+[3.950s] -- Configured uncrustify additional arguments: 
+[3.962s] -- Added test 'xmllint' to check XML markup files
+[3.965s] -- Configuring done
+[4.000s] -- Generating done
+[4.011s] -- Build files have been written to: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot
+[4.044s] Invoked command in '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/y1234/Documents/robot_ws/YSZD_RobotPlattform -DCMAKE_INSTALL_PREFIX=/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot
+[4.049s] Invoking command in '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot -- -j6 -l6
+[4.156s] [ 50%] Building CXX object CMakeFiles/realsense_dual_camera_node.dir/src/realsense_dual_camera_node.cpp.o
+[4.166s] [ 50%] Built target ament_cmake_python_copy_mecanum_robot
+[4.591s] running egg_info
+[4.594s] creating mecanum_robot.egg-info
+[4.624s] writing mecanum_robot.egg-info/PKG-INFO
+[4.626s] writing dependency_links to mecanum_robot.egg-info/dependency_links.txt
+[4.627s] writing top-level names to mecanum_robot.egg-info/top_level.txt
+[4.628s] writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[4.717s] reading manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[4.718s] writing manifest file 'mecanum_robot.egg-info/SOURCES.txt'
+[4.820s] [ 50%] Built target ament_cmake_python_build_mecanum_robot_egg
+[21.967s] [100%] Linking CXX executable realsense_dual_camera_node
+[23.569s] [100%] Built target realsense_dual_camera_node
+[23.598s] Invoked command in '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot -- -j6 -l6
+[23.627s] Invoking command in '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot
+[23.650s] -- Install configuration: ""
+[23.650s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.sh
+[23.651s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/pythonpath.dsv
+[23.651s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info
+[23.652s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/SOURCES.txt
+[23.652s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/top_level.txt
+[23.653s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/dependency_links.txt
+[23.653s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot-1.0.0-py3.10.egg-info/PKG-INFO
+[23.654s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot
+[23.654s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot/__init__.py
+[23.725s] Listing '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot'...
+[23.725s] Compiling '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/local/lib/python3.10/dist-packages/mecanum_robot/__init__.py'...
+[23.741s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/robot_node.py
+[23.742s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/remote_control.py
+[23.746s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/path_publisher.py
+[23.746s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/camera_node_fixed.py
+[23.746s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_camera_node.py
+[23.746s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_enhanced.py
+[23.746s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/apriltag_detector_opencv4.py
+[23.746s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/position_calculator.py
+[23.748s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/image_viewer.py
+[23.748s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/waypoint_follower.py
+[23.748s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/waypoint_recorder.py
+[23.749s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ros2_websocket_bridge.py
+[23.749s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/ultrasonic_sensor_node.py
+[23.749s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch
+[23.749s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/nav2_with_obstacles.launch.py
+[23.750s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot.launch.py
+[23.750s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot.launch.py
+[23.750s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/simple_nav2.launch.py
+[23.751s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/mecanum_robot_clean.launch.py
+[23.752s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__
+[23.752s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/mecanum_robot_clean.launch.cpython-310.pyc
+[23.753s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/apriltag_robot.launch.cpython-310.pyc
+[23.753s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/mecanum_robot.launch.cpython-310.pyc
+[23.753s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/__pycache__/apriltag_robot_fixed.launch.cpython-310.pyc
+[23.754s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/robot_state_machine.launch.py
+[23.754s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//launch/apriltag_robot_fixed.launch.py
+[23.755s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//urdf
+[23.755s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//urdf/mecanum_robot.urdf
+[23.756s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz
+[23.756s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/map_display.rviz
+[23.756s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot.rviz
+[23.756s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/mecanum_robot_path.rviz
+[23.756s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/simple_path.rviz
+[23.757s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//rviz/nav2_with_obstacles.rviz
+[23.757s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//config
+[23.757s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot//config/nav2_params.yaml
+[23.758s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_dual_camera_node
+[23.764s] -- Set runtime path of "/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/lib/mecanum_robot/realsense_dual_camera_node" to ""
+[23.764s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/package_run_dependencies/mecanum_robot
+[23.764s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/parent_prefix_path/mecanum_robot
+[23.764s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.sh
+[23.765s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/ament_prefix_path.dsv
+[23.765s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/path.sh
+[23.765s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/environment/path.dsv
+[23.765s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.bash
+[23.766s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.sh
+[23.766s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.zsh
+[23.766s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/local_setup.dsv
+[23.766s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/package.dsv
+[23.767s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/ament_index/resource_index/packages/mecanum_robot
+[23.767s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig.cmake
+[23.767s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/cmake/mecanum_robotConfig-version.cmake
+[23.767s] -- Installing: /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/install/mecanum_robot/share/mecanum_robot/package.xml
+[23.774s] Invoked command in '/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/y1234/Documents/robot_ws/YSZD_RobotPlattform/build/mecanum_robot

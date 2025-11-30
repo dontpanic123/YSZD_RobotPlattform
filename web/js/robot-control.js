@@ -5,12 +5,31 @@
 
 class RobotController {
     constructor() {
+        // Current actual speeds (with acceleration applied)
         this.linearSpeed = 0.0;      // 前进/后退速度 (linear.x)
         this.lateralSpeed = 0.0;     // 左移/右移速度 (linear.y)
         this.angularSpeed = 0.0;      // 旋转速度 (angular.z)
-        this.maxLinearSpeed = 1.0;   // 最大前进/后退速度
-        this.maxLateralSpeed = 1.0;  // 最大侧向移动速度
-        this.maxAngularSpeed = 1.5;   // 最大旋转速度
+        
+        // Target speeds (desired speeds from input)
+        this.targetLinearSpeed = 0.0;
+        this.targetLateralSpeed = 0.0;
+        this.targetAngularSpeed = 0.0;
+        
+        // Maximum speeds - reduced to 0.2 m/s for safety
+        this.maxLinearSpeed = 0.2;   // 最大前进/后退速度 (m/s)
+        this.maxLateralSpeed = 0.2;  // 最大侧向移动速度 (m/s)
+        this.maxAngularSpeed = 0.2;   // 最大旋转速度 (rad/s)
+        
+        // Acceleration limits (m/s² or rad/s²)
+        // With 50ms control loop: 0.5 m/s² * 0.05s = 0.025 m/s per step
+        // Time to reach max speed (0.2 m/s): 0.2 / 0.5 = 0.4 seconds (8 steps)
+        this.linearAcceleration = 0.5;    // 线速度加速度 (m/s²) - 0.4s to reach max
+        this.lateralAcceleration = 0.5;   // 侧向加速度 (m/s²) - 0.4s to reach max
+        this.angularAcceleration = 0.8;    // 角速度加速度 (rad/s²) - 0.25s to reach max
+        
+        // Control loop timing
+        this.controlLoopInterval = 50;  // 50ms = 20Hz control loop
+        
         this.isMoving = false;
         this.currentKeys = new Set();
         this.waypointFollowing = false;  // 是否正在执行waypoint跟踪
@@ -327,24 +346,85 @@ class RobotController {
         const maxLateralValue = document.getElementById('maxLateralSpeedValue');
         const maxAngularValue = document.getElementById('maxAngularSpeedValue');
         
+        // Initialize sliders with default values (0.2) if they exist
         if (maxLinearSlider) {
+            // Set slider attributes
+            maxLinearSlider.max = '0.5';  // Limit max to 0.5 for safety
+            maxLinearSlider.min = '0.1';
+            maxLinearSlider.step = '0.05';
+            // Set value from HTML default or use current maxLinearSpeed
+            if (!maxLinearSlider.value || maxLinearSlider.value === '') {
+                maxLinearSlider.value = this.maxLinearSpeed.toString();
+            } else {
+                // If HTML has a value, use it and update the internal value
+                this.maxLinearSpeed = parseFloat(maxLinearSlider.value);
+            }
+            // Update display
+            if (maxLinearValue) {
+                maxLinearValue.textContent = parseFloat(maxLinearSlider.value).toFixed(2);
+            }
+            // Add event listener
             maxLinearSlider.addEventListener('input', (e) => {
-                this.maxLinearSpeed = parseFloat(e.target.value);
-                maxLinearValue.textContent = e.target.value;
+                const newValue = parseFloat(e.target.value);
+                this.maxLinearSpeed = newValue;
+                if (maxLinearValue) {
+                    maxLinearValue.textContent = newValue.toFixed(2);
+                }
+                console.log(`最大前进/后退速度设置为: ${newValue.toFixed(2)} m/s`);
             });
         }
         
         if (maxLateralSlider) {
+            // Set slider attributes
+            maxLateralSlider.max = '0.5';  // Limit max to 0.5 for safety
+            maxLateralSlider.min = '0.1';
+            maxLateralSlider.step = '0.05';
+            // Set value from HTML default or use current maxLateralSpeed
+            if (!maxLateralSlider.value || maxLateralSlider.value === '') {
+                maxLateralSlider.value = this.maxLateralSpeed.toString();
+            } else {
+                // If HTML has a value, use it and update the internal value
+                this.maxLateralSpeed = parseFloat(maxLateralSlider.value);
+            }
+            // Update display
+            if (maxLateralValue) {
+                maxLateralValue.textContent = parseFloat(maxLateralSlider.value).toFixed(2);
+            }
+            // Add event listener
             maxLateralSlider.addEventListener('input', (e) => {
-                this.maxLateralSpeed = parseFloat(e.target.value);
-                maxLateralValue.textContent = e.target.value;
+                const newValue = parseFloat(e.target.value);
+                this.maxLateralSpeed = newValue;
+                if (maxLateralValue) {
+                    maxLateralValue.textContent = newValue.toFixed(2);
+                }
+                console.log(`最大侧向移动速度设置为: ${newValue.toFixed(2)} m/s`);
             });
         }
         
         if (maxAngularSlider) {
+            // Set slider attributes
+            maxAngularSlider.max = '0.5';  // Limit max to 0.5 for safety
+            maxAngularSlider.min = '0.1';
+            maxAngularSlider.step = '0.05';
+            // Set value from HTML default or use current maxAngularSpeed
+            if (!maxAngularSlider.value || maxAngularSlider.value === '') {
+                maxAngularSlider.value = this.maxAngularSpeed.toString();
+            } else {
+                // If HTML has a value, use it and update the internal value
+                this.maxAngularSpeed = parseFloat(maxAngularSlider.value);
+            }
+            // Update display
+            if (maxAngularValue) {
+                maxAngularValue.textContent = parseFloat(maxAngularSlider.value).toFixed(2);
+            }
+            // Add event listener
             maxAngularSlider.addEventListener('input', (e) => {
-                this.maxAngularSpeed = parseFloat(e.target.value);
-                maxAngularValue.textContent = e.target.value;
+                const newValue = parseFloat(e.target.value);
+                this.maxAngularSpeed = newValue;
+                if (maxAngularValue) {
+                    maxAngularValue.textContent = newValue.toFixed(2);
+                }
+                console.log(`最大旋转速度设置为: ${newValue.toFixed(2)} rad/s`);
             });
         }
     }
@@ -454,30 +534,30 @@ class RobotController {
         // W/S: 控制主动轮正转/反转（前进/后退）
         // A/D: 控制转向角（左转/右转）
         
-        // 前进/后退控制 (w/s)
+        // 前进/后退控制 (w/s) - 使用归一化值
         if (this.currentKeys.has('w') || this.currentKeys.has('forward')) {
-            linear = this.maxLinearSpeed;
+            linear = 1.0;  // Normalized value, will be multiplied by maxLinearSpeed
         }
         if (this.currentKeys.has('s') || this.currentKeys.has('backward')) {
-            linear = -this.maxLinearSpeed;
+            linear = -1.0;  // Normalized value
         }
         
         // 转向控制 (a/d) - 控制主动轮转向角
         // A键: 左转 -> 前主动轮向左转45°，后主动轮向右转45°
         // D键: 右转 -> 前主动轮向右转45°，后主动轮向左转45°
         if (this.currentKeys.has('a') || this.currentKeys.has('left_shift')) {
-            angular = this.maxAngularSpeed;  // 左转
+            angular = 1.0;  // Normalized value, will be multiplied by maxAngularSpeed
         }
         if (this.currentKeys.has('d') || this.currentKeys.has('right_shift')) {
-            angular = -this.maxAngularSpeed;  // 右转
+            angular = -1.0;  // Normalized value
         }
         
         // 旋转控制 (q/e) - 保留用于更精细的转向控制
         if (this.currentKeys.has('q') || this.currentKeys.has('rotate_left')) {
-            angular = this.maxAngularSpeed;
+            angular = 1.0;  // Normalized value
         }
         if (this.currentKeys.has('e') || this.currentKeys.has('rotate_right')) {
-            angular = -this.maxAngularSpeed;
+            angular = -1.0;  // Normalized value
         }
         
         // 停止 (x)
@@ -487,22 +567,28 @@ class RobotController {
             angular = 0.0;
         }
         
+        // 更新目标速度值（不直接应用到实际速度，由加速度控制）
+        this.targetLinearSpeed = linear * this.maxLinearSpeed;
+        this.targetLateralSpeed = lateral * this.maxLateralSpeed;
+        this.targetAngularSpeed = angular * this.maxAngularSpeed;
+        
         // 检查是否有任何输入
         const hasInput = linear !== 0 || lateral !== 0 || angular !== 0;
         const wasMoving = this.isMoving;
-        this.isMoving = hasInput;
         
-        // 更新速度值
-        this.linearSpeed = linear;
-        this.lateralSpeed = lateral;
-        this.angularSpeed = angular;
+        // 应用加速度限制来平滑速度变化
+        this.applyAcceleration();
+        
+        // 更新isMoving状态（基于实际速度，不只是目标速度）
+        this.isMoving = hasInput || Math.abs(this.linearSpeed) > 0.001 || 
+                        Math.abs(this.lateralSpeed) > 0.001 || Math.abs(this.angularSpeed) > 0.001;
         
         // 更新显示
         this.updateSpeedDisplay();
         
         // 处理控制命令
-        if (hasInput) {
-            // 有输入时发送控制命令
+        if (hasInput || this.isMoving) {
+            // 有输入或仍在运动中时发送控制命令
             this.sendControlCommand();
         } else if (wasMoving) {
             // 从运动状态变为停止状态，发送归零命令防止漂移
@@ -685,6 +771,10 @@ class RobotController {
     
     // 强制停止 - 用于紧急停止或明确停止指令
     forceStop() {
+        // Reset both target and actual speeds for immediate stop
+        this.targetLinearSpeed = 0.0;
+        this.targetLateralSpeed = 0.0;
+        this.targetAngularSpeed = 0.0;
         this.linearSpeed = 0.0;
         this.lateralSpeed = 0.0;
         this.angularSpeed = 0.0;
@@ -738,19 +828,25 @@ class RobotController {
             lateral = 0.0;
         }
         
-        this.linearSpeed = linear * this.maxLinearSpeed;
-        this.lateralSpeed = lateral * this.maxLateralSpeed;
-        this.angularSpeed = angular * this.maxAngularSpeed;
+        // 更新目标速度值（不直接应用到实际速度，由加速度控制）
+        this.targetLinearSpeed = linear * this.maxLinearSpeed;
+        this.targetLateralSpeed = lateral * this.maxLateralSpeed;
+        this.targetAngularSpeed = angular * this.maxAngularSpeed;
+        
+        // 应用加速度限制来平滑速度变化
+        this.applyAcceleration();
         
         // 检查是否有任何输入
-        const hasInput = this.linearSpeed !== 0 || this.lateralSpeed !== 0 || this.angularSpeed !== 0;
-        this.isMoving = hasInput;
+        const hasInput = this.targetLinearSpeed !== 0 || this.targetLateralSpeed !== 0 || this.targetAngularSpeed !== 0;
+        const wasMoving = this.isMoving;
+        this.isMoving = hasInput || Math.abs(this.linearSpeed) > 0.001 || 
+                        Math.abs(this.lateralSpeed) > 0.001 || Math.abs(this.angularSpeed) > 0.001;
         
         this.updateSpeedDisplay();
         
         // 处理控制命令
-        if (hasInput) {
-            // 有输入时发送控制命令
+        if (hasInput || this.isMoving) {
+            // 有输入或仍在运动中时发送控制命令
             this.sendControlCommand();
         } else if (wasMoving) {
             // 从运动状态变为停止状态，发送归零命令防止漂移
@@ -900,15 +996,63 @@ class RobotController {
         }, 3000);
     }
     
-    // 控制循环 - 只在有输入时发送命令
+    // 应用加速度限制来平滑速度变化
+    applyAcceleration() {
+        const dt = this.controlLoopInterval / 1000.0;  // Convert ms to seconds
+        
+        // Linear speed acceleration
+        const linearDiff = this.targetLinearSpeed - this.linearSpeed;
+        const maxLinearChange = this.linearAcceleration * dt;
+        if (Math.abs(linearDiff) > maxLinearChange) {
+            this.linearSpeed += Math.sign(linearDiff) * maxLinearChange;
+        } else {
+            this.linearSpeed = this.targetLinearSpeed;
+        }
+        
+        // Lateral speed acceleration
+        const lateralDiff = this.targetLateralSpeed - this.lateralSpeed;
+        const maxLateralChange = this.lateralAcceleration * dt;
+        if (Math.abs(lateralDiff) > maxLateralChange) {
+            this.lateralSpeed += Math.sign(lateralDiff) * maxLateralChange;
+        } else {
+            this.lateralSpeed = this.targetLateralSpeed;
+        }
+        
+        // Angular speed acceleration
+        const angularDiff = this.targetAngularSpeed - this.angularSpeed;
+        const maxAngularChange = this.angularAcceleration * dt;
+        if (Math.abs(angularDiff) > maxAngularChange) {
+            this.angularSpeed += Math.sign(angularDiff) * maxAngularChange;
+        } else {
+            this.angularSpeed = this.targetAngularSpeed;
+        }
+        
+        // Update isMoving based on actual speeds (not just targets)
+        this.isMoving = Math.abs(this.linearSpeed) > 0.001 || 
+                        Math.abs(this.lateralSpeed) > 0.001 || 
+                        Math.abs(this.angularSpeed) > 0.001;
+    }
+    
+    // 控制循环 - 应用加速度并发送命令
     startControlLoop() {
         setInterval(() => {
-            // 只有在有输入且没有waypoint跟踪时才发送命令
+            // 持续应用加速度，即使没有新输入
+            this.applyAcceleration();
+            
+            // 只有在有运动且没有waypoint跟踪时才发送命令
             if (this.isMoving && !this.waypointFollowing && !this.controlLocked) {
                 this.sendControlCommand();
+            } else if (!this.isMoving && this.waypointFollowing === false) {
+                // 如果完全停止且没有waypoint跟踪，确保发送一次零命令
+                // 但只在从运动状态变为停止时发送，避免持续发送
+                if (Math.abs(this.linearSpeed) < 0.001 && 
+                    Math.abs(this.lateralSpeed) < 0.001 && 
+                    Math.abs(this.angularSpeed) < 0.001) {
+                    // Already stopped, don't send anything
+                }
             }
             // 注意：没有输入时不发送任何消息，避免与follower冲突
-        }, 50); // 20Hz控制频率，提高旋转响应速度
+        }, this.controlLoopInterval); // Use configurable interval
     }
     
     // 获取当前速度

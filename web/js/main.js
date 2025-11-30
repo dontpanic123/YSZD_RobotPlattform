@@ -459,9 +459,9 @@ class RobotWebApp {
                 // 如果这是当前选择的摄像头，更新显示
                 if (camera === this.currentCamera) {
                     if (this.currentViewMode === 'rgb' || this.currentViewMode === 'overlay') {
-                        const cameraImage = document.getElementById('cameraImage');
+            const cameraImage = document.getElementById('cameraImage');
                         if (cameraImage) {
-                            cameraImage.src = imageData;
+                cameraImage.src = imageData;
                             if (this.currentViewMode === 'rgb') {
                                 cameraImage.style.display = 'block';
                             }

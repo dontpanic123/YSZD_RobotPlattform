@@ -81,6 +81,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/scripts/waypoint_recorder.py"
     "/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/scripts/ros2_websocket_bridge.py"
     "/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/scripts/ultrasonic_sensor_node.py"
+    "/home/y1234/Documents/robot_ws/YSZD_RobotPlattform/scripts/robot_base_websocket_bridge.py"
     )
 endif()
 

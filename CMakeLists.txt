@@ -39,6 +39,7 @@ install(PROGRAMS
   scripts/waypoint_recorder.py
   scripts/ros2_websocket_bridge.py
   scripts/ultrasonic_sensor_node.py
+  scripts/robot_base_websocket_bridge.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
