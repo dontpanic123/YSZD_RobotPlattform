@@ -828,13 +828,26 @@ class RobotController {
             lateral = 0.0;
         }
         
+        // 检查是否所有输入都为零（摇杆完全归零）
+        const isAllZero = Math.abs(linear) < 0.001 && Math.abs(lateral) < 0.001 && Math.abs(angular) < 0.001;
+        
         // 更新目标速度值（不直接应用到实际速度，由加速度控制）
         this.targetLinearSpeed = linear * this.maxLinearSpeed;
         this.targetLateralSpeed = lateral * this.maxLateralSpeed;
         this.targetAngularSpeed = angular * this.maxAngularSpeed;
         
-        // 应用加速度限制来平滑速度变化
-        this.applyAcceleration();
+        // 如果摇杆完全归零，立即重置所有速度
+        if (isAllZero) {
+            this.targetLinearSpeed = 0.0;
+            this.targetLateralSpeed = 0.0;
+            this.targetAngularSpeed = 0.0;
+            this.linearSpeed = 0.0;
+            this.lateralSpeed = 0.0;
+            this.angularSpeed = 0.0;
+        } else {
+            // 应用加速度限制来平滑速度变化
+            this.applyAcceleration();
+        }
         
         // 检查是否有任何输入
         const hasInput = this.targetLinearSpeed !== 0 || this.targetLateralSpeed !== 0 || this.targetAngularSpeed !== 0;
@@ -845,7 +858,11 @@ class RobotController {
         this.updateSpeedDisplay();
         
         // 处理控制命令
-        if (hasInput || this.isMoving) {
+        if (isAllZero) {
+            // 摇杆完全归零，立即发送归零命令
+            this.sendZeroCommand();
+            this.isMoving = false;
+        } else if (hasInput || this.isMoving) {
             // 有输入或仍在运动中时发送控制命令
             this.sendControlCommand();
         } else if (wasMoving) {

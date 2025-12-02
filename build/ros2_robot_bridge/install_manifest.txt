@@ -1,0 +1,16 @@
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/lib/ros2_robot_bridge/robot_websocket_bridge
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ament_index/resource_index/package_run_dependencies/ros2_robot_bridge
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ament_index/resource_index/parent_prefix_path/ros2_robot_bridge
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/ament_prefix_path.sh
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/ament_prefix_path.dsv
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/path.sh
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/path.dsv
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.bash
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.sh
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.zsh
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.dsv
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/package.dsv
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ament_index/resource_index/packages/ros2_robot_bridge
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/cmake/ros2_robot_bridgeConfig.cmake
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/cmake/ros2_robot_bridgeConfig-version.cmake
+/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/package.xml

@@ -1,0 +1,10 @@
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/uninstall.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/ros2_robot_bridge_uninstall.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/robot_websocket_bridge.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/test.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/edit_cache.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/rebuild_cache.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/list_install_components.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/install.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/install/local.dir
+/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge/CMakeFiles/install/strip.dir

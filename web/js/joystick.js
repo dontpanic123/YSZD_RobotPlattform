@@ -112,6 +112,12 @@ class VirtualJoystick {
         this.currentY = this.centerY;
         this.updateKnobPosition();
         
+        // 立即更新机器人控制为归零状态
+        if (window.robotController) {
+            // 立即调用updateJoystickControl确保状态更新
+            window.robotController.updateJoystickControl(0.0, 0.0, 0.0);
+        }
+        
         // 强制发送归零命令，防止漂移
         this.forceZeroCommand();
     }
@@ -184,6 +190,15 @@ class VirtualJoystick {
             this.zeroCount = 0;
         }
         
+        // 如果摇杆不在激活状态（已松开），立即发送归零命令
+        if (!this.isActive && isZero) {
+            // 摇杆已松开，立即发送归零命令
+            window.robotController.updateJoystickControl(0.0, 0.0, 0.0);
+            this.lastValues = { linear: 0, lateral: 0, angular: 0 };
+            this.zeroCount = 0;
+            return;
+        }
+        
         // 只有在非零值或连续零值达到阈值时才发送命令
         if (!isZero || this.zeroCount >= this.zeroThreshold) {
             // 检查值是否真正改变
@@ -240,12 +255,15 @@ class VirtualJoystick {
         this.isInDeadzone = true;
         
         // 确保机器人控制器停止所有运动
+        window.robotController.targetLinearSpeed = 0.0;
+        window.robotController.targetLateralSpeed = 0.0;
+        window.robotController.targetAngularSpeed = 0.0;
         window.robotController.linearSpeed = 0.0;
         window.robotController.lateralSpeed = 0.0;
         window.robotController.angularSpeed = 0.0;
         window.robotController.isMoving = false;
         
-        // 发送归零命令 - 使用更可靠的单次归零命令
+        // 立即发送归零命令 - 使用更可靠的单次归零命令
         if (typeof window.robotController.sendSingleZeroCommand === 'function') {
             window.robotController.sendSingleZeroCommand();
         } else if (typeof window.robotController.sendZeroCommand === 'function') {
@@ -260,7 +278,7 @@ class VirtualJoystick {
             window.robotController.updateSpeedDisplay();
         }
         
-        // 延迟再次发送归零命令，确保停止
+        // 延迟再次发送归零命令，确保停止（发送多次以确保可靠性）
         setTimeout(() => {
             if (typeof window.robotController.sendSingleZeroCommand === 'function') {
                 window.robotController.sendSingleZeroCommand();
@@ -269,7 +287,16 @@ class VirtualJoystick {
                 window.robotController.sendZeroCommand();
                 console.log('🛑 延迟发送归零命令，确保停止');
             }
-        }, 100);
+        }, 50);
+        
+        // 再次延迟发送，确保完全停止
+        setTimeout(() => {
+            if (typeof window.robotController.sendSingleZeroCommand === 'function') {
+                window.robotController.sendSingleZeroCommand();
+            } else if (typeof window.robotController.sendZeroCommand === 'function') {
+                window.robotController.sendZeroCommand();
+            }
+        }, 150);
     }
     
     

@@ -1,0 +1,138 @@
+[0.000000] (-) TimerEvent: {}
+[0.000155] (-) JobUnselected: {'identifier': 'robot-examples'}
+[0.000175] (ros2_robot_bridge) JobQueued: {'identifier': 'ros2_robot_bridge', 'dependencies': OrderedDict()}
+[0.000338] (ros2_robot_bridge) JobStarted: {'identifier': 'ros2_robot_bridge'}
+[0.006198] (ros2_robot_bridge) JobProgress: {'identifier': 'ros2_robot_bridge', 'progress': 'cmake'}
+[0.006970] (ros2_robot_bridge) JobProgress: {'identifier': 'ros2_robot_bridge', 'progress': 'build'}
+[0.006989] (ros2_robot_bridge) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge', '--', '-j16', '-l16'], 'cwd': '/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/bd'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'bd'), ('LC_TIME', 'de_DE.UTF-8'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('CCACHE_DIR', '/home/bd/.cache/ccache/'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/local/cuda/lib64:'), ('HOME', '/home/bd'), ('CHROME_DESKTOP', 'cursor.desktop'), ('OLDPWD', '/home/bd/Documents/Robot/YSZD_RobotPlattform'), ('DESKTOP_SESSION', 'ubuntu-xorg'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-f8418a3e-2.0.-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor-url-handler.desktop'), ('APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL', '1'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'de_DE.UTF-8'), ('MANAGERPID', '2360'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2767'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=56df538933e4f3eb793413a1692ea0b0'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '11464'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu-xorg.mandatory.path'), ('IM_CONFIG_PHASE', '1'), ('AIRFLOW_HOME', '/media/NAS/sd_nas_01/airflow/airflow_conf'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'bd'), ('FORCE_COLOR', '0'), ('JOURNAL_STREAM', '8:17047'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu-xorg.default.path'), ('APPLICATIONINSIGHTS_CONFIGURATION_CONTENT', '{}'), ('USERNAME', 'bd'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('COMPOSER_NO_INTERACTION', '1'), ('WINDOWPATH', '2'), ('PATH', '/home/bd/.local/bin:/usr/local/cuda/bin:/home/bd/Documents/airflow/airflow_env/bin:/home/bd/.local/bin:/opt/ros/humble/bin:/usr/local/cuda/bin:/home/bd/Documents/airflow/airflow_env/bin:/home/bd/.cargo/bin:/home/bd/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ld10038:@/tmp/.ICE-unix/2767,unix/ld10038:/tmp/.ICE-unix/2767'), ('INVOCATION_ID', '62088ea03ceb4087883fc60ead104230'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'de_DE.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host  [1-1]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CURSOR_AGENT', '1'), ('DISPLAY', ':1'), ('SWIFTLY_BIN_DIR', '/home/bd/.local/bin'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('LC_TELEPHONE', 'de_DE.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu-xorg'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', ''), ('CURSOR_TRACE_ID', '1440aeb9089b4edaa2935f67db766030'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('ROS_DOMAIN_ID', '0'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SWIFTLY_HOME_DIR', '/home/bd/.local/share/swiftly'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'de_DE.UTF-8'), ('VSCODE_DOTNET_INSTALL_TOOL_ORIGINAL_HOME', '/home/bd'), ('QT_ACCESSIBILITY', '1'), ('CXX', '/usr/lib/ccache/g++'), ('GDMSESSION', 'ubuntu-xorg'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'de_DE.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'de_DE.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge'), ('TURTLEBOT3_MODEL', 'waffle'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu-xorg:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/bd/.config/Cursor/CachedData/8e4da76ad196925accaa169efcae28c45454cce0'), ('PYLON_ROOT', '/opt/pylon'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=56df538933e4f3eb793413a1692ea0b0'), ('XDG_DATA_DIRS', '/usr/share/ubuntu-xorg:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'de_DE.UTF-8'), ('LC_PAPER', 'de_DE.UTF-8'), ('CC', '/usr/lib/ccache/gcc'), ('COLCON', '1'), ('GENICAM_GENTL64_PATH', ':/opt/pylon/lib/gentlproducer/gtl:/opt/pylon/lib/pylonCXP/bin/:/opt/pylon/lib/gentlproducer/gtl:/opt/pylon/lib/pylonCXP/bin/:/opt/pylon/lib/gentlproducer/gtl:/opt/pylon/lib/pylonCXP/bin/'), ('VSCODE_PID', '11464'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.025102] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.099776] (-) TimerEvent: {}
+[0.118724] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.137544] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.139035] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.142839] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.148837] (ros2_robot_bridge) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.157251] (ros2_robot_bridge) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.177429] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.178080] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.199864] (-) TimerEvent: {}
+[0.249260] (ros2_robot_bridge) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.279814] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[0.287447] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[0.298844] (ros2_robot_bridge) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[0.299927] (-) TimerEvent: {}
+[0.358350] (ros2_robot_bridge) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[0.358795] (ros2_robot_bridge) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[0.358959] (ros2_robot_bridge) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/bd/Documents/Robot/YSZD_RobotPlattform/src/ros2_robot_bridge/../c;/home/bd/Documents/Robot/YSZD_RobotPlattform/src/ros2_robot_bridge/../c/generated/inc\n'}
+[0.359055] (ros2_robot_bridge) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[0.359338] (ros2_robot_bridge) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[0.359427] (ros2_robot_bridge) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[0.359594] (ros2_robot_bridge) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[0.360033] (ros2_robot_bridge) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[0.360130] (ros2_robot_bridge) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[0.360254] (ros2_robot_bridge) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[0.360612] (ros2_robot_bridge) StdoutLine: {'line': b'-- Configuring done\n'}
+[0.368107] (ros2_robot_bridge) StdoutLine: {'line': b'-- Generating done\n'}
+[0.371102] (ros2_robot_bridge) StdoutLine: {'line': b'-- Build files have been written to: /home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge\n'}
+[0.396171] (ros2_robot_bridge) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target robot_websocket_bridge\n'}
+[0.400032] (-) TimerEvent: {}
+[0.408338] (ros2_robot_bridge) StdoutLine: {'line': b'[ 66%] Building C object CMakeFiles/robot_websocket_bridge.dir/home/bd/Documents/Robot/YSZD_RobotPlattform/src/c/pb_decode.c.o\n'}
+[0.408516] (ros2_robot_bridge) StdoutLine: {'line': b'[ 66%] Building C object CMakeFiles/robot_websocket_bridge.dir/home/bd/Documents/Robot/YSZD_RobotPlattform/src/c/generated/src/public_api_down.pb.c.o\n'}
+[0.408573] (ros2_robot_bridge) StdoutLine: {'line': b'[ 66%] Building CXX object CMakeFiles/robot_websocket_bridge.dir/src/robot_websocket_bridge.cpp.o\n'}
+[0.408625] (ros2_robot_bridge) StdoutLine: {'line': b'[ 66%] Building C object CMakeFiles/robot_websocket_bridge.dir/home/bd/Documents/Robot/YSZD_RobotPlattform/src/c/generated/src/public_api_up.pb.c.o\n'}
+[0.408679] (ros2_robot_bridge) StdoutLine: {'line': b'[ 66%] Building C object CMakeFiles/robot_websocket_bridge.dir/home/bd/Documents/Robot/YSZD_RobotPlattform/src/c/pb_encode.c.o\n'}
+[0.408743] (ros2_robot_bridge) StdoutLine: {'line': b'[ 66%] Building C object CMakeFiles/robot_websocket_bridge.dir/home/bd/Documents/Robot/YSZD_RobotPlattform/src/c/generated/src/public_api_types.pb.c.o\n'}
+[0.408793] (ros2_robot_bridge) StdoutLine: {'line': b'[ 77%] Building C object CMakeFiles/robot_websocket_bridge.dir/home/bd/Documents/Robot/YSZD_RobotPlattform/src/c/mongoose.c.o\n'}
+[0.408896] (ros2_robot_bridge) StdoutLine: {'line': b'[ 88%] Building C object CMakeFiles/robot_websocket_bridge.dir/home/bd/Documents/Robot/YSZD_RobotPlattform/src/c/pb_common.c.o\n'}
+[0.500292] (-) TimerEvent: {}
+[0.600518] (-) TimerEvent: {}
+[0.700780] (-) TimerEvent: {}
+[0.801003] (-) TimerEvent: {}
+[0.901237] (-) TimerEvent: {}
+[1.001471] (-) TimerEvent: {}
+[1.101727] (-) TimerEvent: {}
+[1.201989] (-) TimerEvent: {}
+[1.302245] (-) TimerEvent: {}
+[1.402505] (-) TimerEvent: {}
+[1.502774] (-) TimerEvent: {}
+[1.603060] (-) TimerEvent: {}
+[1.703281] (-) TimerEvent: {}
+[1.803511] (-) TimerEvent: {}
+[1.903780] (-) TimerEvent: {}
+[2.004084] (-) TimerEvent: {}
+[2.104341] (-) TimerEvent: {}
+[2.204627] (-) TimerEvent: {}
+[2.304939] (-) TimerEvent: {}
+[2.405218] (-) TimerEvent: {}
+[2.505488] (-) TimerEvent: {}
+[2.605727] (-) TimerEvent: {}
+[2.705965] (-) TimerEvent: {}
+[2.806184] (-) TimerEvent: {}
+[2.906436] (-) TimerEvent: {}
+[3.006725] (-) TimerEvent: {}
+[3.107004] (-) TimerEvent: {}
+[3.207234] (-) TimerEvent: {}
+[3.307471] (-) TimerEvent: {}
+[3.407758] (-) TimerEvent: {}
+[3.508022] (-) TimerEvent: {}
+[3.608332] (-) TimerEvent: {}
+[3.708590] (-) TimerEvent: {}
+[3.808834] (-) TimerEvent: {}
+[3.909120] (-) TimerEvent: {}
+[4.009380] (-) TimerEvent: {}
+[4.109617] (-) TimerEvent: {}
+[4.209905] (-) TimerEvent: {}
+[4.310184] (-) TimerEvent: {}
+[4.410490] (-) TimerEvent: {}
+[4.510771] (-) TimerEvent: {}
+[4.611073] (-) TimerEvent: {}
+[4.711339] (-) TimerEvent: {}
+[4.811704] (-) TimerEvent: {}
+[4.912001] (-) TimerEvent: {}
+[5.012239] (-) TimerEvent: {}
+[5.112464] (-) TimerEvent: {}
+[5.212729] (-) TimerEvent: {}
+[5.312975] (-) TimerEvent: {}
+[5.413198] (-) TimerEvent: {}
+[5.513437] (-) TimerEvent: {}
+[5.613682] (-) TimerEvent: {}
+[5.713950] (-) TimerEvent: {}
+[5.814168] (-) TimerEvent: {}
+[5.914376] (-) TimerEvent: {}
+[6.014582] (-) TimerEvent: {}
+[6.114783] (-) TimerEvent: {}
+[6.214996] (-) TimerEvent: {}
+[6.315265] (-) TimerEvent: {}
+[6.415516] (-) TimerEvent: {}
+[6.515805] (-) TimerEvent: {}
+[6.616034] (-) TimerEvent: {}
+[6.716299] (-) TimerEvent: {}
+[6.738643] (ros2_robot_bridge) StdoutLine: {'line': b'[100%] Linking CXX executable robot_websocket_bridge\n'}
+[6.816442] (-) TimerEvent: {}
+[6.916725] (-) TimerEvent: {}
+[7.017048] (-) TimerEvent: {}
+[7.050271] (ros2_robot_bridge) StdoutLine: {'line': b'[100%] Built target robot_websocket_bridge\n'}
+[7.062472] (ros2_robot_bridge) CommandEnded: {'returncode': 0}
+[7.062984] (ros2_robot_bridge) JobProgress: {'identifier': 'ros2_robot_bridge', 'progress': 'install'}
+[7.069616] (ros2_robot_bridge) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge'], 'cwd': '/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/bd'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'bd'), ('LC_TIME', 'de_DE.UTF-8'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('CCACHE_DIR', '/home/bd/.cache/ccache/'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/local/cuda/lib64:'), ('HOME', '/home/bd'), ('CHROME_DESKTOP', 'cursor.desktop'), ('OLDPWD', '/home/bd/Documents/Robot/YSZD_RobotPlattform'), ('DESKTOP_SESSION', 'ubuntu-xorg'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-f8418a3e-2.0.-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor-url-handler.desktop'), ('APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL', '1'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'de_DE.UTF-8'), ('MANAGERPID', '2360'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2767'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=56df538933e4f3eb793413a1692ea0b0'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '11464'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu-xorg.mandatory.path'), ('IM_CONFIG_PHASE', '1'), ('AIRFLOW_HOME', '/media/NAS/sd_nas_01/airflow/airflow_conf'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'bd'), ('FORCE_COLOR', '0'), ('JOURNAL_STREAM', '8:17047'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu-xorg.default.path'), ('APPLICATIONINSIGHTS_CONFIGURATION_CONTENT', '{}'), ('USERNAME', 'bd'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('COMPOSER_NO_INTERACTION', '1'), ('WINDOWPATH', '2'), ('PATH', '/home/bd/.local/bin:/usr/local/cuda/bin:/home/bd/Documents/airflow/airflow_env/bin:/home/bd/.local/bin:/opt/ros/humble/bin:/usr/local/cuda/bin:/home/bd/Documents/airflow/airflow_env/bin:/home/bd/.cargo/bin:/home/bd/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ld10038:@/tmp/.ICE-unix/2767,unix/ld10038:/tmp/.ICE-unix/2767'), ('INVOCATION_ID', '62088ea03ceb4087883fc60ead104230'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'de_DE.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host  [1-1]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CURSOR_AGENT', '1'), ('DISPLAY', ':1'), ('SWIFTLY_BIN_DIR', '/home/bd/.local/bin'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('LC_TELEPHONE', 'de_DE.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu-xorg'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', ''), ('CURSOR_TRACE_ID', '1440aeb9089b4edaa2935f67db766030'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('ROS_DOMAIN_ID', '0'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SWIFTLY_HOME_DIR', '/home/bd/.local/share/swiftly'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'de_DE.UTF-8'), ('VSCODE_DOTNET_INSTALL_TOOL_ORIGINAL_HOME', '/home/bd'), ('QT_ACCESSIBILITY', '1'), ('CXX', '/usr/lib/ccache/g++'), ('GDMSESSION', 'ubuntu-xorg'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'de_DE.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'de_DE.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/bd/Documents/Robot/YSZD_RobotPlattform/build/ros2_robot_bridge'), ('TURTLEBOT3_MODEL', 'waffle'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu-xorg:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/bd/.config/Cursor/CachedData/8e4da76ad196925accaa169efcae28c45454cce0'), ('PYLON_ROOT', '/opt/pylon'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=56df538933e4f3eb793413a1692ea0b0'), ('XDG_DATA_DIRS', '/usr/share/ubuntu-xorg:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'de_DE.UTF-8'), ('LC_PAPER', 'de_DE.UTF-8'), ('CC', '/usr/lib/ccache/gcc'), ('COLCON', '1'), ('GENICAM_GENTL64_PATH', ':/opt/pylon/lib/gentlproducer/gtl:/opt/pylon/lib/pylonCXP/bin/:/opt/pylon/lib/gentlproducer/gtl:/opt/pylon/lib/pylonCXP/bin/:/opt/pylon/lib/gentlproducer/gtl:/opt/pylon/lib/pylonCXP/bin/'), ('VSCODE_PID', '11464'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[7.075424] (ros2_robot_bridge) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[7.075546] (ros2_robot_bridge) StdoutLine: {'line': b'-- Installing: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/lib/ros2_robot_bridge/robot_websocket_bridge\n'}
+[7.078028] (ros2_robot_bridge) StdoutLine: {'line': b'-- Set runtime path of "/home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/lib/ros2_robot_bridge/robot_websocket_bridge" to ""\n'}
+[7.078159] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ament_index/resource_index/package_run_dependencies/ros2_robot_bridge\n'}
+[7.078196] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ament_index/resource_index/parent_prefix_path/ros2_robot_bridge\n'}
+[7.078230] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/ament_prefix_path.sh\n'}
+[7.078302] (ros2_robot_bridge) StdoutLine: {'line': b'-- Installing: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/ament_prefix_path.dsv\n'}
+[7.078337] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/path.sh\n'}
+[7.078474] (ros2_robot_bridge) StdoutLine: {'line': b'-- Installing: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/environment/path.dsv\n'}
+[7.078508] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.bash\n'}
+[7.078539] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.sh\n'}
+[7.078574] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.zsh\n'}
+[7.078605] (ros2_robot_bridge) StdoutLine: {'line': b'-- Installing: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/local_setup.dsv\n'}
+[7.078636] (ros2_robot_bridge) StdoutLine: {'line': b'-- Installing: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/package.dsv\n'}
+[7.078667] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ament_index/resource_index/packages/ros2_robot_bridge\n'}
+[7.078704] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/cmake/ros2_robot_bridgeConfig.cmake\n'}
+[7.078755] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/cmake/ros2_robot_bridgeConfig-version.cmake\n'}
+[7.078788] (ros2_robot_bridge) StdoutLine: {'line': b'-- Up-to-date: /home/bd/Documents/Robot/YSZD_RobotPlattform/install/ros2_robot_bridge/share/ros2_robot_bridge/package.xml\n'}
+[7.079702] (ros2_robot_bridge) CommandEnded: {'returncode': 0}
+[7.090686] (ros2_robot_bridge) JobEnded: {'identifier': 'ros2_robot_bridge', 'rc': 0}
+[7.091067] (-) EventReactorShutdown: {}
