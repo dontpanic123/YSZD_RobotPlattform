@@ -51,6 +51,11 @@ class MecanumRobotNode(Node):
         # 命令超时管理
         self.last_command_time = self.get_clock().now()
         
+        # Odom发布控制：检测是否有其他节点在发布odom
+        self.odom_publishing_enabled = True  # 默认启用仿真odom发布
+        self.odom_check_interval = 1.0  # 每1秒检查一次
+        self.last_odom_check_time = self.get_clock().now()
+        
         # 创建订阅者和发布者
         self.cmd_vel_sub = self.create_subscription(
             Twist, 
@@ -79,6 +84,7 @@ class MecanumRobotNode(Node):
         self.odom_timer = self.create_timer(0.2, self.publish_odometry)  # 减少频率从0.05到0.2
         self.tf_timer = self.create_timer(0.1, self.publish_tf)
         self.safety_timer = self.create_timer(0.1, self.check_safety)  # 安全检查定时器
+        self.odom_check_timer = self.create_timer(self.odom_check_interval, self.check_odom_publishers)  # 检查odom发布者
         
         self.get_logger().info('舵轮机器人节点已启动')
         self.get_logger().info(f'初始位置: x={self.x}, y={self.y}, theta={self.theta}')
@@ -237,8 +243,51 @@ class MecanumRobotNode(Node):
         
         self.joint_state_pub.publish(joint_state)
     
+    def check_odom_publishers(self):
+        """检查是否有其他节点在发布/odom topic"""
+        try:
+            # 获取/odom topic的发布者信息
+            publishers_info = self.get_publishers_info_by_topic('/odom')
+            publisher_count = len(publishers_info)
+            
+            # 检查是否有其他节点在发布（排除自己）
+            has_other_publisher = False
+            other_publisher_names = []
+            
+            for pub_info in publishers_info:
+                # 获取发布者的节点名称（TopicEndpointInfo有node_name属性）
+                node_name = pub_info.node_name
+                # 如果节点名称不是自己的节点名称，说明是其他节点
+                # 自己的节点名称是 'mecanum_robot_node'（在__init__中定义）
+                if node_name != 'mecanum_robot_node':
+                    has_other_publisher = True
+                    other_publisher_names.append(node_name)
+            
+            # 如果检测到有其他发布者（如ros2_robot_bridge），停止仿真odom发布
+            if has_other_publisher:
+                if self.odom_publishing_enabled:
+                    self.odom_publishing_enabled = False
+                    self.get_logger().warn(
+                        f'检测到有其他节点在发布/odom topic: {", ".join(other_publisher_names)} '
+                        f'(总发布者数量: {publisher_count})，已停止仿真odom发布以避免冲突'
+                    )
+            else:
+                # 如果没有其他发布者，恢复发布
+                if not self.odom_publishing_enabled:
+                    self.odom_publishing_enabled = True
+                    self.get_logger().info(
+                        f'/odom topic没有其他发布者，已恢复仿真odom发布'
+                    )
+        except Exception as e:
+            # 如果检测失败，记录警告但不影响运行
+            self.get_logger().debug(f'检查/odom发布者时出错: {e}')
+    
     def publish_odometry(self):
         """发布里程计信息 - 改进的舵轮运动学正解"""
+        # 如果检测到有其他节点在发布odom，则跳过发布
+        if not self.odom_publishing_enabled:
+            return
+        
         L = self.wheel_base / 2.0  # 前后轮距离的一半
         W = self.wheel_track / 2.0  # 左右轮距离的一半
         R = self.wheel_radius

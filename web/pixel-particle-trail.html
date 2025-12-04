@@ -272,6 +272,18 @@
             <div class="value" id="glowValue">6</div>
         </div>
         
+        <div class="control-group">
+            <label>静态弱化程度</label>
+            <input type="range" id="staticFade" min="0" max="100" value="50">
+            <div class="value" id="staticFadeValue">50%</div>
+        </div>
+        
+        <div class="control-group">
+            <label>动态强化程度</label>
+            <input type="range" id="dynamicBoost" min="0" max="200" value="100">
+            <div class="value" id="dynamicBoostValue">100%</div>
+        </div>
+        
         <button class="btn btn-primary" id="startBtn">启动摄像头</button>
         <button class="btn btn-secondary" id="resetBtn">重置粒子</button>
         
@@ -310,6 +322,8 @@
         let speed = 4;
         let particleSize = 2;
         let glowIntensity = 6;
+        let staticFade = 50;  // 静态弱化程度 (0-100%)
+        let dynamicBoost = 100;  // 动态强化程度 (0-200%)
         let currentMode = 'trail';
         
         // 粒子数组
@@ -466,18 +480,40 @@
             ctx.shadowBlur = 0;
             const len = particles.length;
             
+            // 计算静态和动态的显示参数
+            const staticAlpha = 1.0 - (staticFade / 100);  // 静态透明度 (0-1)
+            const dynamicBrightness = 1.0 + (dynamicBoost / 100);  // 动态亮度倍数 (1.0-3.0)
+            
             for (let i = 0; i < len; i++) {
                 const p = particles[i];
                 const isMoving = p.update();
+                
+                // 根据运动状态应用不同的显示效果
+                let r, g, b, alpha;
+                
+                if (isMoving) {
+                    // 动态像素：强化显示
+                    r = Math.min(255, Math.floor(p.r * dynamicBrightness));
+                    g = Math.min(255, Math.floor(p.g * dynamicBrightness));
+                    b = Math.min(255, Math.floor(p.b * dynamicBrightness));
+                    alpha = 1.0;  // 动态像素完全不透明
+                } else {
+                    // 静态像素：弱化显示
+                    r = p.r;
+                    g = p.g;
+                    b = p.b;
+                    alpha = staticAlpha;  // 应用弱化透明度
+                }
                 
                 // 绘制粒子
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, particleSize, 0, 6.28);
                 
                 if (isMoving && glowIntensity > 3) {
-                    ctx.fillStyle = `rgba(${p.r}, ${p.g}, ${p.b}, 0.9)`;
+                    // 动态像素可以添加发光效果
+                    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 } else {
-                    ctx.fillStyle = `rgb(${p.r}, ${p.g}, ${p.b})`;
+                    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 }
                 ctx.fill();
             }
@@ -564,6 +600,16 @@
         document.getElementById('glow').addEventListener('input', (e) => {
             glowIntensity = parseInt(e.target.value);
             document.getElementById('glowValue').textContent = glowIntensity;
+        });
+        
+        document.getElementById('staticFade').addEventListener('input', (e) => {
+            staticFade = parseInt(e.target.value);
+            document.getElementById('staticFadeValue').textContent = staticFade + '%';
+        });
+        
+        document.getElementById('dynamicBoost').addEventListener('input', (e) => {
+            dynamicBoost = parseInt(e.target.value);
+            document.getElementById('dynamicBoostValue').textContent = dynamicBoost + '%';
         });
         
         // 初始化
